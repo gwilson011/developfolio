@@ -1,10 +1,14 @@
 // src/components/Navbar.tsx
 "use client";
 import Link from "next/link";
-import React, { SetStateAction } from "react";
-import { useState } from "react";
+import React from "react";
 
-const Navbar = ({ home = true, setHover }) => {
+interface NavbarProps {
+    home?: boolean;
+    setHover: (hover: string) => void; // Now setHover takes a string
+}
+
+const Navbar: React.FC<NavbarProps> = ({ home = true, setHover }) => {
     return (
         <nav className="">
             <div className="container mx-auto flex items-center">

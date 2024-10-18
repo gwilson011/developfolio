@@ -27,7 +27,7 @@ export default function Home() {
                                 <span>Learn how Grace came to be.</span>
                             )}
                             {hover == "skills" && (
-                                <span>Check out Grace's stats.</span>
+                                <span>Check out Grace&apos;s stats.</span>
                             )}
                             {hover == "projects" && (
                                 <span>See what Grace has built.</span>
