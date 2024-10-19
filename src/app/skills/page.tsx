@@ -1,101 +1,452 @@
+"use client";
+import Navbar from "../components/Navbar";
+import Socialbar from "../components/Socialbar";
+import React, { useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 
 export default function Skills() {
-    return (
-        <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-            <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-                <Image
-                    className="dark:invert"
-                    src="https://nextjs.org/icons/next.svg"
-                    alt="Next.js logo"
-                    width={180}
-                    height={38}
-                    priority
-                />
-                <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-                    <li className="mb-2">
-                        Get started by editing{" "}
-                        <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-                            src/app/page.tsx
-                        </code>
-                        .
-                    </li>
-                    <li>Save and see your changes instantly.</li>
-                </ol>
+    const [hover, setHover] = useState<string>("");
+    const [selected, setSelected] = useState<string>("");
+    const [selectedCategory, setSelectedCategory] = useState<string>("");
 
-                <div className="flex gap-4 items-center flex-col sm:flex-row">
-                    <a
-                        className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-                        href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        <Image
-                            className="dark:invert"
-                            src="https://nextjs.org/icons/vercel.svg"
-                            alt="Vercel logomark"
-                            width={20}
-                            height={20}
-                        />
-                        Deploy now
-                    </a>
-                    <a
-                        className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-                        href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        Read our docs
-                    </a>
+    const categories = {
+        LANGUAGES: ["PYTHON", "JAVASCRIPT", "C++", "SWIFT"],
+        FRONTEND: [
+            "REACT",
+            "TYPESCRIPT",
+            "CSS",
+            "REDUX",
+            "NEXT.JS",
+            "SVELTE",
+            "REACT NATIVE",
+        ],
+        BACKEND: ["NODE.JS", "EXPRESS", "POSTGRESQL", "SQL"],
+    };
+
+    function findKeyByValue(dictionary: { [x: string]: any }, value: any) {
+        for (let key in dictionary) {
+            if (dictionary[key].includes(value)) {
+                return key;
+            }
+        }
+        return "null";
+    }
+
+    const update = (val: string) => {
+        setSelected(val);
+        setSelectedCategory(findKeyByValue(categories, val));
+    };
+
+    return (
+        <div className="flex flex-col w-full h-screen p-4 gap-2">
+            <Socialbar />
+            <Navbar setHover={setHover} home={true} />
+            <div className="flex flex-row w-full h-full mr-24 ml-24 mb-10">
+                <div className="flex flex-col justify-between">
+                    <span className="font-tango text-black text-[70pt] text-start leading-none">
+                        SKILLS
+                    </span>
+                    <div className="flex flex-col gap-5">
+                        <div className="flex flex-col gap-2">
+                            <span className="text-black font-pixel">
+                                BACK END
+                            </span>
+                            <div className="flex flex-row gap-2">
+                                <button
+                                    className="border-default text-black p-2"
+                                    onClick={() => update("NODE.JS")}
+                                    style={{
+                                        background:
+                                            selected == "NODE.JS"
+                                                ? "black"
+                                                : "none",
+                                    }}
+                                >
+                                    <Image
+                                        src="/NODE.JS.png"
+                                        width={50}
+                                        height={50}
+                                        alt="node.js"
+                                        style={{
+                                            filter:
+                                                selected == "NODE.JS"
+                                                    ? "invert(1)"
+                                                    : "none",
+                                        }}
+                                    />
+                                </button>
+                                <button
+                                    className="border-default text-black p-2"
+                                    onClick={() => update("EXPRESS")}
+                                    style={{
+                                        background:
+                                            selected == "EXPRESS"
+                                                ? "black"
+                                                : "none",
+                                    }}
+                                >
+                                    <Image
+                                        src="/EXPRESS.png"
+                                        width={50}
+                                        height={50}
+                                        alt="express"
+                                        style={{
+                                            filter:
+                                                selected == "EXPRESS"
+                                                    ? "invert(1)"
+                                                    : "none",
+                                        }}
+                                    />
+                                </button>
+                                <button
+                                    className="border-default text-black p-2"
+                                    onClick={() => update("POSTGRESQL")}
+                                    style={{
+                                        background:
+                                            selected == "POSTGRESQL"
+                                                ? "black"
+                                                : "none",
+                                    }}
+                                >
+                                    <Image
+                                        src="/POSTGRESQL.png"
+                                        width={50}
+                                        height={50}
+                                        alt="postgresql"
+                                        style={{
+                                            filter:
+                                                selected == "POSTGRESQL"
+                                                    ? "invert(1)"
+                                                    : "none",
+                                        }}
+                                    />
+                                </button>
+                                <button
+                                    className="border-default text-black p-2"
+                                    onClick={() => update("SQL")}
+                                    style={{
+                                        background:
+                                            selected == "SQL"
+                                                ? "black"
+                                                : "none",
+                                    }}
+                                >
+                                    <Image
+                                        src="/SQL.png"
+                                        width={50}
+                                        height={50}
+                                        alt="sql"
+                                        style={{
+                                            filter:
+                                                selected == "SQL"
+                                                    ? "invert(1)"
+                                                    : "none",
+                                        }}
+                                    />
+                                </button>
+                            </div>
+                        </div>
+                        <div className="flex flex-col gap-2">
+                            <span className="text-black font-pixel">
+                                LANGUAGES
+                            </span>
+                            <div className="flex flex-row gap-2">
+                                <button
+                                    className="border-default text-black p-2"
+                                    onClick={() => update("PYTHON")}
+                                    style={{
+                                        background:
+                                            selected == "PYTHON"
+                                                ? "black"
+                                                : "none",
+                                    }}
+                                >
+                                    <Image
+                                        src="/PYTHON.png"
+                                        width={50}
+                                        height={50}
+                                        alt="python"
+                                        style={{
+                                            filter:
+                                                selected == "PYTHON"
+                                                    ? "invert(1)"
+                                                    : "none",
+                                        }}
+                                    />
+                                </button>
+                                <button
+                                    className="border-default text-black p-2 font-tango text-[20pt] px-4"
+                                    onClick={() => update("JAVASCRIPT")}
+                                    style={{
+                                        background:
+                                            selected == "JAVASCRIPT"
+                                                ? "black"
+                                                : "none",
+                                        color:
+                                            selected == "JAVASCRIPT"
+                                                ? "white"
+                                                : "black",
+                                    }}
+                                >
+                                    JS
+                                </button>
+                                <button
+                                    className="border-default text-black p-2"
+                                    onClick={() => update("C++")}
+                                    style={{
+                                        background:
+                                            selected == "C++"
+                                                ? "black"
+                                                : "none",
+                                    }}
+                                >
+                                    <Image
+                                        src="/C++.png"
+                                        width={50}
+                                        height={50}
+                                        alt="c++"
+                                        style={{
+                                            filter:
+                                                selected == "C++"
+                                                    ? "invert(1)"
+                                                    : "none",
+                                        }}
+                                    />
+                                </button>
+                                <button
+                                    className="border-default text-black p-2"
+                                    onClick={() => update("SWIFT")}
+                                    style={{
+                                        background:
+                                            selected == "SWIFT"
+                                                ? "black"
+                                                : "none",
+                                    }}
+                                >
+                                    <Image
+                                        src="/SWIFT.png"
+                                        width={50}
+                                        height={50}
+                                        alt="swift"
+                                        style={{
+                                            filter:
+                                                selected == "SWIFT"
+                                                    ? "invert(1)"
+                                                    : "none",
+                                        }}
+                                    />
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </main>
-            <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-                <a
-                    className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-                    href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    <Image
-                        aria-hidden
-                        src="https://nextjs.org/icons/file.svg"
-                        alt="File icon"
-                        width={16}
-                        height={16}
-                    />
-                    Learn
-                </a>
-                <a
-                    className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-                    href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    <Image
-                        aria-hidden
-                        src="https://nextjs.org/icons/window.svg"
-                        alt="Window icon"
-                        width={16}
-                        height={16}
-                    />
-                    Examples
-                </a>
-                <a
-                    className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-                    href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    <Image
-                        aria-hidden
-                        src="https://nextjs.org/icons/globe.svg"
-                        alt="Globe icon"
-                        width={16}
-                        height={16}
-                    />
-                    Go to nextjs.org →
-                </a>
-            </footer>
+
+                <div className="flex w-full h-full">test</div>
+                <div className="flex flex-col w-full h-full mr-40">
+                    <header className="flex flex-col w-full h-[10%]" />
+                    <div className="flex flex-col gap-2 h-full justify-between text-black">
+                        <div className="flex flex-col">
+                            <div className="flex flex-row justify-between max-w-[350px] mr-[10%]">
+                                <div className=" flex flex-col gap-1">
+                                    <span className="font-pixel text-[10pt]">
+                                        {selectedCategory}
+                                    </span>
+                                    <span className="font-tango text-[40pt] leading-none">
+                                        {selected}
+                                    </span>
+                                </div>
+                                {selected && (
+                                    <div className="flex items-center">
+                                        <Image
+                                            src={`/${selected}.png`}
+                                            width={70}
+                                            height={70}
+                                            alt={selected}
+                                        />
+                                    </div>
+                                )}
+                            </div>
+                            {selected && (
+                                <Image
+                                    src="/divider.png"
+                                    width={350}
+                                    height={350}
+                                    alt="divider"
+                                />
+                            )}
+                        </div>
+                        <div className="flex flex-col justify-end gap-2">
+                            <span className="text-black font-pixel">
+                                FRONT END
+                            </span>
+                            <div className="flex flex-row gap-2">
+                                <button
+                                    className="border-default text-black p-2"
+                                    onClick={() => update("REACT")}
+                                    style={{
+                                        background:
+                                            selected == "REACT"
+                                                ? "black"
+                                                : "none",
+                                    }}
+                                >
+                                    <Image
+                                        src="/REACT.png"
+                                        width={50}
+                                        height={50}
+                                        alt="react"
+                                        style={{
+                                            filter:
+                                                selected == "REACT"
+                                                    ? "invert(1)"
+                                                    : "none",
+                                        }}
+                                    />
+                                </button>
+                                <button
+                                    className="border-default text-black p-2 font-tango text-[20pt] px-4"
+                                    onClick={() => update("TYPESCRIPT")}
+                                    style={{
+                                        background:
+                                            selected == "TYPESCRIPT"
+                                                ? "black"
+                                                : "none",
+                                        color:
+                                            selected == "TYPESCRIPT"
+                                                ? "white"
+                                                : "black",
+                                    }}
+                                >
+                                    TS
+                                </button>
+                                <button
+                                    className="border-default text-black p-2"
+                                    onClick={() => update("CSS")}
+                                    style={{
+                                        background:
+                                            selected == "CSS"
+                                                ? "black"
+                                                : "none",
+                                    }}
+                                >
+                                    <Image
+                                        src="/CSS.png"
+                                        width={50}
+                                        height={50}
+                                        alt="css"
+                                        style={{
+                                            filter:
+                                                selected == "CSS"
+                                                    ? "invert(1)"
+                                                    : "none",
+                                        }}
+                                    />
+                                </button>
+                                <button
+                                    className="border-default text-black p-2"
+                                    onClick={() => update("REDUX")}
+                                    style={{
+                                        background:
+                                            selected == "REDUX"
+                                                ? "black"
+                                                : "none",
+                                    }}
+                                >
+                                    <Image
+                                        src="/REDUX.png"
+                                        width={50}
+                                        height={50}
+                                        alt="redux"
+                                        style={{
+                                            filter:
+                                                selected == "REDUX"
+                                                    ? "invert(1)"
+                                                    : "none",
+                                        }}
+                                    />
+                                </button>
+                            </div>
+                            <div className="flex flex-row gap-2">
+                                <button
+                                    className="border-default text-black p-2"
+                                    onClick={() => update("NEXT.JS")}
+                                    style={{
+                                        background:
+                                            selected == "NEXT.JS"
+                                                ? "black"
+                                                : "none",
+                                    }}
+                                >
+                                    <Image
+                                        src="/NEXT.png"
+                                        width={50}
+                                        height={50}
+                                        alt="next.js"
+                                        style={{
+                                            filter:
+                                                selected == "NEXT.JS"
+                                                    ? "invert(1)"
+                                                    : "none",
+                                        }}
+                                    />
+                                </button>
+                                <button
+                                    className="border-default text-black p-2"
+                                    onClick={() => update("SVELTE")}
+                                    style={{
+                                        background:
+                                            selected == "SVELTE"
+                                                ? "black"
+                                                : "none",
+                                    }}
+                                >
+                                    <Image
+                                        src="/SVELTE.png"
+                                        width={50}
+                                        height={50}
+                                        alt="svelte"
+                                        style={{
+                                            filter:
+                                                selected == "SVELTE"
+                                                    ? "invert(1)"
+                                                    : "none",
+                                        }}
+                                    />
+                                </button>
+                                <div
+                                    className="flex flex-col border-default text-black p-2 items-center"
+                                    onClick={() => update("REACT NATIVE")}
+                                    style={{
+                                        background:
+                                            selected == "REACT NATIVE"
+                                                ? "black"
+                                                : "none",
+                                        color:
+                                            selected == "REACT NATIVE"
+                                                ? "white"
+                                                : "black",
+                                    }}
+                                >
+                                    <Image
+                                        src="/REACT.png"
+                                        width={30}
+                                        height={30}
+                                        alt="react native"
+                                        style={{
+                                            filter:
+                                                selected == "REACT NATIVE"
+                                                    ? "invert(1)"
+                                                    : "none",
+                                        }}
+                                    />
+                                    native
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }

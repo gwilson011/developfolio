@@ -2,6 +2,7 @@
 "use client";
 import Link from "next/link";
 import React from "react";
+import Image from "next/image";
 
 interface NavbarProps {
     home?: boolean;
@@ -16,9 +17,14 @@ const Navbar: React.FC<NavbarProps> = ({ home = true, setHover }) => {
                     {home && (
                         <Link
                             href="/"
-                            className="flex p-2 px-3 bg-white border-default text-black font-pixel hover:text-white hover:bg-black"
+                            className="flex items-center p-1 bg-white border-default text-black font-pixel hover:text-white hover:bg-black"
                         >
-                            H
+                            <Image
+                                alt="home"
+                                src="/home.png"
+                                width={20}
+                                height={20}
+                            />
                         </Link>
                     )}
                     <Link
@@ -30,7 +36,7 @@ const Navbar: React.FC<NavbarProps> = ({ home = true, setHover }) => {
                         STORY
                     </Link>
                     <Link
-                        href="/"
+                        href="/skills"
                         className="flex p-2 px-3 bg-white border-default text-black font-pixel hover:text-white hover:bg-black"
                         onMouseEnter={() => setHover("skills")}
                         onMouseLeave={() => setHover("")}
