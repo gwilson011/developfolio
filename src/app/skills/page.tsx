@@ -1,12 +1,11 @@
 "use client";
 import Navbar from "../components/Navbar";
 import Socialbar from "../components/Socialbar";
-import React, { useEffect } from "react";
+import React from "react";
 import { useState } from "react";
 import Image from "next/image";
 
 export default function Skills() {
-    const [hover, setHover] = useState<string>("");
     const [selected, setSelected] = useState<string>("");
     const [selectedCategory, setSelectedCategory] = useState<string>("");
 
@@ -24,24 +23,27 @@ export default function Skills() {
         BACKEND: ["NODE.JS", "EXPRESS", "POSTGRESQL", "SQL"],
     };
 
-    function findKeyByValue(dictionary: { [x: string]: any }, value: any) {
-        for (let key in dictionary) {
+    function findKeyByValue(
+        dictionary: { [key: string]: string[] },
+        value: string
+    ): string | null {
+        for (const key in dictionary) {
             if (dictionary[key].includes(value)) {
                 return key;
             }
         }
-        return "null";
+        return null; // Return null instead of the string "null"
     }
 
     const update = (val: string) => {
         setSelected(val);
-        setSelectedCategory(findKeyByValue(categories, val));
+        setSelectedCategory(findKeyByValue(categories, val) || "");
     };
 
     return (
         <div className="flex flex-col w-full h-screen p-4 gap-2">
             <Socialbar />
-            <Navbar setHover={setHover} home={true} />
+            <Navbar home={true} />
             <div className="flex flex-row w-full h-full mr-24 ml-24 mb-10">
                 <div className="flex flex-col justify-between">
                     <span className="font-tango text-black text-[70pt] text-start leading-none">

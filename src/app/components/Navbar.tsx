@@ -6,7 +6,7 @@ import Image from "next/image";
 
 interface NavbarProps {
     home?: boolean;
-    setHover: (hover: string) => void; // Now setHover takes a string
+    setHover?: (hover: string) => void; // Now setHover && setHover takes a string
 }
 
 const Navbar: React.FC<NavbarProps> = ({ home = true, setHover }) => {
@@ -30,32 +30,32 @@ const Navbar: React.FC<NavbarProps> = ({ home = true, setHover }) => {
                     <Link
                         href="/"
                         className="flex p-2 px-3 bg-white border-default text-black font-pixel hover:text-white hover:bg-black"
-                        onMouseEnter={() => setHover("story")}
-                        onMouseLeave={() => setHover("")}
+                        onMouseEnter={() => setHover && setHover("story")}
+                        onMouseLeave={() => setHover && setHover("")}
                     >
                         STORY
                     </Link>
                     <Link
                         href="/skills"
                         className="flex p-2 px-3 bg-white border-default text-black font-pixel hover:text-white hover:bg-black"
-                        onMouseEnter={() => setHover("skills")}
-                        onMouseLeave={() => setHover("")}
+                        onMouseEnter={() => setHover && setHover("skills")}
+                        onMouseLeave={() => setHover && setHover("")}
                     >
                         SKILLS
                     </Link>
                     <Link
                         href="/"
                         className="flex p-2 px-3 bg-white border-default text-black font-pixel hover:text-white hover:bg-black"
-                        onMouseEnter={() => setHover("projects")}
-                        onMouseLeave={() => setHover("")}
+                        onMouseEnter={() => setHover && setHover("projects")}
+                        onMouseLeave={() => setHover && setHover("")}
                     >
                         PROJECTS
                     </Link>
                     <Link
                         href="/"
                         className="flex p-2 px-3 bg-white border-default text-black font-pixel hover:text-white hover:bg-black"
-                        onMouseEnter={() => setHover("resume")}
-                        onMouseLeave={() => setHover("")}
+                        onMouseEnter={() => setHover && setHover("resume")}
+                        onMouseLeave={() => setHover && setHover("")}
                     >
                         RESUME
                     </Link>
