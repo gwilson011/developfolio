@@ -44,7 +44,7 @@ const Navbar: React.FC<NavbarProps> = ({ home = true, setHover }) => {
                         SKILLS
                     </Link>
                     <Link
-                        href="/"
+                        href="/projects"
                         className="flex p-2 px-3 bg-white border-default text-black font-pixel hover:text-white hover:bg-black"
                         onMouseEnter={() => setHover && setHover("projects")}
                         onMouseLeave={() => setHover && setHover("")}

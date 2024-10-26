@@ -164,7 +164,7 @@ export default function Skills() {
                             <span className="text-black font-pixel">
                                 FRONT END
                             </span>
-                            <div className=" bg-red-100 grid grid-cols-2 flex-wrap gap-2 md:flex md:flex-row">
+                            <div className="grid grid-cols-2 flex-wrap gap-2 md:flex md:flex-row">
                                 {[
                                     "REACT",
                                     "TYPESCRIPT",
