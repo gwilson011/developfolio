@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Navbar from "../components/Navbar";
 import Socialbar from "../components/Socialbar";
 import React from "react";
@@ -19,7 +18,7 @@ export default function Projects() {
                 </div>
                 <div className="flex flex-col w-full h-full gap-3">
                     {Object.entries(projects).map(([key, project]) => (
-                        <ProjectCard project={project} />
+                        <ProjectCard key={key} project={project} />
                     ))}
                 </div>
             </div>
