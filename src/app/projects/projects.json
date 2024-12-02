@@ -1,6 +1,27 @@
 [
     {
+        "title": "THE RACE",
+        "year": 2019,
+        "desc": "Application created to be used in conjunction with a large scale scavenger hunt, providing clues and displaying real time data",
+        "image": "/therace_1.png",
+        "href": {
+            "demo": "",
+            "repo": ""
+        }
+    },
+    {
+        "title": "BRUINBUY",
+        "year": 2022,
+        "desc": "Web application where students at UCLA can buy and sell products to other students",
+        "image": "/bruinbuy_preview.png",
+        "href": {
+            "demo": "",
+            "repo": "https://github.com/dianaestrada417/BruinBuy"
+        }
+    },
+    {
         "title": "TOPO",
+        "year": 2023,
         "desc": "Web application that takes an input number of miles and gives the route with the least amount of elevation gain",
         "image": "/topo_preview.png",
         "href": {
@@ -10,29 +31,12 @@
     },
     {
         "title": "RECORD SWAP",
+        "year": 2024,
         "desc": "An iPhone App which connects and syncs with a spotify account and allows user to easily share music with their friends",
         "image": "/comingsoon.png",
         "href": {
             "demo": "",
             "repo": "https://github.com/gwilson011/record-swap"
-        }
-    },
-    {
-        "title": "BRUINBUY",
-        "desc": "Web application where students at UCLA can buy and sell products to other students",
-        "image": "/bruinbuy_preview.png",
-        "href": {
-            "demo": "",
-            "repo": "https://github.com/dianaestrada417/BruinBuy"
-        }
-    },
-    {
-        "title": "THE RACE",
-        "desc": "Application created to be used in conjunction with a large scale scavenger hunt, providing clues and displaying real time data",
-        "image": "/therace_1.png",
-        "href": {
-            "demo": "",
-            "repo": ""
         }
     }
 ]
