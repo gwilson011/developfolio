@@ -17,7 +17,7 @@ interface ProjectCardProject {
 const ProjectCard = ({ project }: ProjectCardProject) => {
     return (
         <div
-            className="h-[74vh] space-y-4 border-default text-black p-4 justify-between bg-white" //hover:text-white hover:bg-black"
+            className="h-full space-y-4 border-default text-black p-4 justify-between bg-white" //hover:text-white hover:bg-black"
             // onMouseEnter={() => setHover && setHover(true)}
             // onMouseLeave={() => setHover && setHover(false)}
         >
@@ -52,6 +52,7 @@ const ProjectCard = ({ project }: ProjectCardProject) => {
                     width={200}
                     height={80}
                     className="rounded w-full overflow-hidden"
+                    style={{ maxHeight: 250 }}
                 />
             </div>
         </div>

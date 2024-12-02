@@ -41,7 +41,7 @@ export default function Projects() {
     }, []);
 
     return (
-        <div className="flex flex-col w-full h-[90vh] p-4 gap-4 md:gap-6">
+        <div className="flex flex-col w-full p-4 gap-4 md:gap-6">
             <Socialbar />
             <Navbar home={true} />
             <div className="flex flex-col gap-32 md:flex-row h-full md:mr-24 md:ml-24 mb-10">
@@ -52,7 +52,7 @@ export default function Projects() {
                 </div>
                 <div
                     ref={targetRef}
-                    className="space-y-20 h-full relative overflow-auto"
+                    className="space-y-20 h-[100vh] relative overflow-auto"
                     id="card"
                 >
                     <div className="flex flex-col gap-4">
@@ -72,7 +72,7 @@ export default function Projects() {
                                 />
                             </motion.div>
                         ))}
-                        <div className="flex h-full"></div>
+                        <footer className="flex-grow h-[200px] flex items-end justify-center"></footer>
                     </div>
                 </div>
             </div>
