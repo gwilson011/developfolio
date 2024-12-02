@@ -3,12 +3,7 @@ import Navbar from "../components/Navbar";
 import Socialbar from "../components/Socialbar";
 import React, { useEffect, useRef } from "react";
 import ProjectCard from "../components/ProjectCard";
-import {
-    useScroll,
-    useMotionValueEvent,
-    useTransform,
-    motion,
-} from "framer-motion";
+import { useScroll, useMotionValueEvent, motion } from "framer-motion";
 
 import projects from "./projects.json";
 
@@ -23,22 +18,22 @@ export default function Projects() {
         console.log(scrollY.get());
     });
 
-    const cardTimeline = projects.map((_, i) => {
-        const start = 500 + i * 500;
-        const end = 500 + (i + 1) * 500;
-        return [start, end];
-    });
+    // const cardTimeline = projects.map((_, i) => {
+    //     const start = 500 + i * 500;
+    //     const end = 500 + (i + 1) * 500;
+    //     return [start, end];
+    // });
 
-    const timeline = [[0, 500], ...cardTimeline];
+    // const timeline = [[0, 500], ...cardTimeline];
 
-    const animation = timeline.map((data) => ({
-        scale: useTransform(scrollY, data, [1, 0.8]),
-        opacity: useTransform(scrollY, data, [1, 0]),
-    }));
+    // const animation = timeline.map((data) => ({
+    //     scale: useTransform(scrollY, data, [1, 0.8]),
+    //     opacity: useTransform(scrollY, data, [1, 0]),
+    // }));
 
     useEffect(() => {
         // Get the div element
-        let divElement = document.getElementById("card");
+        const divElement = document.getElementById("card");
         // Scroll to the bottom of the div
         if (divElement != null) {
             divElement.scrollTop = divElement.scrollHeight;
@@ -63,6 +58,7 @@ export default function Projects() {
                     <div className="flex flex-col gap-4">
                         {Object.entries(projects).map(([key, project], i) => (
                             <motion.div
+                                key={"test"}
                                 className={`h-full sticky text-black`}
                                 style={{
                                     top: `${i * 25}px`,

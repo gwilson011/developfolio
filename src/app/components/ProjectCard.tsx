@@ -1,7 +1,6 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
 
 interface Project {
     title: string;
@@ -16,7 +15,6 @@ interface ProjectCardProject {
 }
 
 const ProjectCard = ({ project }: ProjectCardProject) => {
-    const [hover, setHover] = useState<boolean>(false);
     return (
         <div
             className="h-[74vh] space-y-4 border-default text-black p-4 justify-between bg-white" //hover:text-white hover:bg-black"
