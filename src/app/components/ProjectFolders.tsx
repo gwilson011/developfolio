@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -15,53 +15,31 @@ interface Project {
 interface ProjectFoldersProps {
     projects: Project[];
     onProjectClick: (slug: string) => void;
+    selectedProject: string | null;
 }
 
 const ProjectFolders: React.FC<ProjectFoldersProps> = ({
     projects,
     onProjectClick,
+    selectedProject,
 }) => {
-    // Get the initial project from URL on component mount
-    const [selectedProject, setSelectedProject] = useState<string | null>(
-        () => {
-            // Only run this on the client side
-            if (typeof window !== "undefined") {
-                const urlParams = new URLSearchParams(window.location.search);
-                const projectSlug = urlParams.get("project");
-                // Find if the project exists in our projects array
-                const projectExists = projects.find(
-                    (p) => p.slug === projectSlug
-                );
-                return projectExists ? projectSlug : null;
-            }
-            return null;
-        }
-    );
+    const [image, setImage] = useState<string | null>(null);
 
-    const [image, setImage] = useState<string | null>(() => {
-        // Set initial image based on URL project
-        if (typeof window !== "undefined") {
-            const urlParams = new URLSearchParams(window.location.search);
-            const projectSlug = urlParams.get("project");
-            const project = projects.find((p) => p.slug === projectSlug);
-            return project ? project.image : null;
+    useEffect(() => {
+        if (selectedProject && projects.length > 0) {
+            const project = projects.find((p) => p.slug === selectedProject);
+            setImage(project ? project.image : null);
+        } else {
+            setImage(null);
         }
-        return null;
-    });
+    }, [selectedProject, projects]);
 
     const handleProjectClick = (project: Project) => {
         if (selectedProject === project.slug) {
-            setSelectedProject(null);
-            setImage(null);
-            // Update URL to remove project parameter
-            window.history.pushState({}, "", window.location.pathname);
+            onProjectClick(project.slug);
         } else {
-            setSelectedProject(project.slug);
-            setImage(project.image);
-            // Update URL with selected project
-            window.history.pushState({}, "", `?project=${project.slug}`);
+            onProjectClick(project.slug);
         }
-        // onProjectClick(project.slug);
     };
 
     return (

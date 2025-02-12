@@ -1,13 +1,25 @@
 "use client";
-import { useState } from "react";
+import React, { useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Socialbar from "../components/Socialbar";
 import StoryCard from "../components/StoryCard";
 
-import story from "./story.json";
+interface Story {
+    year: string;
+    content: string;
+    title: string;
+    image: string;
+}
 
-export default function Story() {
-    const [top, setTop] = useState<boolean>(false);
+export default function Storyboard() {
+    const [stories, setStories] = React.useState<Record<string, Story>>({});
+
+    useEffect(() => {
+        fetch("/story.json")
+            .then((res) => res.json())
+            .then((data) => setStories(data));
+    }, []);
+
     return (
         <div className="flex flex-col w-full h-screen p-4 gap-4 md:gap-6">
             <Socialbar />
@@ -23,12 +35,12 @@ export default function Story() {
                             className="absolute top-[50%] left-[-100px] h-[3px] bg-black"
                             style={{
                                 width: `calc(${
-                                    Object.keys(story).length * 324 + 800
+                                    Object.keys(stories).length * 324 + 800
                                 }px)`,
                             }}
                         />
 
-                        {Object.entries(story).map(([key, story], i) => (
+                        {Object.entries(stories).map(([key, story], i) => (
                             <div
                                 key={key}
                                 className="relative flex flex-col items-center min-w-[300px]"
@@ -41,8 +53,8 @@ export default function Story() {
                                     {i % 2 === 0 ? (
                                         <>
                                             <StoryCard
-                                                story={{ ...story }}
-                                                className="w-[250px] min-h-[150px] overflow-hidden"
+                                                story={story}
+                                                // className="w-[250px] min-h-[150px] overflow-hidden"
                                             />
                                             <span className="flex font-pixel text-lg text-black justify-center h-[40px]">
                                                 {story.year}
@@ -54,8 +66,10 @@ export default function Story() {
                                                 {story.year}
                                             </span>
                                             <StoryCard
-                                                story={{ ...story }}
-                                                className="w-[250px] min-h-[150px] overflow-hidden"
+                                                story={{
+                                                    ...story,
+                                                }}
+                                                // className="w-[250px] min-h-[150px] overflow-hidden"
                                             />
                                         </>
                                     )}

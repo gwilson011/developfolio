@@ -1,12 +1,42 @@
 "use client";
 import { useParams } from "next/navigation";
-import projects from "../../projects/projects.json";
+import { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar";
 import Socialbar from "../../components/Socialbar";
 
+interface Project {
+    title: string;
+    slug: string;
+    year: string;
+    desc: string;
+    image: string;
+    href: { demo: string; repo: string };
+}
+
 export default function ProjectPage() {
     const { slug } = useParams();
-    const project = projects.find((p) => p.slug === slug);
+    const [project, setProject] = useState<Project | null>(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        fetch("/projects.json")
+            .then((res) => res.json())
+            .then((projects) => {
+                const foundProject = projects.find(
+                    (p: Project) => p.slug === slug
+                );
+                setProject(foundProject || null);
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.error("Error loading projects:", error);
+                setLoading(false);
+            });
+    }, [slug]);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
 
     if (!project) {
         return <div>Project not found</div>;

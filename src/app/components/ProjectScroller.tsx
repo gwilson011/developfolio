@@ -2,9 +2,19 @@
 import * as motion from "motion/react-client";
 import type { Variants } from "motion/react";
 import ProjectCard from "./ProjectCard";
-import projects from "../projects/projects.json";
+import { useEffect, useState } from "react";
 
 export default function ScrollTriggered() {
+    const [projects, setProjects] = useState<Record<string, Project>>({});
+
+    useEffect(() => {
+        // Fetch projects from public folder
+        fetch("/projects.json")
+            .then((res) => res.json())
+            .then((data) => setProjects(data))
+            .catch((err) => console.error("Error loading projects:", err));
+    }, []);
+
     return (
         <div style={container}>
             {Object.entries(projects).map(([key, p], i) => (
