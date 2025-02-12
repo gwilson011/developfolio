@@ -9,25 +9,25 @@
 
 @font-face {
     font-family: "Pixeled";
-    src: url("../../public/fonts/Pixeled.ttf") format("ttf");
+    src: url("../../public/fonts/Pixeled.woff2") format("woff2");
     font-weight: 400; /* You can define different weights */
     font-style: normal;
 }
 @font-face {
     font-family: "TangoSans";
-    src: url("../../public/fonts/TangoSans.ttf") format("ttf");
+    src: url("../../public/fonts/TangoSans.woff2") format("woff2");
     font-weight: 400; /* You can define different weights */
     font-style: normal;
 }
 @font-face {
     font-family: "LouisGeorgeCafe";
-    src: url("../../public/fonts/LouisGeorgeCafe-Bold.ttf") format("ttf");
+    src: url("../../public/fonts/LouisGeorgeCafe-Bold.woff2") format("woff2");
     font-weight: 400; /* You can define different weights */
     font-style: bold;
 }
 @font-face {
     font-family: "LouisGeorgeCafe";
-    src: url("../../public/fonts/LouisGeorgeCafe.ttf") format("ttf");
+    src: url("../../public/fonts/LouisGeorgeCafe.woff2") format("woff2");
     font-weight: 400; /* You can define different weights */
     font-style: normal;
 }
