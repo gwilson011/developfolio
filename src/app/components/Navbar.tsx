@@ -28,7 +28,7 @@ const Navbar: React.FC<NavbarProps> = ({ home = true, setHover }) => {
                         </Link>
                     )}
                     <Link
-                        href="/"
+                        href="/under-construction" //story
                         className="flex p-2 px-3 bg-white border-default text-black font-pixel hover:text-white hover:bg-black"
                         onMouseEnter={() => setHover && setHover("story")}
                         onMouseLeave={() => setHover && setHover("")}
@@ -52,7 +52,7 @@ const Navbar: React.FC<NavbarProps> = ({ home = true, setHover }) => {
                         PROJECTS
                     </Link>
                     <Link
-                        href="/"
+                        href="/resume"
                         className="flex p-2 px-3 bg-white border-default text-black font-pixel hover:text-white hover:bg-black"
                         onMouseEnter={() => setHover && setHover("resume")}
                         onMouseLeave={() => setHover && setHover("")}

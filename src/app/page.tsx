@@ -3,14 +3,24 @@ import Navbar from "./components/Navbar";
 import Socialbar from "./components/Socialbar";
 import React from "react";
 import { useState } from "react";
+import Image from "next/image";
 
 export default function Home() {
     const [hover, setHover] = useState<string>("");
     return (
         <div className="flex flex-col w-full h-screen p-4">
             <Socialbar />
-            <div className="flex flex-row w-full h-full">
-                <div className="flex w-full h-full "></div>
+            <div className="flex flex-col md:flex-row w-full h-full">
+                <div className="flex w-full h-full justify-center md:justify-end mb-10">
+                    <div className="relative w-[120px] h-[120px] mt-[235px] md:mr-[70px]">
+                        <Image
+                            src="/me.jpg"
+                            alt="Grace's portrait"
+                            fill
+                            className="rounded-full object-cover scale-150"
+                        />
+                    </div>
+                </div>
                 <div className="flex flex-col w-full h-full justify-center">
                     <div className="flex flex-col gap-2">
                         <span className="font-pixel text-black text-[10pt] text-start leading-none">

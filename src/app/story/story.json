@@ -1,12 +1,84 @@
 [
-    { "title": "Minecraft is ", "content": "", "image": "" },
-    { "title": "", "content": "", "image": "" },
-    { "title": "", "content": "", "image": "" },
-    { "title": "", "content": "", "image": "" },
-    { "title": "", "content": "", "image": "" },
-    { "title": "", "content": "", "image": "" },
-    { "title": "", "content": "", "image": "" },
-    { "title": "", "content": "", "image": "" },
-    { "title": "", "content": "", "image": "" },
-    { "title": "", "content": "", "image": "" }
+    {
+        "year": "2012",
+        "title": "Discovery of Minecraft",
+        "content": "In its Beta era, Grace discovers Minecraft and becomes enamored with the logic and creativity involved in its redstone mechanisms. This spark of curiosity introduces her to the idea of programming, opening up a world where she can create and solve problems in entirely new ways.",
+        "image": ""
+    },
+    {
+        "year": "2014",
+        "title": "Khan Academy: HTML",
+        "content": "Grace wanted to take the logic and utility introduced by redstone a step further and took learning programming into her own hands. Guided by Mr. Khan and the 'Oh Noes!' guy, the pathways of logic became familiar, and programming started to feel natural and intuitive. She felt like she'd found what she was meant to do.",
+        "image": ""
+    },
+    {
+        "year": "2014",
+        "title": "Attempts at Java",
+        "content": "Grace realized that with her new skills, she could shape any computer program however she imagined—including Minecraft. Her attempts to write a mod in Java quickly taught her three things: first, there are different programming languages; second, HTML is nothing like Java; and third, she still had a lot to learn.",
+        "image": ""
+    },
+    {
+        "year": "2016",
+        "title": "Project: Batch Game",
+        "content": "",
+        "image": ""
+    },
+    { "year": "2016", "title": "Text", "content": "", "image": "" },
+    {
+        "year": "2016",
+        "title": "Project: Bedroom Dashboard",
+        "content": "",
+        "image": ""
+    },
+    {
+        "year": "2016",
+        "title": "Learning about VMs",
+        "content": "",
+        "image": ""
+    },
+    { "year": "2017", "title": "Project: IOS App", "content": "", "image": "" },
+    { "year": "2018", "title": "Build Computer", "content": "", "image": "" },
+    {
+        "year": "2019",
+        "title": "Project: The Race",
+        "content": "",
+        "image": ""
+    },
+    { "year": "2019", "title": "Jack the Jeep", "content": "", "image": "" },
+    { "year": "2019", "title": "Radio Waves", "content": "", "image": "" },
+    {
+        "year": "2020",
+        "title": "Class: data structures",
+        "content": "",
+        "image": ""
+    },
+    {
+        "year": "2022",
+        "title": "Technology Specialist",
+        "content": "",
+        "image": ""
+    },
+    { "year": "2023", "title": "DevX: Retune", "content": "", "image": "" },
+    {
+        "year": "2023",
+        "title": "Class: Fullstack Website",
+        "content": "",
+        "image": ""
+    },
+    { "year": "2023", "title": "CPA Collective", "content": "", "image": "" },
+    { "year": "2023", "title": "Project: Topo", "content": "", "image": "" },
+    {
+        "year": "2023",
+        "title": "Class: Interpreting Languages",
+        "content": "",
+        "image": ""
+    },
+    {
+        "year": "2023",
+        "title": "Class: Algorthims",
+        "content": "",
+        "image": ""
+    },
+    { "year": "2023", "title": "Cobble", "content": "", "image": "" },
+    { "year": "2024", "title": "Apple", "content": "", "image": "" }
 ]

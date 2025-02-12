@@ -1,0 +1,98 @@
+{
+    "PYTHON": {
+        "level": "ADVANCED",
+        "projects": ["JACK THE JEEP", "INTERPRETER"],
+        "length": "5 years",
+        "experience": ["SCHOOL", "PERSONAL", "WORK", "CLUB"]
+    },
+    "JAVASCRIPT": {
+        "level": "INTERMEDIATE",
+        "projects": ["THIS WEBSITE", "RETUNE", "TOPO"],
+        "length": "3 years",
+        "experience": ["SCHOOL", "PERSONAL", "WORK", "CLUB"]
+    },
+    "C++": {
+        "level": "BEGINNER",
+        "projects": [],
+        "length": "5 years",
+        "experience": ["SCHOOL", "WORK"]
+    },
+    "SWIFT": {
+        "level": "BEGINNER",
+        "projects": ["THE RACE"],
+        "length": "1 year",
+        "experience": ["CLUB", "PERSONAL"]
+    },
+    "REACT": {
+        "level": "INTERMEDIATE",
+        "projects": ["THIS WEBSITE", "TOPO"],
+        "length": "3 years",
+        "experience": ["SCHOOL", "PERSONAL", "WORK", "CLUB"]
+    },
+    "TYPESCRIPT": {
+        "level": "INTERMEDIATE",
+        "projects": ["THIS WEBSITE"],
+        "length": "2 years",
+        "experience": ["PERSONAL", "WORK", "CLUB"]
+    },
+    "CSS": {
+        "level": "INTERMEDIATE",
+        "projects": ["THIS WEBSITE", "TOPO", "RETUNE"],
+        "length": "3 years",
+        "experience": ["SCHOOL", "PERSONAL", "WORK", "CLUB"]
+    },
+    "REDUX": {
+        "level": "INTERMEDIATE",
+        "projects": ["THIS WEBSITE"],
+        "length": "1 year",
+        "experience": ["personal"]
+    },
+    "NEXT": {
+        "level": "INTERMEDIATE",
+        "projects": ["THIS WEBSITE"],
+        "length": "2 years",
+        "experience": ["SCHOOL", "PERSONAL", "WORK", "CLUB"]
+    },
+    "SVELTE": {
+        "level": "INTERMEDIATE",
+        "projects": ["COBBLE"],
+        "length": "1 year",
+        "experience": ["CLUB"]
+    },
+    "REACT NATIVE": {
+        "level": "BEGINNER",
+        "projects": ["RETUNE"],
+        "length": "1 year",
+        "experience": ["CLUB"]
+    },
+    "NODE.JS": {
+        "level": "INTERMEDIATE",
+        "projects": ["THIS WEBSITE", "BRUINBUY"],
+        "length": "3 years",
+        "experience": ["SCHOOL", "PERSONAL", "WORK", "CLUB"]
+    },
+    "EXPRESS": {
+        "level": "INTERMEDIATE",
+        "projects": ["THIS WEBSITE", "BRUINBUY"],
+        "length": "3 years",
+        "experience": ["SCHOOL", "PERSONAL", "WORK", "CLUB"]
+    },
+    "EXPO": {
+        "level": "INTERMEDIATE",
+        "projects": ["RETUNE"],
+        "length": "1 year",
+        "experience": ["CLUB"]
+    },
+    "POSTGRESQL": {
+        "level": "INTERMEDIATE",
+        "projects": ["COBBLE"],
+        "length": "1 year",
+        "experience": ["CLUB"]
+    },
+    "SQL": {
+        "level": "BEGINNER",
+        "projects": [],
+        "length": "1 year",
+        "experience": ["WORK"]
+    }
+}

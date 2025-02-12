@@ -13,6 +13,14 @@ const Socialbar = () => {
                         height={30}
                     />
                 </Link>
+                <Link href={""} target="_blank">
+                    <Image
+                        alt="email"
+                        src={"/thick.png"}
+                        width={35}
+                        height={30}
+                    />
+                </Link>
                 <Link
                     href={"https://linkedin.com/in/grace-wilson-688452196/"}
                     target="_blank"
@@ -24,14 +32,7 @@ const Socialbar = () => {
                         height={30}
                     />
                 </Link>
-                <Link href={""} target="_blank">
-                    <Image
-                        alt="git"
-                        src={"/email.png"}
-                        width={30}
-                        height={30}
-                    />
-                </Link>
+
                 <Link
                     href={"https://www.instagram.com/grace.dub/"}
                     target="_blank"
