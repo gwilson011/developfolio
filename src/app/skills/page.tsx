@@ -155,7 +155,7 @@ export default function Skills() {
                                                 src={`/skill_gifs/${selected}.gif`}
                                                 width={100}
                                                 height={100}
-                                                alt="icon"
+                                                alt={selected}
                                                 unoptimized
                                             />
                                             <div className="flex flex-col gap-4 flex-grow">
