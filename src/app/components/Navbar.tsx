@@ -13,7 +13,7 @@ const Navbar: React.FC<NavbarProps> = ({ home = true, setHover }) => {
     return (
         <nav className="">
             <div className="container mx-auto flex items-center">
-                <div className="flex flex-row gap-2 text-[8pt] leading-none">
+                <div className="flex flex-row flex-wrap gap-2 text-[8pt] leading-none">
                     {home && (
                         <Link
                             href="/"
