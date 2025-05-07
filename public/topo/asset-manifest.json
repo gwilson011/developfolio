@@ -1,16 +1,17 @@
 {
   "files": {
-    "main.css": "/topo/static/css/main.7b6bf25c.css",
-    "main.js": "/topo/static/js/main.40c31438.js",
+    "main.css": "/topo/static/css/main.92b185bf.css",
+    "main.js": "/topo/static/js/main.094310fd.js",
     "static/js/453.7767aed5.chunk.js": "/topo/static/js/453.7767aed5.chunk.js",
     "static/media/loading.gif": "/topo/static/media/loading.5f4eb8e5308d49d03d51.gif",
+    "static/media/TangoSans.woff2": "/topo/static/media/TangoSans.ff33bdd6d53878fa3550.woff2",
     "index.html": "/topo/index.html",
-    "main.7b6bf25c.css.map": "/topo/static/css/main.7b6bf25c.css.map",
-    "main.40c31438.js.map": "/topo/static/js/main.40c31438.js.map",
+    "main.92b185bf.css.map": "/topo/static/css/main.92b185bf.css.map",
+    "main.094310fd.js.map": "/topo/static/js/main.094310fd.js.map",
     "453.7767aed5.chunk.js.map": "/topo/static/js/453.7767aed5.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.7b6bf25c.css",
-    "static/js/main.40c31438.js"
+    "static/css/main.92b185bf.css",
+    "static/js/main.094310fd.js"
   ]
 }
