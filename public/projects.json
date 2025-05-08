@@ -28,7 +28,7 @@
         "desc": "Web application that takes an input number of miles and gives the route with the least amount of elevation gain",
         "image": "/topo_preview.png",
         "href": {
-            "demo": "",
+            "demo": "http://localhost:3000/topo/index.html",
             "repo": "https://github.com/gwilson011/topo"
         }
     },

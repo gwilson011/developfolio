@@ -6,13 +6,13 @@
         "experience": ["SCHOOL", "PERSONAL", "WORK", "CLUB"]
     },
     "JAVASCRIPT": {
-        "level": "INTERMEDIATE",
+        "level": "ADVANCED",
         "projects": ["THIS WEBSITE", "RETUNE", "TOPO"],
         "length": "3 years",
         "experience": ["SCHOOL", "PERSONAL", "WORK", "CLUB"]
     },
     "C++": {
-        "level": "BEGINNER",
+        "level": "INTERMEDIATE",
         "projects": [],
         "length": "5 years",
         "experience": ["SCHOOL", "WORK"]
