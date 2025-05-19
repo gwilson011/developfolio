@@ -9,7 +9,7 @@ export default function Resume() {
             <Navbar home={true} />
             <div className="flex flex-col gap-16 h-[calc(100vh-160px)] md:flex-row md:mr-24 md:ml-24">
                 <div className="flex flex-col mb-6 gap-48 md:mb-0 w-full">
-                    <span className="font-tango text-black text-[40pt] md:text-[70pt] text-start leading-none">
+                    <span className="font-tango text-black text-[70pt] text-start leading-none">
                         RESUME
                     </span>
                     <div className="flex flex-row items-center justify-center gap-8">

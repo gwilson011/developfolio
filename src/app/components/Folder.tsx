@@ -14,6 +14,8 @@ interface Project {
     desc: string;
     image: string;
     href: { demo: string; repo: string };
+    languages: string[];
+    technologies: string[];
 }
 
 interface FolderProps {
@@ -21,6 +23,7 @@ interface FolderProps {
     folderName: string | null;
     selected: boolean;
     updateSelected: (folderName: string | null) => void;
+    handleProjectClick: (projectName: string | null) => void;
 }
 
 const Folder: React.FC<FolderProps> = ({
@@ -28,6 +31,7 @@ const Folder: React.FC<FolderProps> = ({
     folderName,
     selected,
     updateSelected,
+    handleProjectClick,
 }) => {
     const update = () => {
         setOpen(!open);
@@ -79,6 +83,7 @@ const Folder: React.FC<FolderProps> = ({
                         className="flex flex-col items-center justify-center gap-4"
                         onMouseEnter={() => setSelectedIcon(project.slug)}
                         onMouseLeave={() => setSelectedIcon("")}
+                        onClick={() => handleProjectClick(project.slug)}
                     >
                         <Image
                             alt="folder"

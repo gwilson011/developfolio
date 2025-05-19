@@ -56,7 +56,7 @@ export default function Skills() {
             <Socialbar />
             <Navbar home={true} />
             <div className="flex flex-col h-full md:mr-24 md:ml-24 mb-10 gap-8 md:justify-between">
-                <span className="font-tango text-black text-[40pt] md:text-[70pt] text-start leading-none">
+                <span className="font-tango text-black text-[70pt] text-start leading-none">
                     SKILLS
                 </span>
 

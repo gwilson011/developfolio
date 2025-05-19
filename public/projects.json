@@ -5,66 +5,78 @@
             "slug": "topo",
             "year": "2023",
             "desc": "Web application that takes an input number of miles and gives the route with the least amount of elevation gain",
-            "image": "/topo_preview.png",
+            "image": "topo_preview.png",
             "href": {
                 "demo": "http://localhost:3000/topo/index.html",
                 "repo": "https://github.com/gwilson011/topo"
-            }
+            },
+            "languages": ["JAVASCRIPT", "TYPESCRIPT"],
+            "technologies": ["REACT"]
         },
         {
             "title": "JACK THE JEEP",
             "slug": "jack-the-jeep",
             "year": "2018",
-            "desc": "",
-            "image": "/comingsoon.png",
+            "desc": "Designed and implemented a custom in-car infotainment system using a Raspberry Pi. The system featured Bluetooth connectivity for audio streaming and hands-free calls, and included a touchscreen display with a user-friendly UI. Built with a focus on seamless integration and functionality, the setup provided a modern upgrade to the car's dashboard experience.",
+            "image": "jeep_preview.jpg",
             "href": {
-                "demo": "http://localhost:3000/topo/index.html",
-                "repo": "https://github.com/gwilson011/topo"
-            }
+                "demo": "",
+                "repo": ""
+            },
+            "languages": ["PYTHON"],
+            "technologies": ["RASPBERRY PI"]
         },
         {
             "title": "THE RACE",
             "slug": "the-race",
             "year": "2019",
             "desc": "Application created to be used in conjunction with a large scale scavenger hunt, providing clues and displaying real time data",
-            "image": "/therace_1.png",
+            "image": "therace_1.png",
             "href": {
                 "demo": "",
                 "repo": ""
-            }
+            },
+            "languages": ["SWIFT"],
+            "technologies": ["REACT"]
         },
         {
             "title": "RECORD SWAP",
             "slug": "record-swap",
             "year": "2024",
             "desc": "An iPhone App which connects and syncs with a spotify account and allows user to easily share music with their friends",
-            "image": "/comingsoon.png",
+            "image": "comingsoon.png",
             "href": {
                 "demo": "",
                 "repo": "https://github.com/gwilson011/record-swap"
-            }
-        },
-        {
-            "title": "FILLER AI",
-            "slug": "filler-ai",
-            "year": "2024",
-            "desc": "",
-            "image": "/comingsoon.png",
-            "href": {
-                "demo": "",
-                "repo": "https://github.com/gwilson011/record-swap"
-            }
+            },
+            "languages": ["JAVASCRIPT", "SWIFT"],
+            "technologies": ["REACT"]
         },
         {
             "title": "2048 AI",
             "slug": "2048-ai",
             "year": "2024",
-            "desc": "",
-            "image": "/comingsoon.png",
+            "desc": "Developed an AI agent to play and solve the game 2048 as a hands-on application of core artificial intelligence concepts. Implemented search algorithms and custom heuristics to evaluate game states and make optimal moves. This project deepened my understanding of decision-making under uncertainty, game-tree exploration, and heuristic design.",
+            "image": "2048_preview.png",
             "href": {
                 "demo": "",
-                "repo": "https://github.com/gwilson011/record-swap"
-            }
+                "repo": "https://github.com/gwilson011/2048"
+            },
+            "languages": ["JAVASCRIPT", "TYPESCRIPT", "PYTHON"],
+            "technologies": ["REACT"]
+        },
+        {
+            "title": "FILLER AI",
+            "slug": "filler-ai",
+            "year": "2024",
+            "desc": "Built an AI agent to solve the game Fille as a way to apply newly learned AI techniques and strategies. Inspired by a long-running friendly rivalry in GamePigeon's Filler, this project focused on designing effective heuristics and exploring game tree search algorithms to outplay human opponents. Combined technical skill development with a personal challenge, making the learning process both fun and impactful.",
+            "image": "comingsoon.png",
+            "href": {
+                "demo": "",
+                "repo": ""
+            },
+            "languages": ["JAVASCRIPT", "TYPESCRIPT", "C++"],
+            "technologies": ["REACT"]
         }
     ],
     "clubs": [
@@ -72,23 +84,27 @@
             "title": "COBBLE",
             "slug": "cobble",
             "year": "2024",
-            "desc": "",
-            "image": "/comingsoon.png",
+            "desc": "Cobble.page is a platform for discovering and sharing tools and templates for creative projects. I implemented the marketplace feature for buying and selling digital products and revised the search algorithm to improve result relevance and ranking.",
+            "image": "cobble_preview.png",
             "href": {
-                "demo": "",
-                "repo": "https://github.com/gwilson011/record-swap"
-            }
+                "demo": "https://cobble.page/",
+                "repo": "private"
+            },
+            "languages": ["SVELTE"],
+            "technologies": ["POSTGRES"]
         },
         {
             "title": "RETUNE",
             "slug": "retune",
             "year": "2023",
-            "desc": "",
-            "image": "/comingsoon.png",
+            "desc": "Retune is a social music discovery app that connects people through songs based on their real-time location. Built with React Native and the Spotify API, it turns music sharing into a live, community-driven experience. I contributed heavily to the front end, constructed a reusable audio object used throughout the app, and resolved key location-related bugs to improve performance and user experience.",
+            "image": "comingsoon.png",
             "href": {
                 "demo": "",
-                "repo": "https://github.com/gwilson011/record-swap"
-            }
+                "repo": "private"
+            },
+            "languages": ["JAVASCRIPT", "TYPESCRIPT"],
+            "technologies": ["REACT NATIVE"]
         }
     ],
     "school": [
@@ -96,34 +112,40 @@
             "title": "WEBSERVER",
             "slug": "webserver",
             "year": "2025",
-            "desc": "Web application where students at UCLA can buy and sell products to other students",
-            "image": "/bruinbuy_preview.png",
+            "desc": "A lightweight, modular C++ web server built from scratch—designed to be fast, flexible, and extendable. Features include static file serving, custom request handlers, multithreading, and reverse proxy support. Built with testing, scalability, and clean architecture in mind--the work divided up amongst five group members.",
+            "image": "comingsoon.png",
             "href": {
                 "demo": "",
-                "repo": "https://github.com/dianaestrada417/BruinBuy"
-            }
+                "repo": ""
+            },
+            "languages": ["C++", "C"],
+            "technologies": ["DOCKER", "GCLOUD", "CMAKE"]
         },
         {
             "title": "INTERPRETER",
             "slug": "interpreter",
             "year": "2023",
-            "desc": "Web application where students at UCLA can buy and sell products to other students",
-            "image": "/bruinbuy_preview.png",
+            "desc": "Involved building an interpreter for a custom language called Brewin’. It included implementing a lexer, parser, and evaluator in Python, offering hands-on experience with language design, syntax parsing, and runtime evaluation. Key skills gained include compiler construction, functional programming, and a deeper understanding of how interpreters process and execute code.",
+            "image": "comingsoon.png",
             "href": {
                 "demo": "",
-                "repo": "https://github.com/dianaestrada417/BruinBuy"
-            }
+                "repo": ""
+            },
+            "languages": ["PYTHON"],
+            "technologies": []
         },
         {
             "title": "BRUINBUY",
             "slug": "bruinbuy",
             "year": "2022",
             "desc": "Web application where students at UCLA can buy and sell products to other students",
-            "image": "/bruinbuy_preview.png",
+            "image": "bruinbuy_preview.png",
             "href": {
                 "demo": "",
                 "repo": "https://github.com/dianaestrada417/BruinBuy"
-            }
+            },
+            "languages": ["JAVASCRIPT"],
+            "technologies": ["REACT"]
         }
     ],
     "work": [
@@ -132,11 +154,13 @@
             "slug": "record-swap",
             "year": "2024",
             "desc": "An iPhone App which connects and syncs with a spotify account and allows user to easily share music with their friends",
-            "image": "/comingsoon.png",
+            "image": "comingsoon.png",
             "href": {
                 "demo": "",
-                "repo": "https://github.com/gwilson011/record-swap"
-            }
+                "repo": ""
+            },
+            "languages": [],
+            "technologies": []
         }
     ]
 }
