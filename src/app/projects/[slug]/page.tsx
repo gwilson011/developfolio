@@ -5,17 +5,7 @@ import Socialbar from "../../components/Socialbar";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-
-interface Project {
-    title: string;
-    slug: string;
-    year: string;
-    desc: string;
-    image: string;
-    href: { demo: string; repo: string };
-    languages: string[];
-    technologies: string[];
-}
+import { Project } from "@/types/project";
 
 export default function ProjectPage() {
     const router = useRouter();
@@ -90,8 +80,8 @@ export default function ProjectPage() {
                                 LANGUAGES
                             </span>
                             <div className="flex flex-col gap-2 font-pixel text-xs text-gray-400">
-                                {project.languages.map((language) => (
-                                    <div>{language}</div>
+                                {project.technologies.map((language, index) => (
+                                    <div key={index}>{language}</div>
                                 ))}
                             </div>
                         </div>
@@ -100,9 +90,11 @@ export default function ProjectPage() {
                                 TECHNOLOGIES
                             </span>
                             <div className="flex flex-col gap-2 font-pixel text-xs text-gray-400">
-                                {project.technologies.map((techs) => (
-                                    <div>{techs}</div>
-                                ))}
+                                {project.technologies.map(
+                                    (technology, index) => (
+                                        <div key={index}>{technology}</div>
+                                    )
+                                )}
                             </div>
                         </div>
                     </div>

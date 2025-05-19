@@ -1,16 +1,16 @@
 "use client";
 import Navbar from "../components/Navbar";
 import Socialbar from "../components/Socialbar";
-import React, { useEffect, Suspense } from "react";
-import ProjectFolders from "../components/ProjectFolders";
+import React, { useEffect, Suspense, useState } from "react";
 import Folder from "../components/Folder";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { ProjectCategories } from "@/types/project"; // adjust path as needed
 
 function ProjectsContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const pathname = usePathname();
-    const [projects, setProjects] = React.useState({});
+    const [projects, setProjects] = useState<ProjectCategories>({});
     const [selectedProject, setSelectedProject] = React.useState<string | null>(
         null
     );
@@ -70,26 +70,28 @@ function ProjectsContent() {
                         folderName="PERSONAL"
                         selected={selectedFolder === "PERSONAL"}
                         updateSelected={(name) => setSelectedFolder(name)}
-                        handleProjectClick={(slug) => handleProjectClick(slug)}
+                        handleProjectClick={(slug) => {
+                            if (slug) handleProjectClick(slug);
+                        }}
                     ></Folder>
                     <Folder
                         projects={projects.clubs || []}
                         folderName="CLUBS"
                         selected={selectedFolder === "CLUBS"}
                         updateSelected={(name) => setSelectedFolder(name)}
-                        handleProjectClick={(slug) => handleProjectClick(slug)}
+                        handleProjectClick={(slug) => {
+                            if (slug) handleProjectClick(slug);
+                        }}
                     ></Folder>
                     <Folder
                         projects={projects.school || []}
                         folderName="SCHOOL"
                         selected={selectedFolder === "SCHOOL"}
                         updateSelected={(name) => setSelectedFolder(name)}
-                        handleProjectClick={(slug) => handleProjectClick(slug)}
+                        handleProjectClick={(slug) => {
+                            if (slug) handleProjectClick(slug);
+                        }}
                     ></Folder>
-                    {/* <Folder
-                        projects={projects.work}
-                        folderName="WORK"
-                    ></Folder> */}
                 </div>
             </div>
         </div>

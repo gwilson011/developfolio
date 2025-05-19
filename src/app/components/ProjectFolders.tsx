@@ -1,18 +1,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-
-interface Project {
-    title: string;
-    slug: string;
-    description: string;
-    year: string;
-    desc: string;
-    image: string;
-    href: { demo: string; repo: string };
-    languages: string[];
-    technologies: string[];
-}
+import { Project } from "@/types/project";
 
 interface ProjectFoldersProps {
     projects: Project[];

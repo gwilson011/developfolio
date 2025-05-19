@@ -1,22 +1,9 @@
 import { useEffect, useState } from "react";
-import { string } from "three/tsl";
 import Image from "next/image";
-import { TrefoilPolynomialKnot } from "three/examples/jsm/curves/CurveExtras.js";
+import { Project } from "@/types/project";
 
 const FOLDER_SIZE = 80;
 const ICON_SIZE = 60;
-
-interface Project {
-    title: string;
-    slug: string;
-    description: string;
-    year: string;
-    desc: string;
-    image: string;
-    href: { demo: string; repo: string };
-    languages: string[];
-    technologies: string[];
-}
 
 interface FolderProps {
     projects: Project[];
@@ -39,7 +26,7 @@ const Folder: React.FC<FolderProps> = ({
     };
 
     const [open, setOpen] = useState<boolean>(false);
-    const [selectedIcon, setSelectedIcon] = useState<string>("");
+    const [selectedIcon, setSelectedIcon] = useState<string | null>(null);
 
     useEffect(() => {
         console.log("test");

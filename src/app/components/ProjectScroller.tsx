@@ -3,6 +3,7 @@ import * as motion from "motion/react-client";
 import type { Variants } from "motion/react";
 import ProjectCard from "./ProjectCard";
 import { useEffect, useState } from "react";
+import { Project } from "@/types/project";
 
 export default function ScrollTriggered() {
     const [projects, setProjects] = useState<Record<string, Project>>({});
@@ -22,16 +23,6 @@ export default function ScrollTriggered() {
             ))}
         </div>
     );
-}
-
-interface Project {
-    title: string;
-    year: string;
-    desc: string;
-    image: string;
-    href: { demo: string; repo: string };
-    languages: string[];
-    technologies: string[];
 }
 
 interface CardProps {

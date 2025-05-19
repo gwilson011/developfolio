@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import StoryCard from "../components/StoryCard";
 import Navbar from "../components/Navbar";
+import Image from "next/image";
 import Socialbar from "../components/Socialbar";
 
 interface Story {
@@ -16,13 +17,13 @@ export default function Storyboard() {
     const containerRef = useRef<HTMLDivElement>(null);
     const [offsetY, setOffsetY] = useState(0);
     const [baseOffsetY, setBaseOffsetY] = useState(0);
-    const [scrollLeft, setScrollLeft] = useState(0);
+    // const [scrollLeft, setScrollLeft] = useState(0);
 
     const angleDeg = 20;
     const angleRad = (angleDeg * Math.PI) / 180;
     const cardDistance = 600;
-    const halfViewportWidth =
-        typeof window !== "undefined" ? window.innerWidth / 2 : 0;
+    // const halfViewportWidth =
+    //     typeof window !== "undefined" ? window.innerWidth / 2 : 0;
 
     const horizontalSpacing = cardDistance * Math.cos(angleRad);
     const verticalSpacing = cardDistance * Math.sin(angleRad);
@@ -32,7 +33,7 @@ export default function Storyboard() {
         setBaseOffsetY(window.innerHeight * 0.3);
         const handleScroll = () => {
             const scrollX = containerRef.current?.scrollLeft || 0;
-            setScrollLeft(scrollX);
+            //setScrollLeft(scrollX);
             setOffsetY(scrollX * slope); // still used elsewhere
         };
 
@@ -117,7 +118,7 @@ export default function Storyboard() {
                                 </div>
                             )} */}
                             {/* Timeline Traveler */}
-                            <img
+                            <Image
                                 src="/ski_gondola.png"
                                 alt="Gondola"
                                 className="fixed z-50 pointer-events-none w-20 h-auto"
