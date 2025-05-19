@@ -25,12 +25,12 @@ const Skillbar: React.FC<SkillbarProps> = ({ level }) => {
                     key={section}
                     className={`h-2 flex-1 ${
                         section <= filledSections ? "bg-black" : "bg-gray-200"
-                    } ${
-                        section === 1
-                            ? "rounded-l-md"
-                            : section === 3
-                            ? "rounded-r-md"
-                            : ""
+                        // } ${
+                        //     section === 1
+                        //         ? "rounded-l-md"
+                        //         : section === 3
+                        //         ? "rounded-r-md"
+                        //         : ""
                     }`}
                 />
             ))}
