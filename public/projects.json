@@ -1,46 +1,142 @@
-[
-    {
-        "title": "THE RACE",
-        "slug": "the-race",
-        "year": "2019",
-        "desc": "Application created to be used in conjunction with a large scale scavenger hunt, providing clues and displaying real time data",
-        "image": "/therace_1.png",
-        "href": {
-            "demo": "",
-            "repo": ""
+{
+    "personal": [
+        {
+            "title": "TOPO",
+            "slug": "topo",
+            "year": "2023",
+            "desc": "Web application that takes an input number of miles and gives the route with the least amount of elevation gain",
+            "image": "/topo_preview.png",
+            "href": {
+                "demo": "http://localhost:3000/topo/index.html",
+                "repo": "https://github.com/gwilson011/topo"
+            }
+        },
+        {
+            "title": "JACK THE JEEP",
+            "slug": "jack-the-jeep",
+            "year": "2018",
+            "desc": "",
+            "image": "/comingsoon.png",
+            "href": {
+                "demo": "http://localhost:3000/topo/index.html",
+                "repo": "https://github.com/gwilson011/topo"
+            }
+        },
+        {
+            "title": "THE RACE",
+            "slug": "the-race",
+            "year": "2019",
+            "desc": "Application created to be used in conjunction with a large scale scavenger hunt, providing clues and displaying real time data",
+            "image": "/therace_1.png",
+            "href": {
+                "demo": "",
+                "repo": ""
+            }
+        },
+        {
+            "title": "RECORD SWAP",
+            "slug": "record-swap",
+            "year": "2024",
+            "desc": "An iPhone App which connects and syncs with a spotify account and allows user to easily share music with their friends",
+            "image": "/comingsoon.png",
+            "href": {
+                "demo": "",
+                "repo": "https://github.com/gwilson011/record-swap"
+            }
+        },
+        {
+            "title": "FILLER AI",
+            "slug": "filler-ai",
+            "year": "2024",
+            "desc": "",
+            "image": "/comingsoon.png",
+            "href": {
+                "demo": "",
+                "repo": "https://github.com/gwilson011/record-swap"
+            }
+        },
+        {
+            "title": "2048 AI",
+            "slug": "2048-ai",
+            "year": "2024",
+            "desc": "",
+            "image": "/comingsoon.png",
+            "href": {
+                "demo": "",
+                "repo": "https://github.com/gwilson011/record-swap"
+            }
         }
-    },
-    {
-        "title": "BRUINBUY",
-        "slug": "bruinbuy",
-        "year": "2022",
-        "desc": "Web application where students at UCLA can buy and sell products to other students",
-        "image": "/bruinbuy_preview.png",
-        "href": {
-            "demo": "",
-            "repo": "https://github.com/dianaestrada417/BruinBuy"
+    ],
+    "clubs": [
+        {
+            "title": "COBBLE",
+            "slug": "cobble",
+            "year": "2024",
+            "desc": "",
+            "image": "/comingsoon.png",
+            "href": {
+                "demo": "",
+                "repo": "https://github.com/gwilson011/record-swap"
+            }
+        },
+        {
+            "title": "RETUNE",
+            "slug": "retune",
+            "year": "2023",
+            "desc": "",
+            "image": "/comingsoon.png",
+            "href": {
+                "demo": "",
+                "repo": "https://github.com/gwilson011/record-swap"
+            }
         }
-    },
-    {
-        "title": "TOPO",
-        "slug": "topo",
-        "year": "2023",
-        "desc": "Web application that takes an input number of miles and gives the route with the least amount of elevation gain",
-        "image": "/topo_preview.png",
-        "href": {
-            "demo": "http://localhost:3000/topo/index.html",
-            "repo": "https://github.com/gwilson011/topo"
+    ],
+    "school": [
+        {
+            "title": "WEBSERVER",
+            "slug": "webserver",
+            "year": "2025",
+            "desc": "Web application where students at UCLA can buy and sell products to other students",
+            "image": "/bruinbuy_preview.png",
+            "href": {
+                "demo": "",
+                "repo": "https://github.com/dianaestrada417/BruinBuy"
+            }
+        },
+        {
+            "title": "INTERPRETER",
+            "slug": "interpreter",
+            "year": "2023",
+            "desc": "Web application where students at UCLA can buy and sell products to other students",
+            "image": "/bruinbuy_preview.png",
+            "href": {
+                "demo": "",
+                "repo": "https://github.com/dianaestrada417/BruinBuy"
+            }
+        },
+        {
+            "title": "BRUINBUY",
+            "slug": "bruinbuy",
+            "year": "2022",
+            "desc": "Web application where students at UCLA can buy and sell products to other students",
+            "image": "/bruinbuy_preview.png",
+            "href": {
+                "demo": "",
+                "repo": "https://github.com/dianaestrada417/BruinBuy"
+            }
         }
-    },
-    {
-        "title": "RECORD SWAP",
-        "slug": "record-swap",
-        "year": "2024",
-        "desc": "An iPhone App which connects and syncs with a spotify account and allows user to easily share music with their friends",
-        "image": "/comingsoon.png",
-        "href": {
-            "demo": "",
-            "repo": "https://github.com/gwilson011/record-swap"
+    ],
+    "work": [
+        {
+            "title": "RECORD SWAP",
+            "slug": "record-swap",
+            "year": "2024",
+            "desc": "An iPhone App which connects and syncs with a spotify account and allows user to easily share music with their friends",
+            "image": "/comingsoon.png",
+            "href": {
+                "demo": "",
+                "repo": "https://github.com/gwilson011/record-swap"
+            }
         }
-    }
-]
+    ]
+}

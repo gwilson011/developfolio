@@ -3,13 +3,14 @@ import Navbar from "../components/Navbar";
 import Socialbar from "../components/Socialbar";
 import React, { useEffect, Suspense } from "react";
 import ProjectFolders from "../components/ProjectFolders";
+import Folder from "../components/Folder";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
 function ProjectsContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const pathname = usePathname();
-    const [projects, setProjects] = React.useState([]);
+    const [projects, setProjects] = React.useState({});
     const [selectedProject, setSelectedProject] = React.useState<string | null>(
         null
     );
@@ -60,16 +61,38 @@ function ProjectsContent() {
 
     return (
         <div className="flex flex-col gap-16 h-[calc(100vh-160px)] md:flex-row md:mr-24 md:ml-24">
-            <div className="flex flex-col justify-between mb-6 md:mb-0 w-full">
+            <div className="flex flex-col gap-12 mb-6 md:mb-0 w-full">
                 <span className="font-tango text-black text-[40pt] md:text-[70pt] text-start leading-none">
                     PROJECTS
                 </span>
-                <div className="flex flex-grow items-center">
-                    <ProjectFolders
+                <div className="flex flex-col align-left gap-12">
+                    {/* <ProjectFolders
                         projects={projects}
                         onProjectClick={handleProjectClick}
                         selectedProject={selectedProject}
-                    />
+                    /> */}
+                    <Folder
+                        projects={projects.personal}
+                        folderName="PERSONAL"
+                        selected={selectedProject === "PERSONAL"}
+                        updateSelected={(name) => setSelectedProject(name)}
+                    ></Folder>
+                    <Folder
+                        projects={projects.clubs}
+                        folderName="CLUBS"
+                        selected={selectedProject === "CLUBS"}
+                        updateSelected={(name) => setSelectedProject(name)}
+                    ></Folder>
+                    <Folder
+                        projects={projects.school}
+                        folderName="SCHOOL"
+                        selected={selectedProject === "SCHOOL"}
+                        updateSelected={(name) => setSelectedProject(name)}
+                    ></Folder>
+                    {/* <Folder
+                        projects={projects.work}
+                        folderName="WORK"
+                    ></Folder> */}
                 </div>
             </div>
         </div>
