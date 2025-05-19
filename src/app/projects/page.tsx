@@ -1,50 +1,40 @@
 "use client";
 import Navbar from "../components/Navbar";
 import Socialbar from "../components/Socialbar";
-import React, { useEffect, Suspense } from "react";
-import ProjectFolders from "../components/ProjectFolders";
+import React, { useEffect, Suspense, useState } from "react";
+import Folder from "../components/Folder";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { ProjectCategories } from "@/types/project"; // adjust path as needed
 
 function ProjectsContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const pathname = usePathname();
-    const [projects, setProjects] = React.useState([]);
+    const [projects, setProjects] = useState<ProjectCategories>({});
     const [selectedProject, setSelectedProject] = React.useState<string | null>(
+        null
+    );
+    const [selectedFolder, setSelectedFolder] = React.useState<string | null>(
         null
     );
 
     useEffect(() => {
-        // Wrap window access in useEffect to ensure it only runs client-side
         if (typeof window !== "undefined") {
-            const path = window.location.pathname;
             const queryProject = searchParams.get("project");
-            const pathProject = path.split("/projects/")[1];
 
-            console.log("Current query project:", queryProject);
-            console.log("Current path project:", pathProject);
-
-            // Set selected project from either source
-            if (queryProject) {
-                console.log("Setting project from query:", queryProject);
-                setSelectedProject(queryProject);
-                // Force URL update to match
-                router.push(`/projects?project=${queryProject}`);
-            } else if (pathProject) {
-                console.log("Setting project from path:", pathProject);
-                setSelectedProject(pathProject);
-                router.push(`/projects/${pathProject}`);
-            }
-
-            // Fetch the JSON from the public directory
+            // Load projects.json
             fetch("/projects.json")
                 .then((response) => response.json())
                 .then((data) => {
-                    console.log("Fetched projects:", data);
                     setProjects(data);
                 });
+
+            // Only update selected project if on the main /projects page
+            if (pathname === "/projects" && queryProject) {
+                setSelectedProject(queryProject);
+            }
         }
-    }, [pathname, searchParams, router]);
+    }, [pathname, searchParams]);
 
     const handleProjectClick = (projectSlug: string) => {
         // If clicking the same project, deselect it
@@ -54,22 +44,54 @@ function ProjectsContent() {
         } else {
             // Select the new project
             setSelectedProject(projectSlug);
-            router.push(`/projects?project=${projectSlug}`);
+            router.push(`/projects/${projectSlug}`);
         }
     };
 
     return (
-        <div className="flex flex-col gap-16 h-[calc(100vh-160px)] md:flex-row md:mr-24 md:ml-24">
-            <div className="flex flex-col justify-between mb-6 md:mb-0 w-full">
-                <span className="font-tango text-black text-[40pt] md:text-[70pt] text-start leading-none">
-                    PROJECTS
-                </span>
-                <div className="flex flex-grow items-center">
-                    <ProjectFolders
+        <div className="flex flex-col gap-16 h-[calc(100vh-160px)] md:mr-24 md:ml-24">
+            <div className="flex flex-col gap-12 mb-6 md:mb-0 w-full">
+                <div className="flex flex-row gap-10 items-end">
+                    <span className="font-tango text-black text-[70pt] text-start leading-none">
+                        PROJECTS
+                    </span>
+                    {/* <span className="text-black font-pixel text-xs mb-[15pt]">
+                        SORTED BY DATE
+                    </span> */}
+                </div>
+                <div className="flex flex-col align-left gap-12">
+                    {/* <ProjectFolders
                         projects={projects}
                         onProjectClick={handleProjectClick}
                         selectedProject={selectedProject}
-                    />
+                    /> */}
+                    <Folder
+                        projects={projects.personal || []}
+                        folderName="PERSONAL"
+                        selected={selectedFolder === "PERSONAL"}
+                        updateSelected={(name) => setSelectedFolder(name)}
+                        handleProjectClick={(slug) => {
+                            if (slug) handleProjectClick(slug);
+                        }}
+                    ></Folder>
+                    <Folder
+                        projects={projects.clubs || []}
+                        folderName="CLUBS"
+                        selected={selectedFolder === "CLUBS"}
+                        updateSelected={(name) => setSelectedFolder(name)}
+                        handleProjectClick={(slug) => {
+                            if (slug) handleProjectClick(slug);
+                        }}
+                    ></Folder>
+                    <Folder
+                        projects={projects.school || []}
+                        folderName="SCHOOL"
+                        selected={selectedFolder === "SCHOOL"}
+                        updateSelected={(name) => setSelectedFolder(name)}
+                        handleProjectClick={(slug) => {
+                            if (slug) handleProjectClick(slug);
+                        }}
+                    ></Folder>
                 </div>
             </div>
         </div>

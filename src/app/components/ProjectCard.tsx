@@ -8,6 +8,8 @@ interface Project {
     desc: string;
     image: string;
     href: { demo: string; repo: string };
+    languages: string[];
+    technologies: string[];
 }
 
 interface ProjectCardProject {

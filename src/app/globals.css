@@ -49,6 +49,9 @@ body {
     .text-balance {
         text-wrap: balance;
     }
+    .text-fit {
+        font-size: clamp(50pt, 2vw, 70pt);
+    }
 }
 
 .border-default {
