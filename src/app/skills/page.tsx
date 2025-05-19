@@ -192,7 +192,7 @@ export default function Skills() {
                                                 (project, index) => (
                                                     <a
                                                         key={index}
-                                                        href={`/projects?project=${project
+                                                        href={`/projects/${project
                                                             .toLowerCase()
                                                             .replace(
                                                                 /\s+/g,
@@ -200,7 +200,7 @@ export default function Skills() {
                                                             )}`}
                                                         className="flex flex-row justify-center items-center bg-black p-1 md:p-2 rounded-full border-2 border-default text-white hover:bg-white hover:text-black cursor-pointer gap-1 group"
                                                     >
-                                                        <span className="font-pixel text-[6pt] md:text-[7pt] px-1">
+                                                        <span className="font-pixel text-[6pt] md:text-[8pt] px-1">
                                                             {project}
                                                         </span>
                                                         <span className="flex font-pixel text-xl md:text-2xl opacity-0 transform translate-x-[-5px] transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-0">
@@ -219,9 +219,9 @@ export default function Skills() {
                                             ]?.experience.map((xp, index) => (
                                                 <div
                                                     key={index}
-                                                    className="flex bg-white px-2 md:px-3 py-1 rounded-full border-[3px] border-black text-black hover:bg-black hover:text-white"
+                                                    className="flex bg-white px-2 md:px-3 pb-1 rounded-full border-[3px] border-black text-black hover:bg-black hover:text-white"
                                                 >
-                                                    <span className="font-louis text-[10px] md:text-xs">
+                                                    <span className="font-pixel text-[10px] md:text-[7pt]">
                                                         {xp}
                                                     </span>
                                                 </div>
