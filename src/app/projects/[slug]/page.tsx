@@ -80,7 +80,7 @@ export default function ProjectPage() {
                                 LANGUAGES
                             </span>
                             <div className="flex flex-col gap-2 font-pixel text-xs text-gray-400">
-                                {project.technologies.map((language, index) => (
+                                {project.languages.map((language, index) => (
                                     <div key={index}>{language}</div>
                                 ))}
                             </div>
