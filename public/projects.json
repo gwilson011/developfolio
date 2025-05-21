@@ -37,7 +37,7 @@
                 "repo": ""
             },
             "languages": ["SWIFT"],
-            "technologies": ["REACT"]
+            "technologies": ["REACT", "GOOGLE FIREBASE"]
         },
         {
             "title": "RECORD SWAP",
@@ -146,7 +146,7 @@
             },
             "languages": ["JAVASCRIPT"],
             "technologies": ["REACT"]
-      }
+        }
     ],
     "work": [
         {

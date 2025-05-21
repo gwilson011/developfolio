@@ -52,7 +52,7 @@ function ProjectsContent() {
         <div className="flex flex-col gap-16 h-[calc(100vh-160px)] md:mr-24 md:ml-24">
             <div className="flex flex-col gap-12 mb-6 md:mb-0 w-full">
                 <div className="flex flex-row gap-10 items-end">
-                    <span className="font-tango text-black text-[70pt] text-start leading-none">
+                    <span className="font-tango text-black text-[60pt] text-start leading-none">
                         PROJECTS
                     </span>
                     {/* <span className="text-black font-pixel text-xs mb-[15pt]">
