@@ -59,7 +59,7 @@
             "desc": "Developed an AI agent to play and solve the game 2048 as a hands-on application of core artificial intelligence concepts. Implemented search algorithms and custom heuristics to evaluate game states and make optimal moves. This project deepened my understanding of decision-making under uncertainty, game-tree exploration, and heuristic design.",
             "image": "2048_preview.png",
             "href": {
-                "demo": "",
+                "demo": "http://localhost:3000/2048/index.html",
                 "repo": "https://github.com/gwilson011/2048"
             },
             "languages": ["JAVASCRIPT", "TYPESCRIPT", "PYTHON"],
