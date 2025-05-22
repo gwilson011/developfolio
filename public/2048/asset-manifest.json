@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/static/css/main.85c916cd.css",
-    "main.js": "/static/js/main.8b4da575.js",
-    "static/js/453.128732c3.chunk.js": "/static/js/453.128732c3.chunk.js",
-    "static/media/LouisGeorgeCafe.woff2": "/static/media/LouisGeorgeCafe.308314c50255718939b1.woff2",
-    "static/media/TangoSans.woff2": "/static/media/TangoSans.ff33bdd6d53878fa3550.woff2",
-    "static/media/Pixeled.woff2": "/static/media/Pixeled.61a700fdff4068cda09b.woff2",
-    "index.html": "/index.html",
-    "main.85c916cd.css.map": "/static/css/main.85c916cd.css.map",
-    "main.8b4da575.js.map": "/static/js/main.8b4da575.js.map",
-    "453.128732c3.chunk.js.map": "/static/js/453.128732c3.chunk.js.map"
+    "main.css": "/2048/static/css/main.3fe3dbb1.css",
+    "main.js": "/2048/static/js/main.da24b2b5.js",
+    "static/js/453.128732c3.chunk.js": "/2048/static/js/453.128732c3.chunk.js",
+    "static/media/LouisGeorgeCafe.woff2": "/2048/static/media/LouisGeorgeCafe.308314c50255718939b1.woff2",
+    "static/media/TangoSans.woff2": "/2048/static/media/TangoSans.ff33bdd6d53878fa3550.woff2",
+    "static/media/Pixeled.woff2": "/2048/static/media/Pixeled.61a700fdff4068cda09b.woff2",
+    "index.html": "/2048/index.html",
+    "main.3fe3dbb1.css.map": "/2048/static/css/main.3fe3dbb1.css.map",
+    "main.da24b2b5.js.map": "/2048/static/js/main.da24b2b5.js.map",
+    "453.128732c3.chunk.js.map": "/2048/static/js/453.128732c3.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.85c916cd.css",
-    "static/js/main.8b4da575.js"
+    "static/css/main.3fe3dbb1.css",
+    "static/js/main.da24b2b5.js"
   ]
 }
