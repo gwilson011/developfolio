@@ -12,18 +12,21 @@ const PlanSchema = z.object({
                     breakfast: z.string(),
                     lunch: z.string(),
                     dinner: z.string(),
+                    snack: z.string(),
                 }),
                 calories_estimate: z.number().optional(),
             })
         )
         .length(7),
     grocery_list: z.record(z.string(), z.array(z.string())),
-    recipes: z.record(z.object({
-        ingredients: z.array(z.string()),
-        instructions: z.string(),
-        servings: z.number(),
-        calories_per_serving: z.number(),
-    })),
+    recipes: z.record(
+        z.object({
+            ingredients: z.array(z.string()),
+            instructions: z.string(),
+            servings: z.number(),
+            calories_per_serving: z.number(),
+        })
+    ),
     target_daily_calories: z.number(),
 });
 
@@ -36,21 +39,56 @@ export async function POST(req: NextRequest) {
             );
         }
         const body = await req.json();
-        const { preferences, weekStartISO, knownMeals = [], dailyCalories = 2000 } = body ?? {};
+        const {
+            preferences,
+            weekStartISO,
+            knownMeals = [],
+            dailyCalories,
+        } = body ?? {};
+
+        // Validate dailyCalories
+        if (!dailyCalories || typeof dailyCalories !== 'number' || dailyCalories < 1000 || dailyCalories > 5000) {
+            return NextResponse.json(
+                { ok: false, error: "dailyCalories must be a number between 1000 and 5000" },
+                { status: 400 }
+            );
+        }
 
         const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
         const sys = `You are a meal-planning assistant. Target ${dailyCalories} calories per day.
 Output strict JSON with these exact keys:
 1. week: string
-2. days: array of 7 day objects with {day, meals{breakfast,lunch,dinner}, calories_estimate}
+2. days: array of 7 day objects with {day, meals{breakfast,lunch,dinner,snack}, calories_estimate}
 3. grocery_list: object with categories as keys and ingredient arrays as values
 4. recipes: object where each meal name is a key with {ingredients: string[], instructions: string, servings: number, calories_per_serving: number}
 5. target_daily_calories: number
 
-CALORIE DISTRIBUTION: Breakfast 25%, Lunch 35%, Dinner 40% of daily calories.
-INGREDIENT OPTIMIZATION: Maximize ingredient overlap - use same proteins, vegetables, and grains across multiple meals to minimize grocery items.
-REQUIRED: Include recipes section with every unique meal. US measurements. JSON only.`;
+CALORIE DISTRIBUTION: Breakfast 20%, Lunch 30%, Dinner 35%, Snack 15% of daily calories.
+
+MEAL VARIETY STRUCTURE:
+- Breakfasts: Create 2-3 different recipes that alternate throughout the week
+- Lunches: Create 2-3 different recipes that alternate throughout the week
+- Dinners: Create 2-3 different recipes that alternate throughout the week
+- Snacks: Create 3-4 simple options that rotate daily
+
+BATCH COOKING OPTIMIZATION:
+- Each recipe should yield 3-4 servings for multiple days
+- Plan meals to require cooking only 2-3 times per week maximum
+- Choose recipes that store and reheat well (grain bowls, stir-fries, soups)
+- Rotate meals every 2-3 days for variety while maintaining efficiency
+
+ROTATION STRATEGY EXAMPLE:
+- Lunch A: Mon, Wed, Fri (3 portions)
+- Lunch B: Tue, Thu (2 portions)
+- Lunch C: Sat, Sun (2 portions)
+
+FLAVOR DIVERSITY: Use complementary flavors and cooking methods across recipes. Avoid repetitive cuisines.
+
+SNACK REQUIREMENTS: Include simple 200-300 calorie snacks (fruit, nuts, yogurt, etc.)
+
+INGREDIENT OPTIMIZATION: Maximize ingredient overlap to minimize grocery items while maintaining variety.
+REQUIRED: Include recipes section with every unique meal AND snack. US measurements. JSON only.`;
         const user = {
             known_meals: knownMeals,
             preferences,

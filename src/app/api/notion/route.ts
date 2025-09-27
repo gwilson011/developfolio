@@ -49,18 +49,19 @@ export async function POST(req: NextRequest) {
         // 2. Extract unique meals and create database entries
         const uniqueMeals = new Set<string>();
         for (const day of plan.days || []) {
-            for (const mealType of ['breakfast', 'lunch', 'dinner']) {
+            for (const mealType of ["breakfast", "lunch", "dinner", "snack"]) {
                 const mealName = day.meals?.[mealType]?.trim();
                 if (mealName) uniqueMeals.add(mealName);
             }
         }
 
-        const weekStartDate = weekStart || new Date().toISOString().slice(0, 10);
+        const weekStartDate =
+            weekStart || new Date().toISOString().slice(0, 10);
 
-        const mealPromises = Array.from(uniqueMeals).map(mealName => {
+        const mealPromises = Array.from(uniqueMeals).map((mealName) => {
             const recipe = plan.recipes?.[mealName];
-            const ingredients = recipe?.ingredients?.join(', ') || '';
-            const instructions = recipe?.instructions || '';
+            const ingredients = recipe?.ingredients?.join(", ") || "";
+            const instructions = recipe?.instructions || "";
 
             return notion.pages.create({
                 parent: { database_id: mealsDbId },
@@ -72,38 +73,62 @@ export async function POST(req: NextRequest) {
                     Notes: textProp(instructions),
                     Approved: checkboxProp(false),
                     Servings: numberProp(recipe?.servings || 1),
-                    "Calories per Serving": numberProp(recipe?.calories_per_serving || 0),
+                    "Calories per Serving": numberProp(
+                        recipe?.calories_per_serving || 0
+                    ),
                 },
             });
         });
 
+        // Create meal plan properties for each day
+        const planProperties: any = {
+            Name: titleProp(`Meal Plan - Week of ${weekStartDate}`),
+            "Week of": dateProp(weekStartDate),
+            "Daily Calorie Target": numberProp(
+                plan.target_daily_calories || 2000
+            ),
+        };
+
+        // Add JSON for each day's meals
+        for (const day of plan.days || []) {
+            const dayName = day.day;
+            const dayMeals = {
+                breakfast: day.meals?.breakfast || "",
+                lunch: day.meals?.lunch || "",
+                dinner: day.meals?.dinner || "",
+                snack: day.meals?.snack || ""
+            };
+            planProperties[dayName] = textProp(JSON.stringify(dayMeals));
+        }
+
+        // Add grocery list as JSON
+        if (plan.grocery_list) {
+            planProperties["Grocery List"] = textProp(JSON.stringify(plan.grocery_list));
+        }
+
         const planPromise = notion.pages.create({
             parent: { database_id: plansDbId },
-            properties: {
-                Name: titleProp(`Meal Plan - Week of ${weekStartDate}`),
-                "Week of": dateProp(weekStartDate),
-                "Plan JSON": textProp(JSON.stringify(plan)),
-                "Grocery List": textProp(groceryItems.join('\n')),
-                "Daily Calorie Target": numberProp(plan.target_daily_calories || 2000),
-            },
+            properties: planProperties,
         });
 
         // Execute all database operations
         const [mealResults, planResult] = await Promise.allSettled([
             Promise.allSettled(mealPromises),
-            planPromise
+            planPromise,
         ]);
 
-        const successfulMeals = mealResults.status === 'fulfilled'
-            ? mealResults.value.filter(r => r.status === 'fulfilled').length
-            : 0;
+        const successfulMeals =
+            mealResults.status === "fulfilled"
+                ? mealResults.value.filter((r) => r.status === "fulfilled")
+                      .length
+                : 0;
 
         return NextResponse.json({
             ok: true,
             groceryAdded: groceryItems.length,
             mealsAdded: successfulMeals,
             mealsTotal: uniqueMeals.size,
-            planAdded: planResult.status === 'fulfilled' ? 1 : 0,
+            planAdded: planResult.status === "fulfilled" ? 1 : 0,
             sectionId: parentId,
             sectionTitle: sectionTitle || "(auto today)",
         });
