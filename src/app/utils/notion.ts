@@ -140,6 +140,11 @@ export function tagsProp(tags: string[]) {
     return { multi_select: tags.map(name => ({ name })) };
 }
 
+/** Create select property for Notion (single choice) */
+export function selectProp(value: string) {
+    return { select: { name: value } };
+}
+
 /** Create checkbox property for Notion */
 export function checkboxProp(checked: boolean) {
     return { checkbox: checked };

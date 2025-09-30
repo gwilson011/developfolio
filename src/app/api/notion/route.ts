@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
+import { Client } from "@notionhq/client";
 import { notion } from "@/app/utils/notion";
+export const dynamic = "force-dynamic";
 import {
     createToggleHeadingAtTop,
     appendTodos,
@@ -46,22 +48,31 @@ export async function POST(req: NextRequest) {
             await appendTodos(parentId, groceryItems);
         }
 
-        // 2. Extract unique meals and create database entries
-        const uniqueMeals = new Set<string>();
+        // 2. Extract unique meals and track their meal types
+        const mealTypes = new Map<string, Set<string>>();
         for (const day of plan.days || []) {
             for (const mealType of ["breakfast", "lunch", "dinner", "snack"]) {
                 const mealName = day.meals?.[mealType]?.trim();
-                if (mealName) uniqueMeals.add(mealName);
+                if (mealName && mealName !== "Eating Out") {
+                    if (!mealTypes.has(mealName)) {
+                        mealTypes.set(mealName, new Set());
+                    }
+                    mealTypes.get(mealName)!.add(mealType);
+                }
             }
         }
+
+        // 3. Get all unique meals (excluding "Eating Out")
+        const newMeals = Array.from(mealTypes.keys());
 
         const weekStartDate =
             weekStart || new Date().toISOString().slice(0, 10);
 
-        const mealPromises = Array.from(uniqueMeals).map((mealName) => {
+        const mealPromises = newMeals.map((mealName) => {
             const recipe = plan.recipes?.[mealName];
             const ingredients = recipe?.ingredients?.join(", ") || "";
             const instructions = recipe?.instructions || "";
+            const mealTypesList = Array.from(mealTypes.get(mealName) || []);
 
             return notion.pages.create({
                 parent: { database_id: mealsDbId },
@@ -69,6 +80,7 @@ export async function POST(req: NextRequest) {
                     Name: titleProp(mealName),
                     Ingredients: textProp(ingredients),
                     URL: urlProp(null),
+                    "Meal Type": tagsProp(mealTypesList),
                     Tags: tagsProp(["generated"]),
                     Notes: textProp(instructions),
                     Approved: checkboxProp(false),
@@ -127,7 +139,8 @@ export async function POST(req: NextRequest) {
             ok: true,
             groceryAdded: groceryItems.length,
             mealsAdded: successfulMeals,
-            mealsTotal: uniqueMeals.size,
+            mealsTotal: mealTypes.size,
+            mealsSkipped: mealTypes.size - newMeals.length,
             planAdded: planResult.status === "fulfilled" ? 1 : 0,
             sectionId: parentId,
             sectionTitle: sectionTitle || "(auto today)",

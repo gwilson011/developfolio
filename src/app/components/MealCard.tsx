@@ -7,6 +7,10 @@ interface MealCardProps {
     instructions: string;
     calories: number;
     servings: number;
+    mealType?: string[];
+    tags?: string[];
+    isSelected?: boolean;
+    onSelect?: () => void;
 }
 
 const MealCard = ({
@@ -15,30 +19,86 @@ const MealCard = ({
     instructions,
     calories,
     servings,
+    mealType = [],
+    tags = [],
+    isSelected = false,
+    onSelect,
 }: MealCardProps) => {
     const [isExpanded, setIsExpanded] = useState(false);
+    const isEatingOut = title === "Eating Out";
+    const hasRecipeData = calories > 0 && ingredients.length > 0;
 
     return (
-        <div className="border-default p-4 rounded text-black space-y-3">
+        <div
+            className={`border-default p-4 rounded space-y-3 cursor-pointer ${
+                isSelected
+                    ? "bg-black text-white"
+                    : isEatingOut
+                    ? "bg-gray-100 text-gray-600"
+                    : "bg-white text-black"
+            }`}
+            onClick={onSelect}
+        >
             <div className="flex flex-col gap-1">
                 <span className="font-tango text-lg">{title}</span>
-                <span className="font-louis text-xs text-gray-600">
-                    {calories} cal • {servings} serving
-                    {servings !== 1 ? "s" : ""}
-                    <span
-                        className="font-louis text-xs text-black cursor-pointer flex items-center justify-end gap-1"
-                        onClick={() => setIsExpanded(!isExpanded)}
-                    >
-                        <span>{isExpanded ? "▲" : "▼"}</span>
+                {hasRecipeData ? (
+                    <span className={`font-louis text-xs ${isSelected ? "text-gray-300" : isEatingOut ? "text-gray-500" : "text-gray-600"}`}>
+                        {calories} cal • {servings} serving
+                        {servings !== 1 ? "s" : ""}
+                        <span
+                            className={`font-louis text-xs cursor-pointer flex items-center justify-end gap-1 ${
+                                isSelected ? "text-white" : "text-black"
+                            }`}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setIsExpanded(!isExpanded);
+                            }}
+                        >
+                            <span>{isExpanded ? "▲" : "▼"}</span>
+                        </span>
                     </span>
-                </span>
+                ) : (
+                    <span className={`font-louis text-xs ${isSelected ? "text-gray-300" : isEatingOut ? "text-gray-500" : "text-gray-600"}`}>
+                        {isEatingOut ? "Dining out" : "No recipe data"}
+                    </span>
+                )}
             </div>
 
-            {isExpanded && (
+            {/* Tags Section */}
+            {(mealType.length > 0 || tags.length > 0) && (
+                <div className="flex flex-wrap gap-1">
+                    {mealType.map((type, index) => (
+                        <span
+                            key={index}
+                            className={`px-2 py-1 rounded text-xs font-louis ${
+                                isSelected
+                                    ? "bg-gray-600 text-white"
+                                    : "bg-gray-800 text-white"
+                            }`}
+                        >
+                            {type}
+                        </span>
+                    ))}
+                    {tags.map((tag, index) => (
+                        <span
+                            key={index}
+                            className={`px-2 py-1 rounded text-xs font-louis ${
+                                isSelected
+                                    ? "bg-gray-400 text-black"
+                                    : "bg-gray-200 text-gray-800"
+                            }`}
+                        >
+                            {tag}
+                        </span>
+                    ))}
+                </div>
+            )}
+
+            {isExpanded && hasRecipeData && (
                 <div className="space-y-2">
                     <div>
                         <span className="font-tango text-sm">Ingredients:</span>
-                        <ul className="font-louis text-sm text-gray-700 mt-1">
+                        <ul className={`font-louis text-sm mt-1 ${isSelected ? "text-gray-300" : "text-gray-700"}`}>
                             {ingredients.map((ingredient, index) => (
                                 <li key={index}>• {ingredient}</li>
                             ))}
@@ -49,7 +109,7 @@ const MealCard = ({
                         <span className="font-tango text-sm">
                             Instructions:
                         </span>
-                        <p className="font-louis text-sm text-gray-700">
+                        <p className={`font-louis text-sm ${isSelected ? "text-gray-300" : "text-gray-700"}`}>
                             {instructions}
                         </p>
                     </div>

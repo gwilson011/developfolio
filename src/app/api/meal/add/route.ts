@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Client as Notion } from "@notionhq/client";
+export const dynamic = "force-dynamic";
 const notion = new Notion({ auth: process.env.NOTION_TOKEN });
 
 export async function POST(req: NextRequest) {
