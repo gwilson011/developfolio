@@ -9,6 +9,7 @@ import {
     smartRoundForShopping
 } from './ingredients';
 import { INGREDIENT_CATEGORIES } from '@/config/meal-plan';
+import { RecipeData } from '@/app/types/recipe';
 
 /**
  * Conversion map from cooking ingredients to shopping ingredients
@@ -77,14 +78,14 @@ function convertToShoppingIngredient(ingredient: string): { ingredient: string; 
 /**
  * Generate consolidated grocery list from recipes
  */
-export function generateGroceryList(recipes: any): GroceryList {
-    const consolidated: any = {};
+export function generateGroceryList(recipes: Record<string, RecipeData>): GroceryList {
+    const consolidated: Record<string, Record<string, { quantity: number; unit: string; name: string }>> = {};
 
     // First pass: collect all ingredients by category
-    for (const [recipeName, recipe] of Object.entries(recipes)) {
-        if (!(recipe as any).ingredients || !Array.isArray((recipe as any).ingredients)) continue;
+    for (const [, recipe] of Object.entries(recipes)) {
+        if (!recipe.ingredients || !Array.isArray(recipe.ingredients)) continue;
 
-        for (const ingredient of (recipe as any).ingredients) {
+        for (const ingredient of recipe.ingredients) {
             // Convert cooking ingredient to shopping ingredient
             const { ingredient: shoppingIngredient, converted } = convertToShoppingIngredient(ingredient);
 
@@ -128,7 +129,7 @@ export function generateGroceryList(recipes: any): GroceryList {
     // Second pass: format as strings with normalized units
     const result: GroceryList = {};
     for (const [category, items] of Object.entries(consolidated)) {
-        const formattedItems = Object.values(items as any).map((item: any) => {
+        const formattedItems = Object.values(items).map((item) => {
             const normalized = normalizeUnits(item.quantity, item.unit);
             return formatIngredient(normalized.quantity, normalized.unit, item.name);
         });
@@ -160,7 +161,7 @@ function categorizeIngredient(ingredient: string): string {
 /**
  * Validate that grocery list contains all recipe ingredients
  */
-export function validateGroceryIngredients(recipes: any, groceryList: GroceryList): {
+export function validateGroceryIngredients(recipes: Record<string, RecipeData> | undefined, groceryList: GroceryList | undefined): {
     allRecipeIngredients: string[];
     groceryIngredients: string[];
     missingIngredients: string[];
@@ -168,7 +169,7 @@ export function validateGroceryIngredients(recipes: any, groceryList: GroceryLis
     // Extract all recipe ingredients
     const allRecipeIngredients = new Set<string>();
     if (recipes && typeof recipes === 'object') {
-        Object.values(recipes).forEach((recipe: any) => {
+        Object.values(recipes).forEach((recipe) => {
             if (recipe.ingredients && Array.isArray(recipe.ingredients)) {
                 recipe.ingredients.forEach((ingredient: string) => {
                     const normalized = normalizeIngredientName(ingredient);

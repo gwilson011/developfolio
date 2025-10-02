@@ -131,6 +131,7 @@ export async function POST(req: NextRequest) {
 
         const planPromise = notion.pages.create({
             parent: { database_id: plansDbId },
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             properties: planProperties as any,
         });
 

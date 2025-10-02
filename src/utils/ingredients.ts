@@ -227,8 +227,8 @@ export function formatIngredient(quantity: number, unit: string, name: string): 
 /**
  * Apply smart rounding for grocery shopping quantities
  */
-export function smartRoundForShopping(quantity: number, unit: string, name: string): NormalizedQuantity {
-    const lowerName = name.toLowerCase();
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function smartRoundForShopping(quantity: number, unit: string, _name: string): NormalizedQuantity {
     const lowerUnit = unit.toLowerCase();
 
     // For discrete countable items (no unit or "item" unit), round up to whole numbers

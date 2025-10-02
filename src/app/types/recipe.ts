@@ -28,10 +28,14 @@ export interface RecipeForNotion {
     instructions: string;
     servings: number;
     caloriesPerServing: number;
+    proteinPerServing?: number;
+    carbsPerServing?: number;
+    fatPerServing?: number;
+    fiberPerServing?: number;
     mealType: string[];
     tags: string[];
     notes: string;
-    url: string;
+    url?: string;
     approved: boolean;
 }
 
@@ -126,4 +130,174 @@ export interface MealData {
     fiber: number;
     mealType: string[];
     tags: string[];
+}
+
+// Meal Plan Types
+export interface DayMeal {
+    breakfast?: string;
+    lunch?: string;
+    dinner?: string;
+    snack?: string;
+    [key: string]: string | undefined;
+}
+
+export interface DayPlan {
+    day: string;
+    meals: DayMeal;
+    calories_estimate?: number;
+}
+
+export interface GroceryList {
+    [category: string]: string[];
+}
+
+export interface MealPlan {
+    week: string;
+    target_daily_calories: number;
+    days: DayPlan[];
+    grocery_list: GroceryList;
+    recipes?: Record<string, RecipeData>;
+}
+
+export interface RecipeData {
+    ingredients: string[];
+    instructions: string;
+    servings: number;
+    calories_per_serving: number;
+    protein_per_serving: number;
+    carbs_per_serving: number;
+    fat_per_serving: number;
+    fiber_per_serving: number;
+}
+
+// Notion Plan Page Type
+export interface NotionPlanPage {
+    id: string;
+    parent?: {
+        database_id?: string;
+    };
+    properties: {
+        Name?: {
+            title?: Array<{
+                text?: {
+                    content?: string;
+                };
+            }>;
+        };
+        "Week of"?: {
+            date?: {
+                start?: string;
+            };
+        };
+        "Daily Calorie Target"?: {
+            number?: number;
+        };
+        "Grocery List"?: {
+            rich_text?: Array<{
+                text?: {
+                    content?: string;
+                };
+            }>;
+        };
+        Monday?: {
+            rich_text?: Array<{
+                text?: {
+                    content?: string;
+                };
+            }>;
+        };
+        Tuesday?: {
+            rich_text?: Array<{
+                text?: {
+                    content?: string;
+                };
+            }>;
+        };
+        Wednesday?: {
+            rich_text?: Array<{
+                text?: {
+                    content?: string;
+                };
+            }>;
+        };
+        Thursday?: {
+            rich_text?: Array<{
+                text?: {
+                    content?: string;
+                };
+            }>;
+        };
+        Friday?: {
+            rich_text?: Array<{
+                text?: {
+                    content?: string;
+                };
+            }>;
+        };
+        Saturday?: {
+            rich_text?: Array<{
+                text?: {
+                    content?: string;
+                };
+            }>;
+        };
+        Sunday?: {
+            rich_text?: Array<{
+                text?: {
+                    content?: string;
+                };
+            }>;
+        };
+        [key: string]: unknown;
+    };
+}
+
+// Generic API Response Type
+export interface APIResponse<T = unknown> {
+    ok: boolean;
+    data?: T;
+    error?: string;
+}
+
+// Plan API Response Types
+export interface PlanSummary {
+    name: string;
+    week: string;
+    dailyCalories: number;
+    ingredientCount: number;
+    uniqueMealCount: number;
+}
+
+export interface PlanGetResponse extends APIResponse<MealPlan> {
+    plan?: MealPlan;
+    plans?: PlanSummary[];
+}
+
+// Nutrition Analysis Types
+export interface NutritionTotals {
+    calories: number;
+    protein: number;
+    carbs: number;
+    fat: number;
+    fiber: number;
+}
+
+export interface NutritionValidation {
+    needsAdjustment: boolean;
+    nutritionGaps?: string[];
+    adjustmentSuggestions?: string[];
+    error?: string;
+}
+
+export interface NutritionValidationResult {
+    calculatedTotals: NutritionTotals;
+    validation: NutritionValidation;
+}
+
+export interface NutritionAdjustmentResult {
+    success: boolean;
+    plan?: Partial<MealPlan>;
+    adjustmentsMade?: string[];
+    error?: string;
+    details?: unknown;
 }

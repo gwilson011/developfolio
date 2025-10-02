@@ -63,8 +63,8 @@ export async function POST(req: NextRequest) {
                     if (extractedText && extractedText.trim()) {
                         extractedTexts.push(extractedText.trim());
                     }
-                } catch (imageError: any) {
-                    console.warn(`Failed to process image ${imageUrl}:`, imageError.message);
+                } catch (imageError: unknown) {
+                    console.warn(`Failed to process image ${imageUrl}:`, imageError instanceof Error ? imageError.message : 'Unknown error');
                     // Continue with other images even if one fails
                 }
             }
@@ -75,18 +75,19 @@ export async function POST(req: NextRequest) {
                 combinedText: extractedTexts.join("\n\n")
             });
 
-        } catch (ocrError: any) {
-            console.error("OCR processing failed:", ocrError.message);
+        } catch (ocrError: unknown) {
+            console.error("OCR processing failed:", ocrError instanceof Error ? ocrError.message : 'Unknown error');
             return NextResponse.json(
                 { ok: false, error: "Failed to extract text from images" },
                 { status: 500 }
             );
         }
 
-    } catch (error: any) {
-        console.error("[/api/ocr/extract] error:", error?.message);
+    } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        console.error("[/api/ocr/extract] error:", errorMessage);
         return NextResponse.json(
-            { ok: false, error: error?.message ?? "Unknown error" },
+            { ok: false, error: errorMessage },
             { status: 500 }
         );
     }

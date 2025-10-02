@@ -73,16 +73,17 @@ export async function POST(req: NextRequest) {
                 recipe: parsedRecipe
             });
 
-        } catch (aiError: any) {
-            console.error("AI parsing failed:", aiError.message);
+        } catch (aiError: unknown) {
+            console.error("AI parsing failed:", aiError instanceof Error ? aiError.message : 'Unknown error');
             // Fallback to mock data if AI fails
             return getMockParsedRecipe();
         }
 
-    } catch (error: any) {
-        console.error("[/api/recipe/parse] error:", error?.message);
+    } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        console.error("[/api/recipe/parse] error:", errorMessage);
         return NextResponse.json(
-            { ok: false, error: error?.message ?? "Unknown error" },
+            { ok: false, error: errorMessage },
             { status: 500 }
         );
     }

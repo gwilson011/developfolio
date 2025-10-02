@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { MEAL_PLAN_CONFIG, DEFAULTS } from '../config/meal-plan';
+import { MealData, ParsedRecipeData, PlanSummary, MealPlan } from '@/app/types/recipe';
 
 // Meal planning configuration state
 export interface MealPlanConfig {
@@ -154,11 +155,11 @@ export function useLoadingState() {
 
 // Data state for plans, meals, and recipes
 export interface DataState {
-    plan: any;
-    knownMeals: any[];
-    previousPlans: any[];
+    plan: Partial<MealPlan> | null;
+    knownMeals: MealData[];
+    previousPlans: PlanSummary[];
     selectedKnownMeals: Set<string>;
-    parsedRecipe: any;
+    parsedRecipe: ParsedRecipeData | null;
     uploadedImage: File | null;
     instagramUrl: string;
     prefs: { vegetarian: boolean; dislikes: string };
@@ -186,11 +187,11 @@ export function useDataState() {
         // Keep the data object for grouped access with renamed property
         dataStates: data,
         updateData,
-        setPlan: (plan: any) => updateData({ plan }),
-        setKnownMeals: (meals: any[]) => updateData({ knownMeals: meals }),
-        setPreviousPlans: (plans: any[]) => updateData({ previousPlans: plans }),
+        setPlan: (plan: Partial<MealPlan> | null) => updateData({ plan }),
+        setKnownMeals: (meals: MealData[]) => updateData({ knownMeals: meals }),
+        setPreviousPlans: (plans: PlanSummary[]) => updateData({ previousPlans: plans }),
         setSelectedKnownMeals: (selected: Set<string>) => updateData({ selectedKnownMeals: selected }),
-        setParsedRecipe: (recipe: any) => updateData({ parsedRecipe: recipe }),
+        setParsedRecipe: (recipe: ParsedRecipeData | null) => updateData({ parsedRecipe: recipe }),
         setUploadedImage: (image: File | null) => updateData({ uploadedImage: image }),
         setInstagramUrl: (url: string) => updateData({ instagramUrl: url }),
         setPrefs: (prefs: { vegetarian: boolean; dislikes: string }) => updateData({ prefs }),
@@ -252,7 +253,6 @@ export function useMealPlanningState() {
 // Custom hook for fetching initial data
 export function useInitialData() {
     const { setKnownMeals, setPlan } = useDataState();
-    const { setLoadingKnownMeals } = useLoadingState();
 
     useEffect(() => {
         // Fetch latest plan from Notion

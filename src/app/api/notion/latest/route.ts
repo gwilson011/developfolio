@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { Client } from "@notionhq/client";
+import { NotionPlanPage, NotionPage, RecipeData, MealPlan } from "@/app/types/recipe";
 export const dynamic = "force-dynamic"; // disable caching
 
 export async function GET() {
@@ -23,15 +24,16 @@ export async function GET() {
             page_size: 50,
         });
 
-        let planPages = response.results.filter(
-            (page: any) =>
-                page.parent?.database_id === plansDbId &&
-                page.properties?.["Daily Calorie Target"]
-        );
+        const planPages = response.results.filter(
+            (page) =>
+                page && typeof page === 'object' && 'parent' in page &&
+                (page as NotionPlanPage).parent?.database_id === plansDbId &&
+                (page as NotionPlanPage).properties?.["Daily Calorie Target"]
+        ) as NotionPlanPage[];
 
         if (planPages.length > 1) {
             // Sort by Week of date if available, to get most recent
-            planPages.sort((a: any, b: any) => {
+            planPages.sort((a: NotionPlanPage, b: NotionPlanPage) => {
                 const dateA = a.properties?.["Week of"]?.date?.start;
                 const dateB = b.properties?.["Week of"]?.date?.start;
                 if (dateA && dateB) {
@@ -47,7 +49,7 @@ export async function GET() {
             return NextResponse.json({ ok: false, error: "No plans found" });
         }
 
-        const page = planPages[0] as any;
+        const page = planPages[0];
         const targetCalories =
             page.properties["Daily Calorie Target"]?.number || 2000;
 
@@ -68,7 +70,8 @@ export async function GET() {
 
         for (const dayName of dayNames) {
             const dayField =
-                page.properties[dayName]?.rich_text?.[0]?.text?.content;
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                (page.properties[dayName] as any)?.rich_text?.[0]?.text?.content;
 
             if (dayField) {
                 try {
@@ -86,7 +89,7 @@ export async function GET() {
                             calories_estimate: targetCalories,
                         });
                     }
-                } catch (e) {
+                } catch {
                     // Silently skip invalid JSON
                 }
             }
@@ -95,16 +98,17 @@ export async function GET() {
         // Get grocery list from JSON field
         let groceryList = {};
         const groceryField =
-            page.properties["Grocery List"]?.rich_text?.[0]?.text?.content;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (page.properties["Grocery List"] as any)?.rich_text?.[0]?.text?.content;
         if (groceryField) {
             try {
                 groceryList = JSON.parse(groceryField);
-            } catch (e) {
+            } catch {
                 // Silently skip invalid JSON
             }
         }
 
-        const planJson = {
+        const planJson: Partial<MealPlan> = {
             week: weekOf || new Date().toISOString().slice(0, 10),
             target_daily_calories: targetCalories,
             days: days,
@@ -132,9 +136,9 @@ export async function GET() {
                 page_size: 50,
             });
 
-            const recipes: Record<string, any> = {};
+            const recipes: Record<string, RecipeData> = {};
             for (const result of recipeSearchResults.results) {
-                const page = result as any;
+                const page = result as NotionPage;
                 if (
                     page.parent?.database_id === mealsDbId &&
                     page.properties?.Name?.title?.[0]?.text?.content
@@ -174,7 +178,7 @@ export async function GET() {
             // If no grocery list was stored, reconstruct from recipes
             if (!groceryList || Object.keys(groceryList).length === 0) {
                 const reconstructedGroceryList: Record<string, string[]> = {};
-                for (const [recipeName, recipe] of Object.entries(recipes)) {
+                for (const [, recipe] of Object.entries(recipes)) {
                     if (
                         recipe.ingredients &&
                         Array.isArray(recipe.ingredients)
@@ -261,7 +265,7 @@ export async function GET() {
             }
 
             // Add recipes to the plan
-            (planJson as any).recipes = recipes;
+            planJson.recipes = recipes;
         }
 
         return NextResponse.json({ ok: true, plan: planJson });

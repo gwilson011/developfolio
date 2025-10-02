@@ -20,14 +20,6 @@ function defaultTitle(): string {
     return `haul @${pretty}`;
 }
 
-/** Return the first direct child id under the hard-coded parent, if any. */
-async function getFirstChildId(): Promise<string | undefined> {
-    const resp = await notion.blocks.children.list({
-        block_id: PARENT_ID,
-        page_size: 1,
-    });
-    return (resp.results[0] as any)?.id;
-}
 
 /**
  * List all direct children under a given parent (page or block).
@@ -46,6 +38,7 @@ export async function listAllChildren(
             page_size: 100,
         });
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         for (const b of resp.results as any[]) {
             out.push({ id: b.id, type: b.type });
         }
@@ -60,10 +53,7 @@ export async function listAllChildren(
 export async function createToggleHeadingAtTop(
     title?: string
 ): Promise<string> {
-    const addButton = "a16dc698-e4f4-4f35-aa0e-cc886564ac1e"; //await getFirstChildId(); // if exists, we’ll insert right after it (i.e., position #2)
-    const children = await listAllChildren(
-        "2a1a3899-73b7-407d-b5a8-0cd1e970fffb"
-    );
+    const addButton = "a16dc698-e4f4-4f35-aa0e-cc886564ac1e"; //await getFirstChildId(); // if exists, we'll insert right after it (i.e., position #2)
     //console.log(children); // array of block IDs
     const created = await notion.blocks.children.append({
         block_id: PARENT_ID,
@@ -79,11 +69,14 @@ export async function createToggleHeadingAtTop(
                     ],
                     is_toggleable: true, // 👈 makes it a dropdown
                 },
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             } as any,
         ],
         ...(addButton ? { after: addButton } : {}), // best-effort "top"
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } as any);
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (created.results[0] as any).id as string;
 }
 
@@ -101,7 +94,9 @@ export async function appendTodos(parentBlockId: string, items: string[]) {
     for (let i = 0; i < children.length; i += 90) {
         await notion.blocks.children.append({
             block_id: parentBlockId,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             children: children.slice(i, i + 90) as any,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } as any);
     }
 }

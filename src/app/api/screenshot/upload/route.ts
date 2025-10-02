@@ -1,6 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { writeFile } from "fs/promises";
-import { join } from "path";
 
 export const dynamic = "force-dynamic"; // disable caching
 
@@ -51,18 +49,19 @@ export async function POST(req: NextRequest) {
                 type: file.type
             });
 
-        } catch (error: any) {
-            console.error("File processing error:", error.message);
+        } catch (error: unknown) {
+            console.error("File processing error:", error instanceof Error ? error.message : 'Unknown error');
             return NextResponse.json(
                 { ok: false, error: "Failed to process image file" },
                 { status: 500 }
             );
         }
 
-    } catch (error: any) {
-        console.error("[/api/screenshot/upload] error:", error?.message);
+    } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        console.error("[/api/screenshot/upload] error:", errorMessage);
         return NextResponse.json(
-            { ok: false, error: error?.message ?? "Unknown error" },
+            { ok: false, error: errorMessage },
             { status: 500 }
         );
     }

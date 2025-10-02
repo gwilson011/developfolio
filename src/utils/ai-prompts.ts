@@ -1,10 +1,11 @@
 // Centralized AI prompt builders for meal planning system
 
 import { MEAL_PLAN_CONFIG } from '@/config/meal-plan';
+import { MealData, MealPlan, NutritionValidationResult } from '@/app/types/recipe';
 
 export interface MealPlanPromptContext {
     dailyCalories: number;
-    knownMealsFromDB: any[];
+    knownMealsFromDB: MealData[];
     dayConstraints: string[];
     selectedKnownMeals: string[];
     instructions?: string;
@@ -25,12 +26,12 @@ export interface ValidationPromptContext {
         fat: number;
         fiber: number;
     };
-    plan: any;
+    plan: Partial<MealPlan>;
 }
 
 export interface AdjustmentPromptContext {
-    validationResult: any;
-    plan: any;
+    validationResult: NutritionValidationResult;
+    plan: Partial<MealPlan>;
 }
 
 /**
@@ -44,7 +45,7 @@ export function buildMealPlanSystemPrompt(context: MealPlanPromptContext): strin
         `\n\nEXISTING RECIPES DATABASE - USE THESE WHEN AVAILABLE:
         ${knownMealsFromDB.map(meal =>
             `${meal.name}: ${meal.ingredients.join(', ')}
-             (${meal.servings} servings, ${meal.calories_per_serving}cal, ${meal.protein_per_serving}g protein, ${meal.carbs_per_serving}g carbs, ${meal.fat_per_serving}g fat, ${meal.fiber_per_serving}g fiber)
+             (${meal.servings} servings, ${meal.calories}cal, ${meal.protein}g protein, ${meal.carbs}g carbs, ${meal.fat}g fat, ${meal.fiber}g fiber)
              Instructions: ${meal.instructions}`
         ).join('\n\n')}
         RECIPE USAGE INSTRUCTIONS:
@@ -183,7 +184,7 @@ export function buildNutritionValidationPrompt(context: ValidationPromptContext)
     - Fiber: ${targets.fiber}g
 
     RECIPES TO VALIDATE:
-    ${Object.entries(plan.recipes || {}).map(([name, recipe]: [string, any]) =>
+    ${Object.entries(plan.recipes || {}).map(([name, recipe]) =>
         `${name}: ${recipe.ingredients?.join(', ')}
          Claimed: ${recipe.servings} servings, ${recipe.calories_per_serving}cal, ${recipe.protein_per_serving}g protein, ${recipe.carbs_per_serving}g carbs, ${recipe.fat_per_serving}g fat, ${recipe.fiber_per_serving}g fiber`
     ).join('\n')}
@@ -218,10 +219,10 @@ export function buildNutritionAdjustmentPrompt(context: AdjustmentPromptContext)
     TASK: Modify this meal plan to fix nutrition gaps while maintaining recipe coherence.
 
     CURRENT NUTRITION GAPS:
-    ${validationResult.nutritionGaps?.join('\n    ') || 'None specified'}
+    ${validationResult.validation.nutritionGaps?.join('\n    ') || 'None specified'}
 
     SUGGESTED ADJUSTMENTS:
-    ${validationResult.adjustmentSuggestions?.join('\n    ') || 'None specified'}
+    ${validationResult.validation.adjustmentSuggestions?.join('\n    ') || 'None specified'}
 
     CURRENT MEAL PLAN:
     ${JSON.stringify(plan, null, 2)}
@@ -267,15 +268,25 @@ export const AI_SYSTEM_MESSAGES = {
 /**
  * Build user request context for meal planning
  */
-export function buildMealPlanUserContext(requestData: any): any {
+export function buildMealPlanUserContext(requestData: unknown): {
+    known_meals: unknown[];
+    preferences: unknown;
+    week: unknown;
+    days_out_of_town: unknown[];
+    meals_out: unknown[];
+    additional_instructions: unknown;
+    selected_known_meals: unknown[];
+    output_format: string;
+} {
+    const data = requestData as Record<string, unknown>;
     return {
-        known_meals: requestData.knownMeals || [],
-        preferences: requestData.preferences,
-        week: requestData.weekStartISO,
-        days_out_of_town: requestData.daysOutOfTown || [],
-        meals_out: requestData.mealsOut || [],
-        additional_instructions: requestData.instructions,
-        selected_known_meals: requestData.selectedKnownMeals || [],
+        known_meals: (data.knownMeals as unknown[]) || [],
+        preferences: data.preferences,
+        week: data.weekStartISO,
+        days_out_of_town: (data.daysOutOfTown as unknown[]) || [],
+        meals_out: (data.mealsOut as unknown[]) || [],
+        additional_instructions: data.instructions,
+        selected_known_meals: (data.selectedKnownMeals as unknown[]) || [],
         output_format: "JSON only",
     };
 }

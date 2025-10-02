@@ -4,7 +4,7 @@ import MealCard from "../components/MealCard";
 import PlanCard from "../components/PlanCard";
 import RecipePreview from "../components/RecipePreview";
 import Image from "next/image";
-import { RecipeForNotion } from "@/app/types/recipe";
+import { RecipeForNotion, MealData, MealPlan, DayPlan, PlanSummary } from "@/app/types/recipe";
 import { useMealPlanningState } from "../../hooks/useMealPlanState";
 
 // const DAYS = ["M", "T", "W", "TH", "F", "S", "S"]; // Unused
@@ -129,7 +129,7 @@ export default function Home() {
                 }
             })
             .catch(() => {});
-    }, []);
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     async function fetchKnownMeals() {
         setLoadingKnownMeals(true);
@@ -138,9 +138,9 @@ export default function Home() {
             const data = await res.json();
             if (data.ok) {
                 // Filter unique meals by name
-                const uniqueMeals = data.meals.filter(
-                    (meal: unknown, index: number, array: unknown[]) =>
-                        array.findIndex((m: unknown) => (m as any).name === (meal as any).name) ===
+                const uniqueMeals = (data.meals as MealData[]).filter(
+                    (meal: MealData, index: number, array: MealData[]) =>
+                        array.findIndex((m: MealData) => m.name === meal.name) ===
                         index
                 );
                 setKnownMeals(uniqueMeals);
@@ -155,7 +155,7 @@ export default function Home() {
         if (selectKnownMeals && knownMeals.length === 0) {
             fetchKnownMeals();
         }
-    }, [selectKnownMeals]);
+    }, [selectKnownMeals]); // eslint-disable-line react-hooks/exhaustive-deps
 
     async function fetchPreviousPlans() {
         setLoadingPreviousPlans(true);
@@ -173,14 +173,14 @@ export default function Home() {
 
     useEffect(() => {
         fetchPreviousPlans();
-    }, []);
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     // Auto-enable new plan mode when no previous plans exist
     useEffect(() => {
         if (!loadingPreviousPlans && previousPlans.length === 0 && !plan) {
             setNewPlan(true);
         }
-    }, [loadingPreviousPlans, previousPlans.length, plan]);
+    }, [loadingPreviousPlans, previousPlans.length, plan]); // eslint-disable-line react-hooks/exhaustive-deps
 
     function handleMealSelection(mealName: string) {
         const newSet = new Set<string>(selectedKnownMeals);
@@ -194,11 +194,11 @@ export default function Home() {
 
     // Get unique tags from all meals for dropdown
     const availableTags = Array.from(
-        new Set(knownMeals.flatMap((meal: any) => meal.tags || []))
+        new Set(knownMeals.flatMap((meal: MealData) => meal.tags || []))
     );
 
     // Filter meals based on search and filter criteria
-    const filteredMeals = knownMeals.filter((meal: any) => {
+    const filteredMeals = knownMeals.filter((meal: MealData) => {
         // Search filter (name and ingredients)
         const searchMatch =
             !searchTerm ||
@@ -265,7 +265,7 @@ export default function Home() {
             }
 
             // Map the generic API response days to actual day names
-            data.plan.days = data.plan.days.map((day: any, index: number) => ({
+            data.plan.days = data.plan.days.map((day: DayPlan, index: number) => ({
                 ...day,
                 day: dayNames[index],
             }));
@@ -276,7 +276,7 @@ export default function Home() {
         setNewPlan(false);
     }
 
-    function updatePlanDates(plan: any, newStartDate: Date) {
+    function updatePlanDates(plan: Partial<MealPlan>, newStartDate: Date) {
         const weekStartISO = newStartDate.toISOString().slice(0, 10);
 
         // Generate day names for new start date (reuse existing logic)
@@ -292,7 +292,7 @@ export default function Home() {
         return {
             ...plan,
             week: weekStartISO,
-            days: plan.days.map((day: any, index: number) => ({
+            days: plan.days?.map((day: DayPlan, index: number) => ({
                 ...day,
                 day: dayNames[index],
             })),
@@ -694,11 +694,6 @@ export default function Home() {
                             {eatOut > 0 && (
                                 <div className="text-black font-pixel text-xs flex flex-col gap-2 justify-left w-full">
                                     {(() => {
-                                        const startDate = todaySelected
-                                            ? new Date()
-                                            : new Date(weekStart || new Date());
-                                        const dayLabels =
-                                            getDayLabels(startDate);
                                         const fullDayNames = [
                                             "Monday",
                                             "Tuesday",
@@ -999,7 +994,7 @@ export default function Home() {
                             ) : (
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-start overflow-auto max-h-[24rem] border-default rounded p-4">
                                     {filteredMeals.map(
-                                        (meal: any, index: number) => (
+                                        (meal: MealData, index: number) => (
                                             <MealCard
                                                 key={index}
                                                 title={meal.name}
@@ -1063,7 +1058,7 @@ export default function Home() {
                                 GROCERY LIST
                             </h3>
                             <div className="flex gap-3 flex-col md:flex-row">
-                                {Object.entries(plan.grocery_list).map(
+                                {Object.entries(plan.grocery_list || {}).map(
                                     ([category, items]) => (
                                         <div key={category}>
                                             <h4 className="font-pixel text-xs text-black p-4">
@@ -1181,12 +1176,14 @@ export default function Home() {
                                 >
                                     {uploadedImage ? (
                                         <div className="flex flex-col gap-2">
-                                            <img
+                                            <Image
                                                 src={URL.createObjectURL(
                                                     uploadedImage
                                                 )}
                                                 alt="Uploaded screenshot"
                                                 className="max-h-40 mx-auto rounded"
+                                                width={320}
+                                                height={160}
                                             />
                                             <p className="font-louis text-sm text-gray-600">
                                                 {uploadedImage.name}
@@ -1257,7 +1254,7 @@ export default function Home() {
                             SCHEDULE
                         </h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-7 gap-4 items-start">
-                            {plan.days?.map((day: any, index: number) => (
+                            {plan.days?.map((day: DayPlan, index: number) => (
                                 <div key={index} className="space-y-3">
                                     <h3 className="font-pixel text-black text-xs text-center text-lg">
                                         {day.day.toUpperCase()}
@@ -1272,7 +1269,7 @@ export default function Home() {
                                             const mealName =
                                                 day.meals[mealType];
                                             const recipe =
-                                                plan.recipes?.[mealName];
+                                                mealName ? plan.recipes?.[mealName] : undefined;
 
                                             // Handle "Eating Out" and missing recipes gracefully
                                             const isEatingOut =
@@ -1347,7 +1344,7 @@ export default function Home() {
                     </div>
                 ) : (
                     <div className="flex flex-col gap-3">
-                        {previousPlans.map((planItem: any, index: number) => (
+                        {previousPlans.map((planItem: PlanSummary, index: number) => (
                             <PlanCard
                                 key={index}
                                 name={planItem.name}

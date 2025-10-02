@@ -1,26 +1,36 @@
 "use client";
 import React from "react";
 import { useState, useEffect } from "react";
-import Image from "next/image";
-import { Masonry } from "@mui/lab";
-import CircularProgress, {
-    circularProgressClasses,
-} from "@mui/material/CircularProgress";
 import { CircularProgressWithLabel } from "../components/CircularProgressWithLabel";
+
+interface Exercise {
+    name?: string;
+    title?: string;
+    sets_reps?: string;
+    duration?: string;
+    reps?: string;
+    details?: string;
+}
+
+interface ExerciseGroup {
+    name: string;
+    exercises?: Exercise[];
+    supersets?: { pair: string[] }[];
+    options?: string[];
+}
 
 interface WorkoutData {
     workout_plan: {
         [key: string]: {
             title: string;
             duration?: string;
-            exercises: any[];
+            exercises: (Exercise | ExerciseGroup)[];
             notes?: string;
         };
     };
 }
 
 export default function Home() {
-    const [hover, setHover] = useState<string>("");
     const [workoutData, setWorkoutData] = useState<WorkoutData | null>(null);
 
     useEffect(() => {
@@ -94,7 +104,7 @@ export default function Home() {
                                     {todayWorkout.exercises.map(
                                         (exercise, index) => {
                                             const formatExercise = (
-                                                ex: any
+                                                ex: Exercise
                                             ) => {
                                                 let details = "";
                                                 if (ex.sets_reps)
@@ -114,7 +124,7 @@ export default function Home() {
                                             };
 
                                             // Handle nested exercise structures
-                                            if (exercise.exercises) {
+                                            if ('exercises' in exercise && exercise.exercises) {
                                                 return (
                                                     <div
                                                         key={index}
@@ -125,7 +135,7 @@ export default function Home() {
                                                         </div>
                                                         {exercise.exercises.map(
                                                             (
-                                                                subEx: any,
+                                                                subEx: Exercise,
                                                                 subIndex: number
                                                             ) => (
                                                                 <div
@@ -146,7 +156,7 @@ export default function Home() {
                                             }
 
                                             // Handle supersets
-                                            if (exercise.supersets) {
+                                            if ('supersets' in exercise && exercise.supersets) {
                                                 return (
                                                     <div
                                                         key={index}
@@ -157,7 +167,7 @@ export default function Home() {
                                                         </div>
                                                         {exercise.supersets.map(
                                                             (
-                                                                superset: any,
+                                                                superset: { pair: string[] },
                                                                 superIndex: number
                                                             ) => (
                                                                 <div
@@ -178,7 +188,7 @@ export default function Home() {
                                             }
 
                                             // Handle options (like HIIT options)
-                                            if (exercise.options) {
+                                            if ('options' in exercise && exercise.options) {
                                                 return (
                                                     <span
                                                         key={index}

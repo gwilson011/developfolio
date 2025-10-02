@@ -7,21 +7,21 @@ export interface APIError {
     message: string;
     status: number;
     context?: string;
-    details?: any;
+    details?: unknown;
 }
 
 export interface SafeOperationResult<T> {
     success: boolean;
     data?: T;
     error?: string;
-    details?: any;
+    details?: unknown;
 }
 
 /**
  * Standardized API error handler for consistent error responses
  */
 export function handleAPIError(
-    error: any,
+    error: unknown,
     context: string,
     fallbackMessage: string = "An unexpected error occurred"
 ): NextResponse {
@@ -40,28 +40,32 @@ export function handleAPIError(
         );
     }
 
-    if (error?.response?.status) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const errorWithResponse = error as any;
+    if (errorWithResponse?.response?.status) {
         // OpenAI API errors
         return NextResponse.json(
             {
                 ok: false,
                 error: "External API error",
                 context,
-                details: error.response.data || error.message
+                details: errorWithResponse.response.data || errorWithResponse.message
             },
-            { status: error.response.status >= 500 ? 503 : 400 }
+            { status: errorWithResponse.response.status >= 500 ? 503 : 400 }
         );
     }
 
-    if (error?.status) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const errorWithStatus = error as any;
+    if (errorWithStatus?.status) {
         // Custom API errors
         return NextResponse.json(
             {
                 ok: false,
-                error: error.message || fallbackMessage,
+                error: errorWithStatus.message || fallbackMessage,
                 context
             },
-            { status: error.status }
+            { status: errorWithStatus.status }
         );
     }
 
@@ -71,7 +75,7 @@ export function handleAPIError(
             ok: false,
             error: fallbackMessage,
             context,
-            details: process.env.NODE_ENV === 'development' ? error.message : undefined
+            details: process.env.NODE_ENV === 'development' ? (error instanceof Error ? error.message : String(error)) : undefined
         },
         { status: 500 }
     );
@@ -155,7 +159,7 @@ export function validateEnvironment(
  * Validates request parameters against constraints from config
  */
 export function validateCalories(
-    calories: any,
+    calories: unknown,
     context: string
 ): NextResponse | null {
     if (!calories || typeof calories !== "number") {
@@ -202,7 +206,7 @@ export async function withRetry<T>(
     maxAttempts: number = MEAL_PLAN_CONFIG.API.retry_attempts,
     context: string = "operation"
 ): Promise<T> {
-    let lastError: any;
+    let lastError: unknown;
 
     for (let attempt = 1; attempt <= maxAttempts; attempt++) {
         try {

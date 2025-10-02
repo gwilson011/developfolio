@@ -4,6 +4,7 @@ import { scaleIngredient } from "@/utils/ingredients";
 import { generateGroceryList, validateGroceryIngredients } from "@/utils/grocery";
 import { Client } from "@notionhq/client";
 import { MEAL_PLAN_CONFIG } from "@/config/meal-plan";
+import { NotionPage, MealData, RecipeData, MealPlan, NutritionValidationResult, NutritionAdjustmentResult } from "@/app/types/recipe";
 import {
     safeAsyncOperation,
     validateEnvironment
@@ -43,23 +44,26 @@ async function fetchKnownMeals() {
                 typeof page.parent === 'object' && 'database_id' in page.parent &&
                 page.parent.database_id === mealsDbId)
             )
-            .map((page: Record<string, unknown>) => ({
-                name: (page.properties as any)?.Name?.title?.[0]?.text?.content || "Untitled",
-                ingredients:
-                    (page.properties as any)?.Ingredients?.rich_text?.[0]?.text?.content?.split(
-                        ", "
-                    ) || [],
-                instructions:
-                    (page.properties as any)?.Notes?.rich_text?.[0]?.text?.content || "",
-                servings: (page.properties as any)?.Servings?.number || 1,
-                calories_per_serving: (page.properties as any)?.["Calories per Serving"]?.number || 0,
-                protein_per_serving: (page.properties as any)?.["Protein per Serving"]?.number || 0,
-                carbs_per_serving: (page.properties as any)?.["Carbs per Serving"]?.number || 0,
-                fat_per_serving: (page.properties as any)?.["Fat per Serving"]?.number || 0,
-                fiber_per_serving: (page.properties as any)?.["Fiber per Serving"]?.number || 0,
-                mealType: (page.properties as any)?.["Meal Type"]?.multi_select?.map((type: any) => type.name) || [],
-                tags: (page.properties as any)?.Tags?.multi_select?.map((tag: any) => tag.name) || [],
-            }));
+            .map((page): MealData => {
+                const notionPage = page as NotionPage;
+                return {
+                    name: notionPage.properties?.Name?.title?.[0]?.text?.content || "Untitled",
+                    ingredients:
+                        notionPage.properties?.Ingredients?.rich_text?.[0]?.text?.content?.split(
+                            ", "
+                        ) || [],
+                    instructions:
+                        notionPage.properties?.Notes?.rich_text?.[0]?.text?.content || "",
+                    calories: notionPage.properties?.["Calories per Serving"]?.number || 0,
+                    servings: notionPage.properties?.Servings?.number || 1,
+                    protein: notionPage.properties?.["Protein per Serving"]?.number || 0,
+                    carbs: notionPage.properties?.["Carbs per Serving"]?.number || 0,
+                    fat: notionPage.properties?.["Fat per Serving"]?.number || 0,
+                    fiber: notionPage.properties?.["Fiber per Serving"]?.number || 0,
+                    mealType: notionPage.properties?.["Meal Type"]?.multi_select?.map((type) => type.name) || [],
+                    tags: notionPage.properties?.Tags?.multi_select?.map((tag) => tag.name) || [],
+                };
+            });
 
         console.log(`[fetchKnownMeals] Loaded ${meals.length} known meals from database`);
         return meals;
@@ -68,10 +72,10 @@ async function fetchKnownMeals() {
     return result.data || [];
 }
 
-function createRecipeLookup(knownMeals: unknown[]): { [key: string]: unknown } {
-    const lookup: { [key: string]: unknown } = {};
+function createRecipeLookup(knownMeals: MealData[]): { [key: string]: MealData } {
+    const lookup: { [key: string]: MealData } = {};
 
-    for (const meal of knownMeals as any[]) {
+    for (const meal of knownMeals) {
         // Store by exact name
         lookup[meal.name] = meal;
 
@@ -86,7 +90,7 @@ function createRecipeLookup(knownMeals: unknown[]): { [key: string]: unknown } {
     return lookup;
 }
 
-function enhanceWithKnownRecipes(plan: unknown, recipeLookup: { [key: string]: unknown }): unknown {
+function enhanceWithKnownRecipes(plan: Partial<MealPlan>, recipeLookup: { [key: string]: MealData }): Partial<MealPlan> {
     const enhancedPlan = JSON.parse(JSON.stringify(plan)); // Deep copy
     let enhancedCount = 0;
     let totalMealsChecked = 0;
@@ -120,15 +124,18 @@ function enhanceWithKnownRecipes(plan: unknown, recipeLookup: { [key: string]: u
 
         if (knownRecipe) {
             // Replace AI-generated recipe with database recipe
+            if (!enhancedPlan.recipes) {
+                enhancedPlan.recipes = {};
+            }
             enhancedPlan.recipes[mealName] = {
-                ingredients: (knownRecipe as any).ingredients,
-                instructions: (knownRecipe as any).instructions,
-                servings: (knownRecipe as any).servings,
-                calories_per_serving: (knownRecipe as any).calories_per_serving,
-                protein_per_serving: (knownRecipe as any).protein_per_serving,
-                carbs_per_serving: (knownRecipe as any).carbs_per_serving,
-                fat_per_serving: (knownRecipe as any).fat_per_serving,
-                fiber_per_serving: (knownRecipe as any).fiber_per_serving,
+                ingredients: knownRecipe.ingredients,
+                instructions: knownRecipe.instructions,
+                servings: knownRecipe.servings,
+                calories_per_serving: knownRecipe.calories,
+                protein_per_serving: knownRecipe.protein,
+                carbs_per_serving: knownRecipe.carbs,
+                fat_per_serving: knownRecipe.fat,
+                fiber_per_serving: knownRecipe.fiber,
             };
             enhancedCount++;
             console.log(`[enhanceWithKnownRecipes] ✅ Enhanced "${mealName}" with database recipe`);
@@ -141,7 +148,7 @@ function enhanceWithKnownRecipes(plan: unknown, recipeLookup: { [key: string]: u
     return enhancedPlan;
 }
 
-async function validateNutritionWithAI(plan: unknown, targets: { calories: number, protein: number, carbs: number, fat: number, fiber: number }, openai: OpenAI) {
+async function validateNutritionWithAI(plan: Partial<MealPlan>, targets: { calories: number, protein: number, carbs: number, fat: number, fiber: number }, openai: OpenAI): Promise<NutritionValidationResult> {
     // Calculate daily totals from the plan
     const dailyTotals = {
         calories: 0,
@@ -152,12 +159,12 @@ async function validateNutritionWithAI(plan: unknown, targets: { calories: numbe
     };
 
     // Calculate nutrition for a typical day (use first day as representative)
-    if ((plan as any).days && (plan as any).days.length > 0) {
-        const firstDay = (plan as any).days[0];
+    if (plan.days && plan.days.length > 0) {
+        const firstDay = plan.days[0];
         ['breakfast', 'lunch', 'dinner', 'snack'].forEach((mealType: string) => {
-            const mealName = firstDay.meals?.[mealType];
-            if (mealName && mealName !== "Eating Out" && (plan as any).recipes?.[mealName]) {
-                const recipe = (plan as any).recipes[mealName];
+            const mealName = firstDay.meals?.[mealType as keyof typeof firstDay.meals];
+            if (mealName && mealName !== "Eating Out" && plan.recipes?.[mealName]) {
+                const recipe = plan.recipes[mealName];
                 dailyTotals.calories += recipe.calories_per_serving || 0;
                 dailyTotals.protein += recipe.protein_per_serving || 0;
                 dailyTotals.carbs += recipe.carbs_per_serving || 0;
@@ -206,7 +213,7 @@ async function validateNutritionWithAI(plan: unknown, targets: { calories: numbe
     }
 }
 
-async function adjustNutritionWithAI(plan: unknown, validationResult: unknown, openai: OpenAI) {
+async function adjustNutritionWithAI(plan: Partial<MealPlan>, validationResult: NutritionValidationResult, openai: OpenAI): Promise<NutritionAdjustmentResult> {
     // Use centralized nutrition adjustment prompt
     const adjustmentContext = {
         validationResult,
@@ -246,7 +253,7 @@ async function adjustNutritionWithAI(plan: unknown, validationResult: unknown, o
         const mergedPlan = {
             ...adjustmentResult.plan,
             recipes: {
-                ...(plan as any).recipes, // Keep original recipes
+                ...plan.recipes, // Keep original recipes
                 ...adjustmentResult.plan.recipes // Override with any new/modified recipes
             }
         };
@@ -371,7 +378,7 @@ export async function POST(req: NextRequest) {
         let parsedJson: unknown;
         try {
             parsedJson = JSON.parse(text);
-        } catch (e: unknown) {
+        } catch {
             return NextResponse.json(
                 {
                     ok: false,
@@ -398,10 +405,16 @@ export async function POST(req: NextRequest) {
 
         // PHASE 1: ENHANCE WITH KNOWN RECIPES
         console.log("[/api/plan] Enhancing plan with database recipes...");
+        if (!parsed.data) {
+            return NextResponse.json(
+                { ok: false, error: "No plan data after validation" },
+                { status: 500 }
+            );
+        }
         const enhancedPlan = enhanceWithKnownRecipes(parsed.data, recipeLookup);
 
         // Validate that grocery list contains all recipe ingredients (use enhanced plan)
-        const validationResults = validateGroceryIngredients((enhancedPlan as any).recipes, (enhancedPlan as any).grocery_list);
+        const validationResults = validateGroceryIngredients(enhancedPlan.recipes, enhancedPlan.grocery_list);
         if (validationResults.missingIngredients.length > 0) {
             console.warn("[/api/plan] Missing ingredients in grocery list:", validationResults.missingIngredients);
             console.log("[/api/plan] All recipe ingredients:", validationResults.allRecipeIngredients);
@@ -411,8 +424,8 @@ export async function POST(req: NextRequest) {
         // PHASE 1.5: ALIGN RECIPE SERVINGS WITH MEAL PLAN USAGE
         console.log("[/api/plan] Aligning recipe servings with meal plan usage...");
         const alignmentResult = alignRecipeServingsWithUsage(enhancedPlan);
-        const alignedPlan = (alignmentResult as any).alignedPlan;
-        const originalRecipes = (alignmentResult as any).originalRecipes;
+        const alignedPlan = alignmentResult.alignedPlan;
+        const originalRecipes = alignmentResult.originalRecipes;
         console.log("[/api/plan] Serving alignment completed");
 
         // AGENTIC NUTRITION VALIDATION
@@ -436,15 +449,15 @@ export async function POST(req: NextRequest) {
 
             // PHASE 2: AUTOMATIC ADJUSTMENT AGENT
             console.log("[/api/plan] Applying automatic nutrition adjustments...");
-            const adjustedPlan = await adjustNutritionWithAI(alignedPlan, nutritionValidation.validation, openai);
+            const adjustedPlan = await adjustNutritionWithAI(alignedPlan, nutritionValidation, openai);
 
-            if (adjustedPlan.success) {
+            if (adjustedPlan.success && adjustedPlan.plan) {
                 console.log("[/api/plan] Successfully adjusted meal plan for nutrition targets");
 
                 // Re-apply serving alignment to adjusted plan using original recipes baseline
                 console.log("[/api/plan] Re-applying serving alignment to nutrition-adjusted plan...");
                 const finalAlignmentResult = alignRecipeServingsWithUsage(adjustedPlan.plan, originalRecipes);
-                const finalAlignedPlan = (finalAlignmentResult as any).alignedPlan;
+                const finalAlignedPlan = finalAlignmentResult.alignedPlan;
 
                 // Ensure original baseline is preserved for any future operations
                 console.log("[/api/plan] Preserving original recipe baseline after nutrition adjustment");
@@ -493,10 +506,13 @@ export async function POST(req: NextRequest) {
     }
 }
 
-function alignRecipeServingsWithUsage(plan: unknown, originalRecipes?: unknown): unknown {
+function alignRecipeServingsWithUsage(plan: Partial<MealPlan>, originalRecipes?: Record<string, RecipeData>): {
+    alignedPlan: Partial<MealPlan>;
+    originalRecipes: Record<string, RecipeData>;
+} {
     // Store original recipes as baseline on first call
     if (!originalRecipes) {
-        originalRecipes = JSON.parse(JSON.stringify((plan as any).recipes));
+        originalRecipes = JSON.parse(JSON.stringify(plan.recipes || {}));
         console.log("[alignRecipeServingsWithUsage] Storing original recipes as baseline");
     }
 
@@ -504,7 +520,7 @@ function alignRecipeServingsWithUsage(plan: unknown, originalRecipes?: unknown):
     const recipeUsageCount = new Map<string, number>();
 
     // Iterate through all days and meals to count recipe usage
-    for (const day of (plan as any).days || []) {
+    for (const day of plan.days || []) {
         for (const mealType of ['breakfast', 'lunch', 'dinner', 'snack']) {
             const mealName = day.meals?.[mealType]?.trim();
             if (mealName && mealName !== "Eating Out") {
@@ -516,12 +532,12 @@ function alignRecipeServingsWithUsage(plan: unknown, originalRecipes?: unknown):
     console.log("[alignRecipeServingsWithUsage] Recipe usage counts:", Object.fromEntries(recipeUsageCount));
 
     // Create a deep copy of the plan to avoid mutating the original
-    const alignedPlan = JSON.parse(JSON.stringify(plan));
+    const alignedPlan: Partial<MealPlan> = JSON.parse(JSON.stringify(plan));
 
     // Align recipe servings with usage frequency and scale ingredients
     for (const [recipeName, usageCount] of Array.from(recipeUsageCount.entries())) {
-        const currentRecipe = (alignedPlan as any).recipes?.[recipeName];
-        const originalRecipe = (originalRecipes as any)?.[recipeName];
+        const currentRecipe = alignedPlan.recipes?.[recipeName];
+        const originalRecipe = originalRecipes?.[recipeName];
 
         if (currentRecipe && originalRecipe && originalRecipe.servings !== usageCount) {
             const originalServings = originalRecipe.servings;
@@ -545,19 +561,19 @@ function alignRecipeServingsWithUsage(plan: unknown, originalRecipes?: unknown):
     }
 
     // Recalculate grocery list based on new ingredient quantities
-    if ((alignedPlan as any).recipes) {
+    if (alignedPlan.recipes) {
         console.log("[alignRecipeServingsWithUsage] Generating grocery list from scaled recipes...");
-        (alignedPlan as any).grocery_list = generateGroceryList((alignedPlan as any).recipes);
+        alignedPlan.grocery_list = generateGroceryList(alignedPlan.recipes);
 
         // Validate grocery list completeness
-        const validationResults = validateGroceryIngredients((alignedPlan as any).recipes, (alignedPlan as any).grocery_list);
+        const validationResults = validateGroceryIngredients(alignedPlan.recipes, alignedPlan.grocery_list);
         if (validationResults.missingIngredients.length > 0) {
             console.warn("[alignRecipeServingsWithUsage] Missing ingredients in grocery list:", validationResults.missingIngredients);
         }
 
         // Log grocery list summary
-        const totalItems = Object.values((alignedPlan as any).grocery_list).reduce((sum: number, items) => sum + (items as string[]).length, 0);
-        const categories = Object.keys((alignedPlan as any).grocery_list).length;
+        const totalItems = Object.values(alignedPlan.grocery_list || {}).reduce((sum: number, items) => sum + (items as string[]).length, 0);
+        const categories = Object.keys(alignedPlan.grocery_list || {}).length;
         console.log(`[alignRecipeServingsWithUsage] Generated grocery list: ${totalItems} items across ${categories} categories`);
 
         // Log any cooking-to-shopping conversions that were applied
@@ -565,5 +581,5 @@ function alignRecipeServingsWithUsage(plan: unknown, originalRecipes?: unknown):
     }
 
     // Return both the aligned plan and the original recipes for future scaling operations
-    return { alignedPlan, originalRecipes };
+    return { alignedPlan, originalRecipes: originalRecipes || {} };
 }

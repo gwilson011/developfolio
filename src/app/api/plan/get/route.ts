@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { Client } from "@notionhq/client";
+import { NotionPlanPage, NotionPage, MealPlan, PlanSummary, RecipeData } from "@/app/types/recipe";
 export const dynamic = "force-dynamic"; // disable caching
 
 export async function GET(request: Request) {
@@ -20,12 +21,14 @@ export async function GET(request: Request) {
             page_size: 50,
         });
 
-        let planPages = response.results
-            .filter((page: any) => page.parent?.database_id === plansDbId);
+        const planPages = response.results
+            .filter((page) =>
+                page && typeof page === 'object' && 'parent' in page &&
+                (page as NotionPlanPage).parent?.database_id === plansDbId) as NotionPlanPage[];
 
         // If requesting a specific week, return full plan details
         if (targetWeek) {
-            const targetPlan = planPages.find((page: any) =>
+            const targetPlan = planPages.find((page: NotionPlanPage) =>
                 page.properties["Week of"]?.date?.start === targetWeek
             );
 
@@ -34,15 +37,16 @@ export async function GET(request: Request) {
             }
 
             // Reconstruct full plan (similar to /api/notion/latest logic)
-            const targetCalories = (targetPlan as any).properties["Daily Calorie Target"]?.number || 2000;
-            const weekOf = (targetPlan as any).properties["Week of"]?.date?.start;
+            const targetCalories = targetPlan.properties["Daily Calorie Target"]?.number || 2000;
+            const weekOf = targetPlan.properties["Week of"]?.date?.start;
 
             // Reconstruct plan from day-based JSON fields
             const days = [];
             const dayNames = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
             for (const dayName of dayNames) {
-                const dayField = (targetPlan as any).properties[dayName]?.rich_text?.[0]?.text?.content;
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                const dayField = (targetPlan.properties[dayName] as any)?.rich_text?.[0]?.text?.content;
                 if (dayField) {
                     try {
                         const meals = JSON.parse(dayField);
@@ -53,7 +57,7 @@ export async function GET(request: Request) {
                                 calories_estimate: targetCalories,
                             });
                         }
-                    } catch (e) {
+                    } catch {
                         // Skip invalid JSON
                     }
                 }
@@ -61,16 +65,16 @@ export async function GET(request: Request) {
 
             // Get grocery list from JSON field
             let groceryList = {};
-            const groceryField = (targetPlan as any).properties["Grocery List"]?.rich_text?.[0]?.text?.content;
+            const groceryField = targetPlan.properties["Grocery List"]?.rich_text?.[0]?.text?.content;
             if (groceryField) {
                 try {
                     groceryList = JSON.parse(groceryField);
-                } catch (e) {
+                } catch {
                     // Skip invalid JSON
                 }
             }
 
-            const planJson = {
+            const planJson: Partial<MealPlan> = {
                 week: weekOf || targetWeek,
                 target_daily_calories: targetCalories,
                 days: days,
@@ -98,9 +102,9 @@ export async function GET(request: Request) {
                     page_size: 50,
                 });
 
-                const recipes: Record<string, any> = {};
+                const recipes: Record<string, RecipeData> = {};
                 for (const result of recipeSearchResults.results) {
-                    const page = result as any;
+                    const page = result as NotionPage;
                     if (page.parent?.database_id === mealsDbId && page.properties?.Name?.title?.[0]?.text?.content) {
                         const recipeName = page.properties.Name.title[0].text.content;
                         if (mealNames.has(recipeName)) {
@@ -118,14 +122,14 @@ export async function GET(request: Request) {
                     }
                 }
 
-                (planJson as any).recipes = recipes;
+                planJson.recipes = recipes;
             }
 
             return NextResponse.json({ ok: true, plan: planJson });
         }
 
         // Otherwise, return summary list as before
-        const summaryPlans = planPages.map((page: any) => {
+        const summaryPlans: PlanSummary[] = planPages.map((page: NotionPlanPage): PlanSummary => {
             const name = page.properties.Name?.title?.[0]?.text?.content || "Untitled Plan";
             const weekOf = page.properties["Week of"]?.date?.start || "";
             const dailyCalories = page.properties["Daily Calorie Target"]?.number || 0;
@@ -137,13 +141,13 @@ export async function GET(request: Request) {
                     try {
                         const groceryList = JSON.parse(groceryField);
                         const allIngredients = new Set();
-                        Object.values(groceryList).forEach((categoryItems: any) => {
+                        Object.values(groceryList).forEach((categoryItems: unknown) => {
                             if (Array.isArray(categoryItems)) {
                                 categoryItems.forEach(item => allIngredients.add(item));
                             }
                         });
                         ingredientCount = allIngredients.size;
-                    } catch (e) {
+                    } catch {
                         // Skip invalid JSON
                     }
                 }
@@ -154,16 +158,17 @@ export async function GET(request: Request) {
                 const uniqueMeals = new Set();
 
                 for (const dayName of dayNames) {
-                    const dayField = page.properties[dayName]?.rich_text?.[0]?.text?.content;
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    const dayField = (page.properties[dayName] as any)?.rich_text?.[0]?.text?.content;
                     if (dayField) {
                         try {
                             const dayMeals = JSON.parse(dayField);
-                            Object.values(dayMeals).forEach((mealName: any) => {
+                            Object.values(dayMeals).forEach((mealName: unknown) => {
                                 if (mealName && typeof mealName === "string" && mealName.trim()) {
                                     uniqueMeals.add(mealName.trim());
                                 }
                             });
-                        } catch (e) {
+                        } catch {
                             // Skip invalid JSON
                         }
                     }
@@ -180,7 +185,7 @@ export async function GET(request: Request) {
         });
 
         return NextResponse.json({ ok: true, plans: summaryPlans });
-    } catch (error) {
+    } catch {
         return NextResponse.json({ ok: false, plans: [] });
     }
 }

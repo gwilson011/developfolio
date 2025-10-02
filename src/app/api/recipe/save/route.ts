@@ -58,10 +58,10 @@ export async function POST(req: NextRequest) {
                 Approved: { checkbox: recipe.approved },
                 Servings: { number: recipe.servings },
                 "Calories per Serving": { number: recipe.caloriesPerServing },
-                "Protein per Serving": { number: (recipe as any).proteinPerServing || 0 },
-                "Carbs per Serving": { number: (recipe as any).carbsPerServing || 0 },
-                "Fat per Serving": { number: (recipe as any).fatPerServing || 0 },
-                "Fiber per Serving": { number: (recipe as any).fiberPerServing || 0 },
+                "Protein per Serving": { number: recipe.proteinPerServing || 0 },
+                "Carbs per Serving": { number: recipe.carbsPerServing || 0 },
+                "Fat per Serving": { number: recipe.fatPerServing || 0 },
+                "Fiber per Serving": { number: recipe.fiberPerServing || 0 },
             },
         });
 
@@ -93,10 +93,11 @@ export async function POST(req: NextRequest) {
         }
 
         return NextResponse.json({ ok: true, id: page.id });
-    } catch (e: any) {
-        console.error("[/api/recipe/save] error:", e?.message);
+    } catch (e: unknown) {
+        const errorMessage = e instanceof Error ? e.message : 'Unknown error';
+        console.error("[/api/recipe/save] error:", errorMessage);
         return NextResponse.json(
-            { ok: false, error: e.message },
+            { ok: false, error: errorMessage },
             { status: 500 }
         );
     }
