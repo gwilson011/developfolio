@@ -1,0 +1,141 @@
+{
+    "workout_plan": {
+        "Monday": {
+            "title": "Quick Cardio + Core",
+            "duration": "~40 min",
+            "exercises": [
+                {
+                    "name": "Run/Bike",
+                    "details": "25–30 min steady pace (moderate effort)"
+                },
+                {
+                    "name": "Core Circuit",
+                    "rounds": 2,
+                    "exercises": [
+                        { "name": "Planks", "duration": "45 sec" },
+                        { "name": "Dead Bugs", "reps": "8–10/side" },
+                        { "name": "Paloff Press", "reps": "10/side" }
+                    ]
+                }
+            ],
+            "notes": "Low stress, still gets sweat in."
+        },
+        "Tuesday": {
+            "title": "Leg Day + HIIT",
+            "duration": "~65 min",
+            "exercises": [
+                { "name": "Barbell Squats", "sets_reps": "4x8" },
+                {
+                    "name": "Walking Lunges / Step-Ups",
+                    "sets_reps": "3x12/leg"
+                },
+                { "name": "RDLs", "sets_reps": "4x10" },
+                { "name": "Bulgarian Split Squats", "sets_reps": "3x10/leg" },
+                { "name": "Calf Raises", "sets_reps": "3x15" },
+                {
+                    "name": "HIIT",
+                    "duration": "15–20 min",
+                    "options": ["stairmaster", "treadmill sprints", "peloton"]
+                }
+            ]
+        },
+        "Wednesday": {
+            "title": "Midweek Run + Core",
+            "duration": "~45 min",
+            "exercises": [
+                { "name": "Run", "details": "30–35 min easy/moderate pace" },
+                {
+                    "name": "Quick Core",
+                    "exercises": [
+                        {
+                            "name": "Hanging Knee Raises",
+                            "sets_reps": "2x10–12"
+                        },
+                        { "name": "Side Planks", "duration": "2x30 sec/side" }
+                    ]
+                }
+            ]
+        },
+        "Thursday": {
+            "title": "Push + HIIT",
+            "duration": "~65 min",
+            "exercises": [
+                {
+                    "name": "Push Supersets",
+                    "supersets": [
+                        { "pair": ["Bench Press 4x8–10", "Push-Ups (AMRAP)"] },
+                        {
+                            "pair": [
+                                "Incline DB Press 3x10–12",
+                                "Tricep Extensions 3x10–12"
+                            ]
+                        },
+                        {
+                            "pair": [
+                                "DB Shoulder Press 3x12–15",
+                                "Lateral Raises 3x12–15"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Pull-Up Progression",
+                    "exercises": [
+                        { "name": "Scapular Pull-Ups", "sets_reps": "3x5" },
+                        { "name": "Negatives", "sets_reps": "3x3–5" },
+                        { "name": "Assisted Pull-Ups", "sets_reps": "3x6–8" }
+                    ]
+                },
+                { "name": "HIIT", "duration": "15–20 min" }
+            ]
+        },
+        "Friday": {
+            "title": "Pull + Pull-Up Focus",
+            "duration": "~60 min",
+            "exercises": [
+                {
+                    "name": "Pull Supersets",
+                    "supersets": [
+                        {
+                            "pair": [
+                                "Lat Pulldown 4x10–12",
+                                "Seated Row 4x10–12"
+                            ]
+                        },
+                        { "pair": ["Incline Curls 3x12", "Face Pulls 3x12"] },
+                        { "pair": ["Barbell Row 3x10–12", "TRX Rows 3x10–12"] }
+                    ]
+                },
+                {
+                    "name": "Pull-Up Finisher",
+                    "details": "Negatives or Assisted (3x5–8)"
+                },
+                {
+                    "name": "Optional Cool Down",
+                    "details": "10 min easy jog/bike"
+                }
+            ]
+        },
+        "Saturday": {
+            "title": "Endurance / Active Recovery",
+            "duration": "~60 min",
+            "exercises": [
+                {
+                    "name": "Long Run",
+                    "details": "50–60 min easy pace OR Bike/Hike equivalent"
+                },
+                { "name": "Mobility/Yoga/Foam Roll", "duration": "15–20 min" }
+            ]
+        },
+        "Sunday": {
+            "title": "Rest / Walk",
+            "exercises": [
+                { "name": "Rest" },
+                {
+                    "name": "Optional",
+                    "details": "Light walk, yoga, or pull-up 'grease the groove'"
+                }
+            ]
+        }
+    }
+}
