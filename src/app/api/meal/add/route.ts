@@ -20,9 +20,15 @@ export async function POST(req: NextRequest) {
                         },
                     ],
                 },
-                URL: url ? { url } : undefined,
+                ...(url ? { URL: { url } } : {}),
                 Tags: { multi_select: tags.map((t: string) => ({ name: t })) },
                 Approved: { checkbox: true },
+                Servings: { number: 1 },
+                "Calories per Serving": { number: 0 },
+                "Protein per Serving": { number: 0 },
+                "Carbs per Serving": { number: 0 },
+                "Fat per Serving": { number: 0 },
+                "Fiber per Serving": { number: 0 },
             },
             children: notes
                 ? [
@@ -39,9 +45,10 @@ export async function POST(req: NextRequest) {
         });
 
         return NextResponse.json({ ok: true, id: page.id });
-    } catch (e: any) {
+    } catch (e: unknown) {
+        const errorMessage = e instanceof Error ? e.message : 'Unknown error';
         return NextResponse.json(
-            { ok: false, error: e.message },
+            { ok: false, error: errorMessage },
             { status: 500 }
         );
     }

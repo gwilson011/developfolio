@@ -58,6 +58,10 @@ export async function POST(req: NextRequest) {
                 Approved: { checkbox: recipe.approved },
                 Servings: { number: recipe.servings },
                 "Calories per Serving": { number: recipe.caloriesPerServing },
+                "Protein per Serving": { number: (recipe as any).proteinPerServing || 0 },
+                "Carbs per Serving": { number: (recipe as any).carbsPerServing || 0 },
+                "Fat per Serving": { number: (recipe as any).fatPerServing || 0 },
+                "Fiber per Serving": { number: (recipe as any).fiberPerServing || 0 },
             },
         });
 

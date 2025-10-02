@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
                                 : `[From Images]:\n${ocrData.combinedText}`;
                         }
                     }
-                } catch (ocrError) {
+                } catch {
                     console.warn("OCR extraction failed, continuing without image text");
                 }
             }
@@ -54,8 +54,9 @@ export async function POST(req: NextRequest) {
                 data: scrapedData
             });
 
-        } catch (scrapeError: any) {
-            console.warn("Instagram scraping failed:", scrapeError.message);
+        } catch (scrapeError: unknown) {
+            const errorMessage = scrapeError instanceof Error ? scrapeError.message : 'Unknown error';
+            console.warn("Instagram scraping failed:", errorMessage);
             // Fallback to mock data if scraping fails
             const mockData = {
                 url: url,
@@ -79,10 +80,11 @@ export async function POST(req: NextRequest) {
             });
         }
 
-    } catch (error: any) {
-        console.error("[/api/instagram/extract] error:", error?.message);
+    } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        console.error("[/api/instagram/extract] error:", errorMessage);
         return NextResponse.json(
-            { ok: false, error: error?.message ?? "Unknown error" },
+            { ok: false, error: errorMessage },
             { status: 500 }
         );
     }
@@ -122,8 +124,8 @@ async function scrapeInstagramPost(url: string) {
     let caption = "";
     let images: string[] = [];
     let author = "";
-    let timestamp = "";
-    let comments: string[] = [];
+    const timestamp = "";
+    const comments: string[] = [];
 
     // Try to find data in script tags (Instagram often puts data in JSON)
     $('script[type="application/ld+json"]').each((_, element) => {
@@ -142,7 +144,7 @@ async function scrapeInstagramPost(url: string) {
                     images = [jsonData.image];
                 }
             }
-        } catch (e) {
+        } catch {
             // Continue if JSON parsing fails
         }
     });

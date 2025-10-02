@@ -132,7 +132,7 @@ export async function GET() {
                 page_size: 50,
             });
 
-            const recipes = {};
+            const recipes: Record<string, any> = {};
             for (const result of recipeSearchResults.results) {
                 const page = result as any;
                 if (
@@ -154,6 +154,18 @@ export async function GET() {
                             calories_per_serving:
                                 page.properties["Calories per Serving"]
                                     ?.number || 0,
+                            protein_per_serving:
+                                page.properties["Protein per Serving"]
+                                    ?.number || 0,
+                            carbs_per_serving:
+                                page.properties["Carbs per Serving"]
+                                    ?.number || 0,
+                            fat_per_serving:
+                                page.properties["Fat per Serving"]
+                                    ?.number || 0,
+                            fiber_per_serving:
+                                page.properties["Fiber per Serving"]
+                                    ?.number || 0,
                         };
                     }
                 }
@@ -161,7 +173,7 @@ export async function GET() {
 
             // If no grocery list was stored, reconstruct from recipes
             if (!groceryList || Object.keys(groceryList).length === 0) {
-                const reconstructedGroceryList = {};
+                const reconstructedGroceryList: Record<string, string[]> = {};
                 for (const [recipeName, recipe] of Object.entries(recipes)) {
                     if (
                         recipe.ingredients &&
@@ -249,11 +261,12 @@ export async function GET() {
             }
 
             // Add recipes to the plan
-            planJson.recipes = recipes;
+            (planJson as any).recipes = recipes;
         }
 
         return NextResponse.json({ ok: true, plan: planJson });
     } catch (error) {
-        return NextResponse.json({ ok: false, error: error.message });
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        return NextResponse.json({ ok: false, error: errorMessage });
     }
 }

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { InstagramData, ParsedRecipeData } from "@/app/types/recipe";
-import { standardizeIngredients } from "@/app/utils/ingredientParser";
+import { formatIngredient, parseIngredient } from "@/utils/ingredients";
 import OpenAI from "openai";
 
 export const dynamic = "force-dynamic"; // disable caching
@@ -63,7 +63,10 @@ export async function POST(req: NextRequest) {
             }
 
             // Standardize ingredients with smart parsing
-            parsedRecipe.ingredients = standardizeIngredients(parsedRecipe.ingredients);
+            parsedRecipe.ingredients = parsedRecipe.ingredients.map(ingredient => {
+                const parsed = parseIngredient(ingredient);
+                return formatIngredient(parsed.quantity, parsed.unit, parsed.name);
+            });
 
             return NextResponse.json({
                 ok: true,
@@ -97,8 +100,8 @@ function getMockParsedRecipe() {
             "Black pepper to taste"
         ],
         instructions: "1. Boil pasta in salted water until al dente (8-10 minutes).\n2. In a separate pan, heat olive oil over medium heat.\n3. Add diced tomatoes and cook for 5 minutes until softened.\n4. Drain pasta and add to the tomato mixture.\n5. Stir in cheese until melted.\n6. Season with salt and pepper to taste.\n7. Serve immediately while hot.",
-        servings: 4,
-        estimatedCalories: 320,
+        servings: 2,
+        estimatedCalories: 640,
         confidence: 0.85,
         mealTypes: ["lunch", "dinner"],
         tags: ["pasta", "vegetarian", "quick", "instagram"],
@@ -138,7 +141,7 @@ Extract and return JSON in this EXACT format:
   "name": "Recipe Name (create descriptive name if not explicit)",
   "ingredients": ["ingredient 1 with quantity", "ingredient 2 with quantity"],
   "instructions": "Numbered step-by-step instructions as a single string",
-  "servings": 4,
+  "servings": 2,
   "estimatedCalories": 350,
   "confidence": 0.9,
   "mealTypes": ["lunch", "dinner"],
@@ -150,6 +153,12 @@ Guidelines:
 - Extract exact ingredient quantities when available (preserve fractions like 1/2, 3/4)
 - Create clear numbered instructions (1. 2. 3. etc.)
 - Estimate calories based on ingredients and typical portions
+- **Determine servings intelligently**: Analyze ingredient quantities and recipe type to determine realistic serving size:
+  * Small snacks/appetizers: 1-2 servings
+  * Individual meals: 1-2 servings
+  * Family-style dishes: 3-6 servings based on ingredient amounts
+  * Large batch recipes: 6+ servings
+  * Consider total volume of ingredients and typical portion sizes
 - Include relevant meal types: breakfast, lunch, dinner, snack, dessert
 - Add descriptive tags: cuisine type, dietary restrictions, cooking method, difficulty
 - Set confidence 0.7-1.0 based on how complete the recipe info is

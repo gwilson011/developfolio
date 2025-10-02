@@ -34,15 +34,15 @@ export async function GET(request: Request) {
             }
 
             // Reconstruct full plan (similar to /api/notion/latest logic)
-            const targetCalories = targetPlan.properties["Daily Calorie Target"]?.number || 2000;
-            const weekOf = targetPlan.properties["Week of"]?.date?.start;
+            const targetCalories = (targetPlan as any).properties["Daily Calorie Target"]?.number || 2000;
+            const weekOf = (targetPlan as any).properties["Week of"]?.date?.start;
 
             // Reconstruct plan from day-based JSON fields
             const days = [];
             const dayNames = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
             for (const dayName of dayNames) {
-                const dayField = targetPlan.properties[dayName]?.rich_text?.[0]?.text?.content;
+                const dayField = (targetPlan as any).properties[dayName]?.rich_text?.[0]?.text?.content;
                 if (dayField) {
                     try {
                         const meals = JSON.parse(dayField);
@@ -61,7 +61,7 @@ export async function GET(request: Request) {
 
             // Get grocery list from JSON field
             let groceryList = {};
-            const groceryField = targetPlan.properties["Grocery List"]?.rich_text?.[0]?.text?.content;
+            const groceryField = (targetPlan as any).properties["Grocery List"]?.rich_text?.[0]?.text?.content;
             if (groceryField) {
                 try {
                     groceryList = JSON.parse(groceryField);
@@ -98,7 +98,7 @@ export async function GET(request: Request) {
                     page_size: 50,
                 });
 
-                const recipes = {};
+                const recipes: Record<string, any> = {};
                 for (const result of recipeSearchResults.results) {
                     const page = result as any;
                     if (page.parent?.database_id === mealsDbId && page.properties?.Name?.title?.[0]?.text?.content) {
@@ -109,12 +109,16 @@ export async function GET(request: Request) {
                                 instructions: page.properties.Notes?.rich_text?.[0]?.text?.content || "",
                                 servings: page.properties.Servings?.number || 1,
                                 calories_per_serving: page.properties["Calories per Serving"]?.number || 0,
+                                protein_per_serving: page.properties["Protein per Serving"]?.number || 0,
+                                carbs_per_serving: page.properties["Carbs per Serving"]?.number || 0,
+                                fat_per_serving: page.properties["Fat per Serving"]?.number || 0,
+                                fiber_per_serving: page.properties["Fiber per Serving"]?.number || 0,
                             };
                         }
                     }
                 }
 
-                planJson.recipes = recipes;
+                (planJson as any).recipes = recipes;
             }
 
             return NextResponse.json({ ok: true, plan: planJson });

@@ -53,3 +53,77 @@ export interface RecipeSaveResponse {
     id?: string;
     error?: string;
 }
+
+// Notion API types
+export interface NotionPage {
+    id: string;
+    parent?: {
+        database_id?: string;
+    };
+    properties: {
+        Name?: {
+            title?: Array<{
+                text?: {
+                    content?: string;
+                };
+            }>;
+        };
+        Ingredients?: {
+            rich_text?: Array<{
+                text?: {
+                    content?: string;
+                };
+            }>;
+        };
+        Notes?: {
+            rich_text?: Array<{
+                text?: {
+                    content?: string;
+                };
+            }>;
+        };
+        "Calories per Serving"?: {
+            number?: number;
+        };
+        Servings?: {
+            number?: number;
+        };
+        "Protein per Serving"?: {
+            number?: number;
+        };
+        "Carbs per Serving"?: {
+            number?: number;
+        };
+        "Fat per Serving"?: {
+            number?: number;
+        };
+        "Fiber per Serving"?: {
+            number?: number;
+        };
+        "Meal Type"?: {
+            multi_select?: Array<{
+                name: string;
+            }>;
+        };
+        Tags?: {
+            multi_select?: Array<{
+                name: string;
+            }>;
+        };
+        [key: string]: unknown;
+    };
+}
+
+export interface MealData {
+    name: string;
+    ingredients: string[];
+    instructions: string;
+    calories: number;
+    servings: number;
+    protein: number;
+    carbs: number;
+    fat: number;
+    fiber: number;
+    mealType: string[];
+    tags: string[];
+}

@@ -228,7 +228,7 @@ export default function Home() {
                         value={70}
                         size={160}
                         thickness={4}
-                        color="black"
+                        color="inherit"
                         label={
                             <div className="text-black flex flex-col gap-1">
                                 <span className="font-tango text-[60pt] mb-[-30px]">

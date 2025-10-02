@@ -7,6 +7,10 @@ interface MealCardProps {
     instructions: string;
     calories: number;
     servings: number;
+    protein?: number;
+    carbs?: number;
+    fat?: number;
+    fiber?: number;
     mealType?: string[];
     tags?: string[];
     isSelected?: boolean;
@@ -19,6 +23,10 @@ const MealCard = ({
     instructions,
     calories,
     servings,
+    protein = 0,
+    carbs = 0,
+    fat = 0,
+    fiber = 0,
     mealType = [],
     tags = [],
     isSelected = false,
@@ -42,23 +50,52 @@ const MealCard = ({
             <div className="flex flex-col gap-1">
                 <span className="font-tango text-lg">{title}</span>
                 {hasRecipeData ? (
-                    <span className={`font-louis text-xs ${isSelected ? "text-gray-300" : isEatingOut ? "text-gray-500" : "text-gray-600"}`}>
-                        {calories} cal • {servings} serving
-                        {servings !== 1 ? "s" : ""}
+                    <div className="flex flex-col gap-1">
                         <span
-                            className={`font-louis text-xs cursor-pointer flex items-center justify-end gap-1 ${
-                                isSelected ? "text-white" : "text-black"
+                            className={`font-louis text-xs ${
+                                isSelected
+                                    ? "text-gray-300"
+                                    : isEatingOut
+                                    ? "text-gray-500"
+                                    : "text-gray-600"
                             }`}
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                setIsExpanded(!isExpanded);
-                            }}
                         >
-                            <span>{isExpanded ? "▲" : "▼"}</span>
+                            {calories} cal • {servings} serving
+                            {servings !== 1 ? "s" : ""}
                         </span>
-                    </span>
+                        <span
+                            className={`flex justify-between font-louis text-xs text-zinc-400 ${
+                                isSelected
+                                    ? "text-gray-300"
+                                    : isEatingOut
+                                    ? "text-gray-500"
+                                    : "text-gray-600"
+                            }`}
+                        >
+                            {protein}g p • {carbs}g c • {fat}g f
+                            <span
+                                className={`font-louis text-xs cursor-pointer ml-2 ${
+                                    isSelected ? "text-white" : "text-black"
+                                }`}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setIsExpanded(!isExpanded);
+                                }}
+                            >
+                                {isExpanded ? "▲" : "▼"}
+                            </span>
+                        </span>
+                    </div>
                 ) : (
-                    <span className={`font-louis text-xs ${isSelected ? "text-gray-300" : isEatingOut ? "text-gray-500" : "text-gray-600"}`}>
+                    <span
+                        className={`font-louis text-xs ${
+                            isSelected
+                                ? "text-gray-300"
+                                : isEatingOut
+                                ? "text-gray-500"
+                                : "text-gray-600"
+                        }`}
+                    >
                         {isEatingOut ? "Dining out" : "No recipe data"}
                     </span>
                 )}
@@ -97,8 +134,27 @@ const MealCard = ({
             {isExpanded && hasRecipeData && (
                 <div className="space-y-2">
                     <div>
+                        <span className="font-tango text-sm">Nutrition:</span>
+                        <div
+                            className={`font-louis text-sm mt-1 ${
+                                isSelected ? "text-gray-300" : "text-gray-700"
+                            }`}
+                        >
+                            <div>• Calories: {calories}</div>
+                            <div>• Protein: {protein}g</div>
+                            <div>• Carbs: {carbs}g</div>
+                            <div>• Fat: {fat}g</div>
+                            <div>• Fiber: {fiber}g</div>
+                        </div>
+                    </div>
+
+                    <div>
                         <span className="font-tango text-sm">Ingredients:</span>
-                        <ul className={`font-louis text-sm mt-1 ${isSelected ? "text-gray-300" : "text-gray-700"}`}>
+                        <ul
+                            className={`font-louis text-sm mt-1 ${
+                                isSelected ? "text-gray-300" : "text-gray-700"
+                            }`}
+                        >
                             {ingredients.map((ingredient, index) => (
                                 <li key={index}>• {ingredient}</li>
                             ))}
@@ -109,7 +165,11 @@ const MealCard = ({
                         <span className="font-tango text-sm">
                             Instructions:
                         </span>
-                        <p className={`font-louis text-sm ${isSelected ? "text-gray-300" : "text-gray-700"}`}>
+                        <p
+                            className={`font-louis text-sm ${
+                                isSelected ? "text-gray-300" : "text-gray-700"
+                            }`}
+                        >
                             {instructions}
                         </p>
                     </div>

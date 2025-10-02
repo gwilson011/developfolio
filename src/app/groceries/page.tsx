@@ -1,16 +1,13 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import MealCard from "../components/MealCard";
 import PlanCard from "../components/PlanCard";
 import RecipePreview from "../components/RecipePreview";
 import Image from "next/image";
-import {
-    InstagramData,
-    ParsedRecipeData,
-    RecipeForNotion,
-} from "@/app/types/recipe";
+import { RecipeForNotion } from "@/app/types/recipe";
+import { useMealPlanningState } from "../../hooks/useMealPlanState";
 
-const DAYS = ["M", "T", "W", "TH", "F", "S", "S"];
+// const DAYS = ["M", "T", "W", "TH", "F", "S", "S"]; // Unused
 
 function getDayLabels(startDate: Date): string[] {
     const dayLabels = [];
@@ -36,60 +33,86 @@ function getDayLabels(startDate: Date): string[] {
 }
 
 export default function Home() {
-    const [loading, setLoading] = useState(false);
-    const [plan, setPlan] = useState<any>(null);
-    const [prefs, setPrefs] = useState({ vegetarian: false, dislikes: "" });
-    const [weekStart, setWeekStart] = useState<string>("");
-    const [dailyCalories, setDailyCalories] = useState(2000);
-    const [newPlan, setNewPlan] = useState<boolean>(false);
-    const [todaySelected, setTodaySelected] = useState<boolean>(false);
-    const [eatOut, setEatOut] = useState<number>(0);
-    const [outOfTown, setOutOfTown] = useState<number>(0);
-    const [daysOutOfTown, setDaysOutOfTown] = useState<boolean[]>([
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-    ]);
-    const [mealsOut, setMealsOut] = useState<
-        { breakfast: boolean; lunch: boolean; dinner: boolean }[]
-    >(
-        Array(7)
-            .fill(null)
-            .map(() => ({ breakfast: false, lunch: false, dinner: false }))
-    );
-    const [instructions, setInstructions] = useState<string>("");
-    const [addInstructions, setAddInstructions] = useState<boolean>(false);
-    const [selectKnownMeals, setSelectKnownMeals] = useState<boolean>(false);
-    const [knownMeals, setKnownMeals] = useState<any[]>([]);
-    const [loadingKnownMeals, setLoadingKnownMeals] = useState<boolean>(false);
-    const [previousPlans, setPreviousPlans] = useState<any[]>([]);
-    const [loadingPreviousPlans, setLoadingPreviousPlans] =
-        useState<boolean>(false);
-    const [loadingPlanWeek, setLoadingPlanWeek] = useState<string | null>(null);
-    const [selectedKnownMeals, setSelectedKnownMeals] = useState<Set<string>>(
-        new Set()
-    );
-    const [searchTerm, setSearchTerm] = useState<string>("");
-    const [maxCalories, setMaxCalories] = useState<number>(9999);
-    const [selectedMealType, setSelectedMealType] = useState<string>("All");
-    const [selectedTag, setSelectedTag] = useState<string>("All");
-    const [showInstagramImport, setShowInstagramImport] =
-        useState<boolean>(false);
-    const [instagramUrl, setInstagramUrl] = useState<string>("");
-    const [importingRecipe, setImportingRecipe] = useState<boolean>(false);
-    const [showScreenshotImport, setShowScreenshotImport] =
-        useState<boolean>(false);
-    const [uploadedImage, setUploadedImage] = useState<File | null>(null);
-    const [processingScreenshot, setProcessingScreenshot] =
-        useState<boolean>(false);
-    const [parsedRecipe, setParsedRecipe] = useState<ParsedRecipeData | null>(
-        null
-    );
-    const [savingRecipe, setSavingRecipe] = useState<boolean>(false);
+    // Use centralized state management hooks
+    const {
+        // Meal plan configuration
+        dailyCalories,
+        weekStart,
+        newPlan,
+        todaySelected,
+        instructions,
+        setDailyCalories,
+        setWeekStart,
+        setNewPlan,
+        setTodaySelected,
+        setInstructions,
+
+        // Travel state
+        outOfTown,
+        daysOutOfTown,
+        eatOut,
+        mealsOut,
+        setOutOfTown,
+        setDaysOutOfTown,
+        setEatOut,
+        setMealsOut,
+
+        // UI state
+        addInstructions,
+        selectKnownMeals,
+        showInstagramImport,
+        showScreenshotImport,
+        setAddInstructions,
+        setSelectKnownMeals,
+        setShowInstagramImport,
+        setShowScreenshotImport,
+
+        // Loading state
+        loading,
+        loadingKnownMeals,
+        loadingPreviousPlans,
+        loadingPlanWeek,
+        importingRecipe,
+        processingScreenshot,
+        savingRecipe,
+        setLoading,
+        setLoadingKnownMeals,
+        setLoadingPreviousPlans,
+        setLoadingPlanWeek,
+        setImportingRecipe,
+        setProcessingScreenshot,
+        setSavingRecipe,
+
+        // Data state
+        plan,
+        knownMeals,
+        previousPlans,
+        selectedKnownMeals,
+        parsedRecipe,
+        uploadedImage,
+        instagramUrl,
+        prefs,
+        setPlan,
+        setKnownMeals,
+        setPreviousPlans,
+        setSelectedKnownMeals,
+        setParsedRecipe,
+        setUploadedImage,
+        setInstagramUrl,
+        // setPrefs, // Unused
+
+        // Filter state
+        searchTerm,
+        maxCalories,
+        selectedMealType,
+        selectedTag,
+        setSearchTerm,
+        setMaxCalories,
+        setSelectedMealType,
+        setSelectedTag,
+    } = useMealPlanningState();
+
+    // All state variables are now managed by centralized hooks above
 
     useEffect(() => {
         fetch(`/api/notion/latest?t=${Date.now()}`)
@@ -116,13 +139,13 @@ export default function Home() {
             if (data.ok) {
                 // Filter unique meals by name
                 const uniqueMeals = data.meals.filter(
-                    (meal: any, index: number, array: any[]) =>
-                        array.findIndex((m: any) => m.name === meal.name) ===
+                    (meal: unknown, index: number, array: unknown[]) =>
+                        array.findIndex((m: unknown) => (m as any).name === (meal as any).name) ===
                         index
                 );
                 setKnownMeals(uniqueMeals);
             }
-        } catch (error) {
+        } catch {
             // Silent failure
         }
         setLoadingKnownMeals(false);
@@ -142,7 +165,7 @@ export default function Home() {
             if (data.ok) {
                 setPreviousPlans(data.plans);
             }
-        } catch (error) {
+        } catch {
             // Silent failure
         }
         setLoadingPreviousPlans(false);
@@ -160,15 +183,13 @@ export default function Home() {
     }, [loadingPreviousPlans, previousPlans.length, plan]);
 
     function handleMealSelection(mealName: string) {
-        setSelectedKnownMeals((prev) => {
-            const newSet = new Set(prev);
-            if (newSet.has(mealName)) {
-                newSet.delete(mealName);
-            } else {
-                newSet.add(mealName);
-            }
-            return newSet;
-        });
+        const newSet = new Set<string>(selectedKnownMeals);
+        if (newSet.has(mealName)) {
+            newSet.delete(mealName);
+        } else {
+            newSet.add(mealName);
+        }
+        setSelectedKnownMeals(newSet);
     }
 
     // Get unique tags from all meals for dropdown
@@ -234,7 +255,7 @@ export default function Home() {
 
         // Generate array of actual day names starting from the selected date
         if (data.plan && data.plan.days) {
-            const dayNames = [];
+            const dayNames: string[] = [];
             for (let i = 0; i < 7; i++) {
                 const currentDate = new Date(startDate);
                 currentDate.setDate(startDate.getDate() + i);
@@ -259,7 +280,7 @@ export default function Home() {
         const weekStartISO = newStartDate.toISOString().slice(0, 10);
 
         // Generate day names for new start date (reuse existing logic)
-        const dayNames = [];
+        const dayNames: string[] = [];
         for (let i = 0; i < 7; i++) {
             const currentDate = new Date(newStartDate);
             currentDate.setDate(newStartDate.getDate() + i);
@@ -986,6 +1007,10 @@ export default function Home() {
                                                 instructions={meal.instructions}
                                                 calories={meal.calories}
                                                 servings={meal.servings}
+                                                protein={meal.protein || 0}
+                                                carbs={meal.carbs || 0}
+                                                fat={meal.fat || 0}
+                                                fiber={meal.fiber || 0}
                                                 mealType={meal.mealType}
                                                 tags={meal.tags}
                                                 isSelected={selectedKnownMeals.has(
@@ -1045,7 +1070,7 @@ export default function Home() {
                                                 {category.toUpperCase()}
                                             </h4>
                                             <ul className="font-louis text-black list-disc list-inside text-nowrap">
-                                                {items.map((item: string) => (
+                                                {(items as string[]).map((item: string) => (
                                                     <li key={item}>{item}</li>
                                                 ))}
                                             </ul>
@@ -1275,6 +1300,22 @@ export default function Home() {
                                                     servings={
                                                         recipe?.servings ||
                                                         (isEatingOut ? 0 : 1)
+                                                    }
+                                                    protein={
+                                                        recipe?.protein_per_serving ||
+                                                        0
+                                                    }
+                                                    carbs={
+                                                        recipe?.carbs_per_serving ||
+                                                        0
+                                                    }
+                                                    fat={
+                                                        recipe?.fat_per_serving ||
+                                                        0
+                                                    }
+                                                    fiber={
+                                                        recipe?.fiber_per_serving ||
+                                                        0
                                                     }
                                                 />
                                             );

@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Client } from "@notionhq/client";
 import { notion } from "@/app/utils/notion";
 export const dynamic = "force-dynamic";
 import {
@@ -88,12 +87,24 @@ export async function POST(req: NextRequest) {
                     "Calories per Serving": numberProp(
                         recipe?.calories_per_serving || 0
                     ),
+                    "Protein per Serving": numberProp(
+                        recipe?.protein_per_serving || 0
+                    ),
+                    "Carbs per Serving": numberProp(
+                        recipe?.carbs_per_serving || 0
+                    ),
+                    "Fat per Serving": numberProp(
+                        recipe?.fat_per_serving || 0
+                    ),
+                    "Fiber per Serving": numberProp(
+                        recipe?.fiber_per_serving || 0
+                    ),
                 },
             });
         });
 
         // Create meal plan properties for each day
-        const planProperties: any = {
+        const planProperties: Record<string, unknown> = {
             Name: titleProp(`Meal Plan - Week of ${weekStartDate}`),
             "Week of": dateProp(weekStartDate),
             "Daily Calorie Target": numberProp(
@@ -120,7 +131,7 @@ export async function POST(req: NextRequest) {
 
         const planPromise = notion.pages.create({
             parent: { database_id: plansDbId },
-            properties: planProperties,
+            properties: planProperties as any,
         });
 
         // Execute all database operations
@@ -145,10 +156,11 @@ export async function POST(req: NextRequest) {
             sectionId: parentId,
             sectionTitle: sectionTitle || "(auto today)",
         });
-    } catch (e: any) {
-        console.error("[/api/notion] error:", e?.message);
+    } catch (e: unknown) {
+        const errorMessage = e instanceof Error ? e.message : 'Unknown error';
+        console.error("[/api/notion] error:", errorMessage);
         return NextResponse.json(
-            { ok: false, error: e?.message ?? "Unknown error" },
+            { ok: false, error: errorMessage },
             { status: 500 }
         );
     }
