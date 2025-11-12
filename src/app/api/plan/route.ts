@@ -17,6 +17,9 @@ import {
 import { PlanSchema } from "@/app/utils/schema";
 import { validateMealPlan, validateCalories } from "@/utils/validation";
 export const dynamic = "force-dynamic";
+// Set maximum execution time to 60 seconds (requires Vercel Pro or above)
+// For free tier, this will be capped at 10 seconds
+export const maxDuration = 60;
 
 // PlanSchema is now imported from centralized schema file
 
