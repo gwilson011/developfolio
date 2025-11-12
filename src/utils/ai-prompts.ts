@@ -40,20 +40,27 @@ export interface AdjustmentPromptContext {
 export function buildMealPlanSystemPrompt(context: MealPlanPromptContext): string {
     const { dailyCalories, knownMealsFromDB, dayConstraints, selectedKnownMeals, instructions } = context;
 
-    // Build existing recipes context for AI
-    const existingRecipesContext = knownMealsFromDB.length > 0 ?
-        `\n\nEXISTING RECIPES DATABASE - USE THESE WHEN AVAILABLE:
-        ${knownMealsFromDB.map(meal =>
-            `${meal.name}: ${meal.ingredients.join(', ')}
-             (${meal.servings} servings, ${meal.calories}cal, ${meal.protein}g protein, ${meal.carbs}g carbs, ${meal.fat}g fat, ${meal.fiber}g fiber)
-             Instructions: ${meal.instructions}`
-        ).join('\n\n')}
-        RECIPE USAGE INSTRUCTIONS:
-        - If a planned meal name EXACTLY matches a recipe above, use that recipe's data instead of generating new
-        - For exact matches, copy the ingredients, instructions, and nutrition values precisely
+    // Build existing recipes context for AI - only include when meals are explicitly selected
+    const hasSelectedMeals = selectedKnownMeals.length > 0;
+    const existingRecipesContext = hasSelectedMeals && knownMealsFromDB.length > 0 ?
+        `\n\nSPECIFICALLY SELECTED RECIPES - USE THESE EXACT RECIPES:
+        ${knownMealsFromDB
+            .filter(meal => selectedKnownMeals.includes(meal.name))
+            .map(meal =>
+                `${meal.name}: ${meal.ingredients.join(', ')}
+                 (${meal.servings} servings, ${meal.calories}cal, ${meal.protein}g protein, ${meal.carbs}g carbs, ${meal.fat}g fat, ${meal.fiber}g fiber)
+                 Instructions: ${meal.instructions}`
+            ).join('\n\n')}
+        SELECTED RECIPE USAGE INSTRUCTIONS:
+        - For the specifically selected meals listed above, use that recipe's data EXACTLY as provided
+        - Copy the ingredients, instructions, and nutrition values precisely for selected meals
         - You may adjust serving sizes if needed, but maintain the per-serving nutrition ratios
-        - Only generate new recipes for meals NOT found in the existing database
-        - Use existing recipes as reference for nutrition value accuracy
+        - Generate completely NEW recipes for all other meals not in the selected list above
+        - Do NOT use any database recipes that weren't explicitly selected by the user
+        ` : hasSelectedMeals ?
+        `\n\nSELECTED MEALS REQUESTED BUT NOT FOUND:
+        The user selected these meals: ${selectedKnownMeals.join(', ')}
+        However, these meals were not found in the database. Please generate NEW recipes with these exact names.
         ` : '';
 
     return `You are a meal-planning assistant. Target ${dailyCalories} calories per day.

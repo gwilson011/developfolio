@@ -90,7 +90,7 @@ function createRecipeLookup(knownMeals: MealData[]): { [key: string]: MealData }
     return lookup;
 }
 
-function enhanceWithKnownRecipes(plan: Partial<MealPlan>, recipeLookup: { [key: string]: MealData }): Partial<MealPlan> {
+function enhanceWithKnownRecipes(plan: Partial<MealPlan>, recipeLookup: { [key: string]: MealData }, selectedKnownMeals: string[] = []): Partial<MealPlan> {
     const enhancedPlan = JSON.parse(JSON.stringify(plan)); // Deep copy
     let enhancedCount = 0;
     let totalMealsChecked = 0;
@@ -109,10 +109,17 @@ function enhanceWithKnownRecipes(plan: Partial<MealPlan>, recipeLookup: { [key: 
     }
 
     console.log(`[enhanceWithKnownRecipes] Checking ${allMealNames.size} unique meals against database`);
+    console.log(`[enhanceWithKnownRecipes] Selected known meals: [${selectedKnownMeals.join(', ')}]`);
 
-    // For each unique meal, check if we have it in our database
+    // For each unique meal, check if it was explicitly selected and we have it in our database
     for (const mealName of Array.from(allMealNames)) {
         totalMealsChecked++;
+
+        // Only enhance with database recipes if this meal was explicitly selected
+        if (!selectedKnownMeals.includes(mealName)) {
+            console.log(`[enhanceWithKnownRecipes] 🆕 "${mealName}" not in selected meals - keeping AI-generated recipe`);
+            continue;
+        }
 
         // Try exact match first
         let knownRecipe = recipeLookup[mealName];
@@ -123,7 +130,7 @@ function enhanceWithKnownRecipes(plan: Partial<MealPlan>, recipeLookup: { [key: 
         }
 
         if (knownRecipe) {
-            // Replace AI-generated recipe with database recipe
+            // Replace AI-generated recipe with database recipe for selected meals only
             if (!enhancedPlan.recipes) {
                 enhancedPlan.recipes = {};
             }
@@ -138,9 +145,9 @@ function enhanceWithKnownRecipes(plan: Partial<MealPlan>, recipeLookup: { [key: 
                 fiber_per_serving: knownRecipe.fiber,
             };
             enhancedCount++;
-            console.log(`[enhanceWithKnownRecipes] ✅ Enhanced "${mealName}" with database recipe`);
+            console.log(`[enhanceWithKnownRecipes] ✅ Enhanced "${mealName}" with database recipe (was explicitly selected)`);
         } else {
-            console.log(`[enhanceWithKnownRecipes] ⚠️  No database match for "${mealName}" - using AI recipe`);
+            console.log(`[enhanceWithKnownRecipes] ⚠️  "${mealName}" was selected but not found in database - keeping AI recipe`);
         }
     }
 
@@ -411,7 +418,7 @@ export async function POST(req: NextRequest) {
                 { status: 500 }
             );
         }
-        const enhancedPlan = enhanceWithKnownRecipes(parsed.data, recipeLookup);
+        const enhancedPlan = enhanceWithKnownRecipes(parsed.data, recipeLookup, selectedKnownMeals);
 
         // Validate that grocery list contains all recipe ingredients (use enhanced plan)
         const validationResults = validateGroceryIngredients(enhancedPlan.recipes, enhancedPlan.grocery_list);

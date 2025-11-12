@@ -311,12 +311,17 @@ export default function Home() {
             if (data.ok && data.plan) {
                 let finalPlan = data.plan;
 
-                // If updating to current week, recalculate dates
+                // Always recalculate day names based on the appropriate start date
                 if (updateToCurrentWeek) {
+                    // If updating to current week, use current week start date
                     const currentStartDate = todaySelected
                         ? new Date()
                         : new Date(weekStart || new Date());
                     finalPlan = updatePlanDates(data.plan, currentStartDate);
+                } else {
+                    // If loading as-is, use the plan's original start date to get correct day names
+                    const originalStartDate = new Date(data.plan.week);
+                    finalPlan = updatePlanDates(data.plan, originalStartDate);
                 }
 
                 // Update plan state with loaded (and possibly updated) plan
