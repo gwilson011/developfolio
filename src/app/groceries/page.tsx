@@ -226,54 +226,96 @@ export default function Home() {
     async function handleGenerate() {
         setLoading(true);
 
-        // Calculate the actual start date
-        const startDate = todaySelected
-            ? new Date()
-            : new Date(weekStart || new Date());
+        try {
+            // Calculate the actual start date
+            const startDate = todaySelected
+                ? new Date()
+                : new Date(weekStart || new Date());
 
-        const weekStartISO = startDate.toISOString().slice(0, 10);
+            const weekStartISO = startDate.toISOString().slice(0, 10);
 
-        const res = await fetch("/api/plan", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                preferences: {
-                    dislikes: prefs.dislikes
-                        .split(",")
-                        .map((s) => s.trim())
-                        .filter(Boolean),
-                },
-                weekStartISO: weekStartISO,
-                dailyCalories: dailyCalories,
-                daysOutOfTown: daysOutOfTown,
-                mealsOut: mealsOut,
-                instructions: instructions.trim() || undefined,
-                selectedKnownMeals: Array.from(selectedKnownMeals),
-            }),
-        });
-        const data = await res.json();
+            const res = await fetch("/api/plan", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    preferences: {
+                        dislikes: prefs.dislikes
+                            .split(",")
+                            .map((s) => s.trim())
+                            .filter(Boolean),
+                    },
+                    weekStartISO: weekStartISO,
+                    dailyCalories: dailyCalories,
+                    daysOutOfTown: daysOutOfTown,
+                    mealsOut: mealsOut,
+                    instructions: instructions.trim() || undefined,
+                    selectedKnownMeals: Array.from(selectedKnownMeals),
+                }),
+            });
 
-        // Generate array of actual day names starting from the selected date
-        if (data.plan && data.plan.days) {
-            const dayNames: string[] = [];
-            for (let i = 0; i < 7; i++) {
-                const currentDate = new Date(startDate);
-                currentDate.setDate(startDate.getDate() + i);
-                dayNames.push(
-                    currentDate.toLocaleDateString("en-US", { weekday: "long" })
-                );
+            // Check if the response is ok (status 200-299)
+            if (!res.ok) {
+                // Try to parse JSON error response, but handle non-JSON responses
+                let errorMessage = `Server error: ${res.status} ${res.statusText}`;
+                try {
+                    const errorData = await res.json();
+                    if (errorData.error) {
+                        errorMessage = errorData.error;
+                    }
+                } catch {
+                    // If JSON parsing fails, try to get text response
+                    try {
+                        const errorText = await res.text();
+                        if (errorText) {
+                            errorMessage = `Server error: ${errorText.slice(0, 200)}`;
+                        }
+                    } catch {
+                        // Use default error message
+                    }
+                }
+
+                alert(`Failed to generate meal plan: ${errorMessage}`);
+                setLoading(false);
+                return;
             }
 
-            // Map the generic API response days to actual day names
-            data.plan.days = data.plan.days.map((day: DayPlan, index: number) => ({
-                ...day,
-                day: dayNames[index],
-            }));
-        }
+            // Parse successful JSON response
+            let data;
+            try {
+                data = await res.json();
+            } catch (error) {
+                console.error("Failed to parse response:", error);
+                alert("Failed to parse server response. Please try again.");
+                setLoading(false);
+                return;
+            }
 
-        setPlan(data.plan);
-        setLoading(false);
-        setNewPlan(false);
+            // Generate array of actual day names starting from the selected date
+            if (data.plan && data.plan.days) {
+                const dayNames: string[] = [];
+                for (let i = 0; i < 7; i++) {
+                    const currentDate = new Date(startDate);
+                    currentDate.setDate(startDate.getDate() + i);
+                    dayNames.push(
+                        currentDate.toLocaleDateString("en-US", { weekday: "long" })
+                    );
+                }
+
+                // Map the generic API response days to actual day names
+                data.plan.days = data.plan.days.map((day: DayPlan, index: number) => ({
+                    ...day,
+                    day: dayNames[index],
+                }));
+            }
+
+            setPlan(data.plan);
+            setLoading(false);
+            setNewPlan(false);
+        } catch (error) {
+            console.error("Error generating meal plan:", error);
+            alert(`Failed to generate meal plan: ${error instanceof Error ? error.message : 'Unknown error'}`);
+            setLoading(false);
+        }
     }
 
     function updatePlanDates(plan: Partial<MealPlan>, newStartDate: Date) {
