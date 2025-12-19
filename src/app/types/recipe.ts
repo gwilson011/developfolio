@@ -301,3 +301,101 @@ export interface NutritionAdjustmentResult {
     error?: string;
     details?: unknown;
 }
+
+// Notion Block Types
+export interface RichText {
+    type: string;
+    text?: {
+        content: string;
+        link?: { url: string } | null;
+    };
+    annotations?: {
+        bold: boolean;
+        italic: boolean;
+        strikethrough: boolean;
+        underline: boolean;
+        code: boolean;
+        color: string;
+    };
+    plain_text: string;
+    href?: string | null;
+}
+
+export interface NotionBlock {
+    id: string;
+    type: string;
+    has_children: boolean;
+    created_time: string;
+    last_edited_time: string;
+    archived: boolean;
+    parent: {
+        type: string;
+        page_id?: string;
+        block_id?: string;
+    };
+    // Block type-specific content
+    paragraph?: {
+        rich_text: RichText[];
+        color: string;
+    };
+    heading_1?: {
+        rich_text: RichText[];
+        color: string;
+        is_toggleable: boolean;
+    };
+    heading_2?: {
+        rich_text: RichText[];
+        color: string;
+        is_toggleable: boolean;
+    };
+    heading_3?: {
+        rich_text: RichText[];
+        color: string;
+        is_toggleable: boolean;
+    };
+    bulleted_list_item?: {
+        rich_text: RichText[];
+        color: string;
+    };
+    numbered_list_item?: {
+        rich_text: RichText[];
+        color: string;
+    };
+    to_do?: {
+        rich_text: RichText[];
+        checked: boolean;
+        color: string;
+    };
+    toggle?: {
+        rich_text: RichText[];
+        color: string;
+    };
+    code?: {
+        rich_text: RichText[];
+        language: string;
+    };
+    quote?: {
+        rich_text: RichText[];
+        color: string;
+    };
+    callout?: {
+        rich_text: RichText[];
+        icon?: {
+            type: string;
+            emoji?: string;
+        };
+        color: string;
+    };
+    divider?: Record<string, never>;
+    children?: NotionBlock[];
+    [key: string]: unknown;
+}
+
+export interface PageBlocksResponse {
+    ok: boolean;
+    pageId?: string;
+    blocks?: NotionBlock[];
+    count?: number;
+    error?: string;
+    context?: string;
+}
