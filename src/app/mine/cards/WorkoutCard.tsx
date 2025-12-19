@@ -71,6 +71,8 @@ const WorkoutCard = () => {
             setImageSrc("/mine/legs.png");
         } else if (todayWorkout?.title.includes("Cardio")) {
             setImageSrc("/mine/cardio.png");
+        } else if (todayWorkout?.title.includes("Recovery")) {
+            setImageSrc("/mine/recovery.png");
         }
     }, [workoutData]);
 
