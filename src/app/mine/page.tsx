@@ -4,7 +4,7 @@ import CycleCard from "./cards/CycleCard";
 import WorkoutCard from "./cards/WorkoutCard";
 import DateCard from "./cards/DateCard";
 import VocabCard from "./cards/VocabCard";
-import KrecCard from "./cards/krecCard";
+import KrecCard from "./cards/KrecCard";
 
 export default function Home() {
     return (
