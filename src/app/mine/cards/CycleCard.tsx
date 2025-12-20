@@ -1,28 +1,65 @@
 "use client";
-import { CircularProgressWithLabel } from "../../components/CircularProgressWithLabel";
+import { useState, useEffect } from "react";
+import { CycleData } from "@/app/types/oura";
 
 const CycleCard = () => {
-    return (
-        <div className="border-default rounded p-10 text-black text-center">
-            <CircularProgressWithLabel
-                enableTrackSlot
-                variant="determinate"
-                value={70}
-                size={160}
-                thickness={4}
-                color="inherit"
-                label={
-                    <div className="text-black flex flex-col gap-1">
-                        <span className="font-tango text-[60pt] mb-[-30px]">
-                            15
-                        </span>
-                        <span className="font-louis text-lg">day</span>
-                    </div>
+    const [cycleData, setCycleData] = useState<CycleData | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        const fetchCycleData = async () => {
+            try {
+                setLoading(true);
+                const response = await fetch("/api/oura/cycle");
+                const result = await response.json();
+
+                if (result.ok && result.data) {
+                    setCycleData(result.data);
+                } else {
+                    setError(result.error || "Failed to fetch cycle data");
                 }
-                // style={{
-                //     transform: "rotate(180deg)",
-                // }}
-            />
+            } catch (err) {
+                setError(err instanceof Error ? err.message : "Unknown error");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchCycleData();
+    }, []);
+
+    return (
+        <div className="border-default rounded p-8 text-black text-center">
+            {loading ? (
+                <div className="flex items-center justify-center">
+                    <span className="font-louis text-lg">Loading...</span>
+                </div>
+            ) : error ? (
+                <div className="flex items-center justify-center">
+                    <span className="font-louis text-sm text-red-600">
+                        Error: {error}
+                    </span>
+                </div>
+            ) : cycleData && cycleData.currentCycleDay ? (
+                <div className="flex flex-col gap-2 items-center justify-center">
+                    <span className="font-pixel text-[8pt] leading-none">
+                        DAY
+                    </span>
+                    <span className="font-tango text-[60pt] leading-none">
+                        {cycleData.currentCycleDay}
+                    </span>
+                    <span className="font-louis text-[10pt] leading-none">
+                        {cycleData.currentPhase?.toUpperCase()}
+                    </span>
+                </div>
+            ) : (
+                <div className="flex items-center justify-center">
+                    <span className="font-louis text-lg">
+                        No cycle data available
+                    </span>
+                </div>
+            )}
         </div>
     );
 };
