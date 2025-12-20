@@ -94,7 +94,7 @@ const WorkoutCard = () => {
                     onClick={() => setShowDetails(!showDetails)}
                     className="flex flex-col gap-6 place-content-between"
                 >
-                    <span className="text-[12pt] justify-left font-pixel">
+                    <span className="text-[12pt] text-left font-pixel">
                         {todayWorkout.title.toUpperCase()}
                     </span>
                     {showDetails ? (
