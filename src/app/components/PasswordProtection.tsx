@@ -72,8 +72,21 @@ export default function PasswordProtection({ children }: PasswordProtectionProps
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
+              {/* Hidden username field helps iOS password managers recognize this as a login form */}
+              <input
+                type="text"
+                name="username"
+                id="username"
+                autoComplete="username"
+                style={{ display: 'none' }}
+                tabIndex={-1}
+                aria-hidden="true"
+              />
               <input
                 type="password"
+                name="password"
+                id="password"
+                autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter password"
