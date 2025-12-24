@@ -140,11 +140,19 @@ export function buildMealPlanSystemPrompt(context: MealPlanPromptContext): strin
         - Ensure total ingredient calories ÷ servings matches claimed calories_per_serving
         - If ingredients seem insufficient for claimed calories, increase quantities or adjust serving count
 
-        BASIC NUTRITION TRACKING:
-        - Calculate approximate protein, carbs, fat, and fiber for each recipe using your nutrition knowledge
+        NUTRITION TARGETS - CRITICAL REQUIREMENTS:
+        Your meal plan must meet these daily nutrition targets:
+        - Calories: ${dailyCalories} (±15% tolerance = ${Math.round(dailyCalories * 0.85)}-${Math.round(dailyCalories * 1.15)})
+        - Protein: ${MEAL_PLAN_CONFIG.NUTRITION_TARGETS.protein}g (±10% tolerance = ${Math.round(MEAL_PLAN_CONFIG.NUTRITION_TARGETS.protein * 0.9)}-${Math.round(MEAL_PLAN_CONFIG.NUTRITION_TARGETS.protein * 1.1)}g)
+        - Carbs: ${MEAL_PLAN_CONFIG.NUTRITION_TARGETS.carbs}g (±15% tolerance = ${Math.round(MEAL_PLAN_CONFIG.NUTRITION_TARGETS.carbs * 0.85)}-${Math.round(MEAL_PLAN_CONFIG.NUTRITION_TARGETS.carbs * 1.15)}g)
+        - Fat: ${MEAL_PLAN_CONFIG.NUTRITION_TARGETS.fat}g (±15% tolerance = ${Math.round(MEAL_PLAN_CONFIG.NUTRITION_TARGETS.fat * 0.85)}-${Math.round(MEAL_PLAN_CONFIG.NUTRITION_TARGETS.fat * 1.15)}g)
+        - Fiber: ${MEAL_PLAN_CONFIG.NUTRITION_TARGETS.fiber}g (minimum ${Math.round(MEAL_PLAN_CONFIG.NUTRITION_TARGETS.fiber * 0.8)}g)
+
+        NUTRITION CALCULATION:
+        - Calculate precise protein, carbs, fat, and fiber for each recipe based on ingredients
+        - Use standard nutrition databases knowledge (USDA values)
         - Include these values in the recipe objects as per_serving amounts
-        - Aim for balanced nutrition across meals but don't stress perfect precision yet
-        - This is initial estimation - will be validated and adjusted in a separate step
+        - Sum up all meals for a typical day to verify you're meeting targets
 
         INGREDIENT OPTIMIZATION: Maximize ingredient overlap to minimize grocery shopping complexity while maintaining meal variety. Account for reduced cooking needs due to travel and dining out.
 
@@ -162,6 +170,51 @@ export function buildMealPlanSystemPrompt(context: MealPlanPromptContext): strin
         ❌ Same dinner every single day (e.g., "Grilled Chicken" all 7 days)
         ❌ Only 1 recipe total for any meal category across the entire week
         ✅ OKAY: Same breakfast Mon-Tue-Wed, different Thu-Fri-Sat-Sun
+
+        ═══════════════════════════════════════════════════════════════════════════════
+        CRITICAL SELF-VALIDATION CHECKLIST - COMPLETE BEFORE RESPONDING:
+        ═══════════════════════════════════════════════════════════════════════════════
+
+        Before you return your meal plan, you MUST complete this validation process:
+
+        STEP 1: Calculate Total Daily Nutrition
+        ✓ Pick a representative day (one that's not "Eating Out")
+        ✓ Sum nutrition for all 4 meals (breakfast + lunch + dinner + snack):
+          - Total Calories: _____
+          - Total Protein: _____g
+          - Total Carbs: _____g
+          - Total Fat: _____g
+          - Total Fiber: _____g
+
+        STEP 2: Compare Against Targets
+        ✓ Calories: Is ${dailyCalories} ±15% met? (${Math.round(dailyCalories * 0.85)}-${Math.round(dailyCalories * 1.15)})
+        ✓ Protein: Is ${MEAL_PLAN_CONFIG.NUTRITION_TARGETS.protein}g ±10% met? (${Math.round(MEAL_PLAN_CONFIG.NUTRITION_TARGETS.protein * 0.9)}-${Math.round(MEAL_PLAN_CONFIG.NUTRITION_TARGETS.protein * 1.1)}g)
+        ✓ Carbs: Is ${MEAL_PLAN_CONFIG.NUTRITION_TARGETS.carbs}g ±15% met? (${Math.round(MEAL_PLAN_CONFIG.NUTRITION_TARGETS.carbs * 0.85)}-${Math.round(MEAL_PLAN_CONFIG.NUTRITION_TARGETS.carbs * 1.15)}g)
+        ✓ Fat: Is ${MEAL_PLAN_CONFIG.NUTRITION_TARGETS.fat}g ±15% met? (${Math.round(MEAL_PLAN_CONFIG.NUTRITION_TARGETS.fat * 0.85)}-${Math.round(MEAL_PLAN_CONFIG.NUTRITION_TARGETS.fat * 1.15)}g)
+        ✓ Fiber: Is ≥${Math.round(MEAL_PLAN_CONFIG.NUTRITION_TARGETS.fiber * 0.8)}g met?
+
+        STEP 3: Fix Nutrition Gaps (IF ANY)
+        If ANY nutrition target is not met, you MUST adjust recipes NOW:
+        - Protein deficit? → Add eggs to breakfast, increase protein portions, add Greek yogurt
+        - Fat deficit? → Add olive oil, nuts, avocado, seeds to recipes
+        - Carb surplus? → Reduce grain portions, replace with vegetables
+        - Fiber deficit? → Add berries, vegetables, whole grains, beans
+        - Calorie off? → Adjust portion sizes proportionally
+
+        STEP 4: Verify Ingredient Realism
+        ✓ Check each recipe: Do ingredients realistically match claimed calories?
+        ✓ Example: 600 cal dinner × 4 servings = 2400 cal total from ingredients
+        ✓ If mismatch found, adjust ingredient quantities OR recalculate nutrition
+
+        STEP 5: Verify Variety Requirements
+        ✓ At least 2-3 different breakfast recipes across the week?
+        ✓ At least 2-3 different lunch recipes across the week?
+        ✓ At least 2-3 different dinner recipes across the week?
+        ✓ At least 3-4 different snack options?
+        ✓ No single recipe used more than 4 days?
+
+        ONLY AFTER completing ALL 5 validation steps and fixing any issues should you return your final meal plan.
+        Your response must be the FINAL, VALIDATED, NUTRITION-OPTIMIZED plan.
 
         REQUIRED: Include recipes section with every unique meal AND snack. Use US measurements and return JSON only.`;
 }
@@ -296,4 +349,111 @@ export function buildMealPlanUserContext(requestData: unknown): {
         selected_known_meals: (data.selectedKnownMeals as unknown[]) || [],
         output_format: "JSON only",
     };
+}
+
+/**
+ * Build grocery list consolidation prompt for LLM
+ */
+export function buildGroceryListPrompt(allIngredients: string[]): string {
+    return `You are a grocery shopping expert. Create a practical, consolidated grocery list from these recipe ingredients:
+
+INGREDIENTS FROM RECIPES:
+${allIngredients.map((ing, i) => `${i + 1}. ${ing}`).join('\n')}
+
+═══════════════════════════════════════════════════════════════════════════════
+CONSOLIDATION RULES - CRITICAL:
+═══════════════════════════════════════════════════════════════════════════════
+
+1. COMBINE SIMILAR ITEMS WITH NOTES:
+   - Consolidate similar products when practical
+   - Example: "2 cups chicken breast" + "1 lb chicken thighs" → "2-2.5 lbs chicken (breast for stir-fry, thighs for tacos, OR 4-5 cans)"
+   - Add helpful notes for flexibility and context
+   - Preserve which recipe needs which form when relevant
+
+2. COOKING-TO-SHOPPING CONVERSIONS:
+   Convert cooked amounts to raw shopping amounts:
+   - 2 cups cooked rice → 2/3 cup dry rice
+   - 3 cups cooked quinoa → 1 cup dry quinoa
+   - 2 cups cooked pasta → 1 cup dry pasta
+   - 1 cup cooked beans → 1/3 cup dry beans (OR 1 can)
+   - 2 cups cooked chicken → 1-1.5 lbs raw chicken
+
+3. UNIT STANDARDIZATION:
+   Use shopping-friendly units:
+   - Proteins: weight (lbs, oz) - "1.5-2 lbs chicken"
+   - Produce: count or weight - "3-4 tomatoes" or "1 lb carrots"
+   - Liquids: volume (cups, tablespoons) - "1 cup olive oil"
+   - Grains: volume or weight - "2 cups rice" or "1 lb pasta"
+   - Dairy: standard packaging - "1 quart milk", "8 oz cheese"
+
+4. PRACTICAL ROUNDING:
+   Round to realistic shopping amounts:
+   - 1.2 lbs → 1-1.5 lbs
+   - 0.66 cups → 2/3 cup
+   - 3.2 tomatoes → 3-4 tomatoes
+   - 2.3 cups → 2-2.5 cups
+
+5. KEEP VS COMBINE:
+   KEEP SEPARATE (meaningful differences):
+   - Fresh vs frozen vs canned
+   - Whole vs ground (for proteins/grains)
+   - Different product types (chicken vs beef, spinach vs kale)
+
+   COMBINE (trivial differences):
+   - Diced vs sliced vs chopped (same product, different prep)
+   - Organic vs regular
+   - Different brands
+   - "Extra virgin" vs regular olive oil
+
+6. CATEGORIZATION:
+   Group items by grocery store section:
+   - produce: Fresh fruits and vegetables
+   - proteins: Meats, fish, eggs, tofu, beans
+   - dairy: Milk, cheese, yogurt, butter, cream
+   - grains: Rice, pasta, bread, cereals, flour
+   - condiments: Oils, sauces, spices, seasonings, vinegar
+   - nuts: Nuts and seeds
+   - other: Items that don't fit above categories
+
+═══════════════════════════════════════════════════════════════════════════════
+OUTPUT FORMAT:
+═══════════════════════════════════════════════════════════════════════════════
+
+Return a JSON object with categorized arrays. Each item should be a complete, ready-to-shop string with:
+- Quantity range if flexible (1-1.5 lbs)
+- Product name
+- Notes in parentheses for context/alternatives
+
+Example output structure:
+{
+  "produce": [
+    "3-4 large tomatoes (or 1 can diced tomatoes)",
+    "1 lb broccoli florets",
+    "2 bell peppers (any color)"
+  ],
+  "proteins": [
+    "2-2.5 lbs chicken (breast for stir-fry, thighs for tacos, OR 4-5 cans)",
+    "1 lb ground beef"
+  ],
+  "dairy": [
+    "1 quart milk",
+    "8 oz shredded cheese"
+  ],
+  "grains": [
+    "2 cups dry rice (brown or white)",
+    "1 lb pasta"
+  ],
+  "condiments": [
+    "1/2 cup olive oil",
+    "2 tablespoons soy sauce"
+  ],
+  "nuts": [
+    "1/2 cup almonds or walnuts"
+  ],
+  "other": [
+    "Any items that don't fit other categories"
+  ]
+}
+
+Return ONLY the JSON object. Do not include any other text.`;
 }

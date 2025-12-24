@@ -17,6 +17,20 @@ import { VOLUME_UNITS, WEIGHT_UNITS } from '@/config/meal-plan';
  * Comprehensive ingredient parser that handles quantities, units, and names
  */
 export function parseIngredient(ingredient: string): ParsedIngredient {
+    // Known units - used to validate parsed unit is actually a unit, not part of ingredient name
+    const knownUnits = new Set([
+        'cup', 'cups', 'tablespoon', 'tablespoons', 'tbsp', 'tbsps',
+        'teaspoon', 'teaspoons', 'tsp', 'tsps',
+        'pound', 'pounds', 'lb', 'lbs', 'ounce', 'ounces', 'oz', 'ozs',
+        'gram', 'grams', 'g', 'kilogram', 'kilograms', 'kg',
+        'can', 'cans', 'jar', 'jars', 'bottle', 'bottles',
+        'slice', 'slices', 'piece', 'pieces', 'clove', 'cloves',
+        'whole', 'wholes', 'bunch', 'bunches', 'bag', 'bags',
+        'medium', 'mediums', 'large', 'larges', 'small', 'smalls',
+        'pint', 'pints', 'quart', 'quarts', 'gallon', 'gallons',
+        'bell', 'bells', // for "bell peppers"
+    ]);
+
     // Enhanced patterns to catch various quantity formats
     // Order matters: more specific patterns first
     const patterns = [
@@ -44,8 +58,16 @@ export function parseIngredient(ingredient: string): ParsedIngredient {
             // Check if this pattern has a unit (3 groups) or no unit (2 groups)
             if (match.length === 4) {
                 // Pattern with unit: [full, quantity, unit, name]
-                const [, , unit, name] = match;
-                return { quantity, unit: unit.toLowerCase(), name: name.trim() };
+                const [, , potentialUnit, name] = match;
+                const unitLower = potentialUnit.toLowerCase();
+
+                // Validate that this is actually a known unit, not part of the name
+                if (knownUnits.has(unitLower)) {
+                    return { quantity, unit: unitLower, name: name.trim() };
+                } else {
+                    // Not a known unit, treat "unit + name" as the full name
+                    return { quantity, unit: "", name: `${potentialUnit} ${name}`.trim() };
+                }
             } else {
                 // Pattern without unit: [full, quantity, name]
                 const [, , name] = match;
@@ -83,22 +105,109 @@ export function parseQuantityString(quantityStr: string): number {
 
 /**
  * Normalize ingredient name for comparison and grouping
+ *
+ * STRATEGY: Keep words that indicate different products you'd buy at the store.
+ * Remove only cosmetic/quality descriptors that don't change what you purchase.
+ *
+ * KEEP (product differentiators):
+ * - Preparation: diced, crushed, whole, ground, sliced, chopped, minced, shredded, pureed
+ * - Form/state: canned, dried, frozen, fresh
+ * - Cooking state: cooked, uncooked, raw
+ *
+ * REMOVE (quality descriptors):
+ * - Quality: organic, extra virgin, premium
+ * - Health: low fat, fat free, reduced sodium, no salt added
  */
 export function normalizeIngredientName(name: string): string {
-    return name
+    let normalized = name
         .toLowerCase()
-        .trim()
-        // Remove descriptive words that don't affect shopping
-        .replace(/\b(fresh|organic|extra virgin|low fat|whole|diced|chopped|sliced|minced|crushed|ground)\b/g, '')
-        // Remove parenthetical descriptions
-        .replace(/\([^)]*\)/g, '')
-        // Normalize plurals
-        .replace(/s$/, '')
-        // Remove quantities if they slipped through (including fractions)
-        .replace(/^\d+(\.\d+)?(\s+\d+\/\d+|\s*\/\d+)?\s*(cups?|tbsp|tsp|lbs?|oz|cloves?|slices?|pieces?|medium|large|small|bunch|bag|can|bottle)?\s*/i, '')
-        // Remove extra whitespace
-        .replace(/\s+/g, ' ')
         .trim();
+
+    // Special case: filter out non-ingredient items entirely
+    if (normalized.includes('salt and pepper to taste') ||
+        normalized.includes('to taste') ||
+        normalized.includes('as needed')) {
+        return ''; // Return empty string to indicate this should be filtered out
+    }
+
+    // Remove ONLY quality/brand descriptors that don't change the product
+    // Keep preparation words (diced, crushed, etc.) - they indicate different products!
+    const qualityDescriptorsToRemove = [
+        'organic',
+        'extra virgin',
+        'premium',
+        'gourmet',
+        'artisan',
+        'homemade',
+        'low fat',
+        'fat free',
+        'fat-free',
+        'reduced fat',
+        'low sodium',
+        'reduced sodium',
+        'no salt added',
+        'unsalted',
+        'salted',
+        'drained and rinsed', // This is just a preparation instruction
+        'trimmed',
+        'halved',
+    ];
+
+    // Build regex pattern from quality descriptors
+    const pattern = new RegExp('\\b(' + qualityDescriptorsToRemove.join('|') + ')\\b', 'gi');
+    normalized = normalized.replace(pattern, '');
+
+    // Remove parenthetical descriptions (usually brand or optional info)
+    normalized = normalized.replace(/\([^)]*\)/g, '');
+
+    // Remove quantities if they slipped through (better regex)
+    // This needs to happen BEFORE plural normalization
+    normalized = normalized.replace(/^\d+(\.\d+)?\s*(\/\d+)?\s*(cups?|tbsps?|tsps?|lbs?|ozs?|cloves?|slices?|pieces?|mediums?|larges?|smalls?|bunchs?|bags?|cans?|bottles?|wholes?)?\s*/i, '');
+
+    // Clean up comma artifacts and extra descriptors FIRST (before plural handling)
+    normalized = normalized.replace(/,\s*sliced/gi, '');
+    normalized = normalized.replace(/,\s*chopped/gi, '');
+    normalized = normalized.replace(/,\s*minced/gi, '');
+    normalized = normalized.replace(/,\s*mashed/gi, '');
+    normalized = normalized.replace(/,\s*juiced/gi, '');
+    // Keep diced if it has comma (it's meaningful for product differentiation)
+    normalized = normalized.replace(/,\s*diced(?!\s)/gi, ''); // Only if not "diced tomatoes"
+
+    // Smarter plural normalization
+    // Words that should NEVER be singularized
+    const wordsNotToPluralize = [
+        'hummus', 'asparagus', 'couscous', 'quinoa', 'rice', 'lettuce',
+        'berries', 'greens', 'peas', 'beans', 'oats' // Common foods where plural form is standard
+    ];
+    const isExcluded = wordsNotToPluralize.some(word => normalized.includes(word));
+
+    if (!isExcluded && !normalized.endsWith('ss') && !normalized.endsWith('us')) {
+        // Handle "ies" -> "y" (berries -> berry, BUT we excluded berries above)
+        normalized = normalized.replace(/ies\s/gi, 'y '); // "strawberries " -> "strawberry "
+        normalized = normalized.replace(/ies$/i, 'y'); // "strawberries" -> "strawberry"
+
+        // Handle regular plurals (not already ending in 'y' from above)
+        if (!normalized.endsWith('y')) {
+            normalized = normalized.replace(/([a-z])s\s/gi, '$1 '); // "apples " -> "apple "
+            normalized = normalized.replace(/([a-z])s$/i, '$1'); // "apples" -> "apple"
+        }
+    }
+
+    // Remove extra whitespace
+    normalized = normalized.replace(/\s+/g, ' ').trim();
+
+    // Remove leading/trailing commas
+    normalized = normalized.replace(/^,\s*|,\s*$/g, '');
+
+    // Log significant normalizations for debugging (only if not empty)
+    if (normalized.length > 0 && name.toLowerCase().trim() !== normalized) {
+        const removedWords = name.toLowerCase().trim().replace(normalized, '').trim();
+        if (removedWords.length > 0) {
+            console.log(`[normalizeIngredientName] "${name}" → "${normalized}" (removed: "${removedWords}")`);
+        }
+    }
+
+    return normalized.trim();
 }
 
 /**

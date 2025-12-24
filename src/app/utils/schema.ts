@@ -25,7 +25,7 @@ export const MealsSchema = z.object({
 export const DaySchema = z.object({
     day: z.string(),
     meals: MealsSchema,
-    calories_estimate: z.number().optional(),
+    calories_estimate: z.number(), // Required for OpenAI structured outputs
 });
 
 // Grocery list schema
@@ -92,3 +92,150 @@ export type Plan = z.infer<typeof PlanSchema>;
 export type MealPlanRequest = z.infer<typeof MealPlanRequestSchema>;
 export type NutritionTargets = z.infer<typeof NutritionTargetsSchema>;
 export type NutritionValidation = z.infer<typeof NutritionValidationSchema>;
+
+// JSON Schema for OpenAI Structured Outputs
+// Converted from PlanSchema for use with response_format
+export const MealPlanJSONSchema = {
+    type: "object",
+    properties: {
+        week: {
+            type: "string",
+            description: "Week identifier in ISO format"
+        },
+        days: {
+            type: "array",
+            items: {
+                type: "object",
+                properties: {
+                    day: {
+                        type: "string",
+                        description: "Day of the week"
+                    },
+                    meals: {
+                        type: "object",
+                        properties: {
+                            breakfast: { type: "string" },
+                            lunch: { type: "string" },
+                            dinner: { type: "string" },
+                            snack: { type: "string" }
+                        },
+                        required: ["breakfast", "lunch", "dinner", "snack"],
+                        additionalProperties: false
+                    },
+                    calories_estimate: {
+                        type: "number",
+                        description: "Estimated total calories for this day"
+                    }
+                },
+                required: ["day", "meals", "calories_estimate"],
+                additionalProperties: false
+            },
+            minItems: 7,
+            maxItems: 7,
+            description: "Array of 7 days for the weekly meal plan"
+        },
+        recipes: {
+            type: "object",
+            description: "Recipe details keyed by recipe name",
+            additionalProperties: {
+                type: "object",
+                properties: {
+                    ingredients: {
+                        type: "array",
+                        items: { type: "string" },
+                        description: "List of ingredients with quantities"
+                    },
+                    instructions: {
+                        type: "string",
+                        description: "Cooking instructions"
+                    },
+                    servings: {
+                        type: "number",
+                        description: "Number of servings this recipe makes"
+                    },
+                    calories_per_serving: {
+                        type: "number",
+                        description: "Calories per serving"
+                    },
+                    protein_per_serving: {
+                        type: "number",
+                        description: "Protein in grams per serving"
+                    },
+                    carbs_per_serving: {
+                        type: "number",
+                        description: "Carbohydrates in grams per serving"
+                    },
+                    fat_per_serving: {
+                        type: "number",
+                        description: "Fat in grams per serving"
+                    },
+                    fiber_per_serving: {
+                        type: "number",
+                        description: "Fiber in grams per serving"
+                    }
+                },
+                required: [
+                    "ingredients",
+                    "instructions",
+                    "servings",
+                    "calories_per_serving",
+                    "protein_per_serving",
+                    "carbs_per_serving",
+                    "fat_per_serving",
+                    "fiber_per_serving"
+                ],
+                additionalProperties: false
+            }
+        },
+        target_daily_calories: {
+            type: "number",
+            description: "Target daily calorie intake"
+        }
+    },
+    required: ["week", "days", "recipes", "target_daily_calories"],
+    additionalProperties: false
+} as const;
+
+// JSON Schema for LLM-generated Grocery Lists
+export const GroceryListJSONSchema = {
+    type: "object",
+    properties: {
+        produce: {
+            type: "array",
+            items: { type: "string" },
+            description: "Fruits and vegetables"
+        },
+        proteins: {
+            type: "array",
+            items: { type: "string" },
+            description: "Meats, fish, eggs, tofu, beans"
+        },
+        dairy: {
+            type: "array",
+            items: { type: "string" },
+            description: "Milk, cheese, yogurt, butter"
+        },
+        grains: {
+            type: "array",
+            items: { type: "string" },
+            description: "Rice, pasta, bread, cereals"
+        },
+        condiments: {
+            type: "array",
+            items: { type: "string" },
+            description: "Oils, sauces, spices, seasonings"
+        },
+        nuts: {
+            type: "array",
+            items: { type: "string" },
+            description: "Nuts and seeds"
+        },
+        other: {
+            type: "array",
+            items: { type: "string" },
+            description: "Items that don't fit other categories"
+        }
+    },
+    required: ["produce", "proteins", "dairy", "grains", "condiments"],
+    additionalProperties: true
+} as const;
