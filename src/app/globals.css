@@ -9,7 +9,7 @@
 
 @font-face {
     font-family: "Pixeled";
-    src: url("../../public/fonts/Pixeled.woff2") format("woff2");
+    src: url("../../public/fonts/Pixeled-Regular.woff2") format("woff2");
     font-weight: 400; /* You can define different weights */
     font-style: normal;
 }

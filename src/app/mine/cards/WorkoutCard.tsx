@@ -48,9 +48,9 @@ const WorkoutCard = () => {
                     setWorkoutData(parsed as WorkoutData);
 
                     // Access structured data
-                    console.log("Notes:", parsed.notes);
-                    console.log("Monday workout:", parsed.schedule?.["Monday"]);
-                    console.log("Archives:", parsed.archives);
+                    // console.log("Notes:", parsed.notes);
+                    // console.log("Monday workout:", parsed.schedule?.["Monday"]);
+                    // console.log("Archives:", parsed.archives);
                 }
             } catch (error) {
                 console.error("Error fetching blocks:", error);
@@ -69,9 +69,15 @@ const WorkoutCard = () => {
             setImageSrc("/mine/push.png");
         } else if (todayWorkout?.title.includes("Leg ")) {
             setImageSrc("/mine/legs.png");
-        } else if (todayWorkout?.title.includes("Cardio")) {
+        } else if (
+            todayWorkout?.title.includes("Cardio") ||
+            todayWorkout?.title.includes("Run")
+        ) {
             setImageSrc("/mine/cardio.png");
-        } else if (todayWorkout?.title.includes("Recovery")) {
+        } else if (
+            todayWorkout?.title.includes("Recovery") ||
+            todayWorkout?.title.includes("Rest")
+        ) {
             setImageSrc("/mine/recovery.png");
         }
     }, [workoutData]);

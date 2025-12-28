@@ -6,6 +6,7 @@ import WorkoutCard from "./cards/WorkoutCard";
 import DateCard from "./cards/DateCard";
 import VocabCard from "./cards/VocabCard";
 import KrecCard from "./cards/KrecCard";
+import DailyMealCard from "./cards/DailyMealCard";
 
 export default function Home() {
     return (
@@ -20,6 +21,7 @@ export default function Home() {
                 <div className="flex flex-col p-4 md:p-0 justify-center md:items-start w-full gap-3 flex-start md:max-w-[60%] md:h-screen md:flex-row">
                     <VocabCard />
                     <KrecCard />
+                    <DailyMealCard />
                 </div>
             </div>
         </PasswordProtection>

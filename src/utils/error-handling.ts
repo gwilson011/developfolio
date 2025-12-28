@@ -1,7 +1,7 @@
 // Centralized error handling utilities for meal planning system
 
-import { NextResponse } from 'next/server';
-import { MEAL_PLAN_CONFIG } from '@/config/meal-plan';
+import { NextResponse } from "next/server";
+import { MEAL_PLAN_CONFIG } from "@/config/meal-plan";
 
 export interface APIError {
     message: string;
@@ -28,13 +28,13 @@ export function handleAPIError(
     console.error(`[${context}] Error:`, error);
 
     // Handle different error types
-    if (error instanceof SyntaxError && error.message.includes('JSON')) {
+    if (error instanceof SyntaxError && error.message.includes("JSON")) {
         return NextResponse.json(
             {
                 ok: false,
                 error: "Invalid JSON format",
                 context,
-                details: error.message
+                details: error.message,
             },
             { status: 400 }
         );
@@ -49,7 +49,9 @@ export function handleAPIError(
                 ok: false,
                 error: "External API error",
                 context,
-                details: errorWithResponse.response.data || errorWithResponse.message
+                details:
+                    errorWithResponse.response.data ||
+                    errorWithResponse.message,
             },
             { status: errorWithResponse.response.status >= 500 ? 503 : 400 }
         );
@@ -63,7 +65,7 @@ export function handleAPIError(
             {
                 ok: false,
                 error: errorWithStatus.message || fallbackMessage,
-                context
+                context,
             },
             { status: errorWithStatus.status }
         );
@@ -75,7 +77,12 @@ export function handleAPIError(
             ok: false,
             error: fallbackMessage,
             context,
-            details: process.env.NODE_ENV === 'development' ? (error instanceof Error ? error.message : String(error)) : undefined
+            details:
+                process.env.NODE_ENV === "development"
+                    ? error instanceof Error
+                        ? error.message
+                        : String(error)
+                    : undefined,
         },
         { status: 500 }
     );
@@ -93,7 +100,7 @@ export async function safeAsyncOperation<T>(
         const result = await operation();
         return {
             success: true,
-            data: result
+            data: result,
         };
     } catch (error) {
         console.error(`[${context}] Error:`, error);
@@ -101,7 +108,7 @@ export async function safeAsyncOperation<T>(
             success: false,
             error: error instanceof Error ? error.message : String(error),
             details: error,
-            data: fallback
+            data: fallback,
         };
     }
 }
@@ -118,7 +125,7 @@ export function safeJsonParse<T>(
         const parsed = JSON.parse(jsonString);
         return {
             success: true,
-            data: parsed
+            data: parsed,
         };
     } catch (error) {
         console.error(`[${context}] JSON parse error:`, error);
@@ -126,7 +133,7 @@ export function safeJsonParse<T>(
             success: false,
             error: "Invalid JSON format",
             details: error,
-            data: fallback
+            data: fallback,
         };
     }
 }
@@ -138,15 +145,20 @@ export function validateEnvironment(
     requiredVars: string[],
     context: string
 ): NextResponse | null {
-    const missingVars = requiredVars.filter(varName => !process.env[varName]);
+    const missingVars = requiredVars.filter((varName) => !process.env[varName]);
 
     if (missingVars.length > 0) {
-        console.error(`[${context}] Missing environment variables:`, missingVars);
+        console.error(
+            `[${context}] Missing environment variables:`,
+            missingVars
+        );
         return NextResponse.json(
             {
                 ok: false,
-                error: `Missing required environment variables: ${missingVars.join(', ')}`,
-                context
+                error: `Missing required environment variables: ${missingVars.join(
+                    ", "
+                )}`,
+                context,
             },
             { status: 500 }
         );
@@ -167,19 +179,21 @@ export function validateCalories(
             {
                 ok: false,
                 error: "dailyCalories must be a number",
-                context
+                context,
             },
             { status: 400 }
         );
     }
 
-    if (calories < MEAL_PLAN_CONFIG.CONSTRAINTS.min_daily_calories ||
-        calories > MEAL_PLAN_CONFIG.CONSTRAINTS.max_daily_calories) {
+    if (
+        calories < MEAL_PLAN_CONFIG.CONSTRAINTS.min_daily_calories ||
+        calories > MEAL_PLAN_CONFIG.CONSTRAINTS.max_daily_calories
+    ) {
         return NextResponse.json(
             {
                 ok: false,
                 error: `dailyCalories must be between ${MEAL_PLAN_CONFIG.CONSTRAINTS.min_daily_calories} and ${MEAL_PLAN_CONFIG.CONSTRAINTS.max_daily_calories}`,
-                context
+                context,
             },
             { status: 400 }
         );
@@ -193,8 +207,8 @@ export function validateCalories(
  */
 export function cleanAIResponse(content: string): string {
     return content
-        .replace(/```json\s*/g, '')
-        .replace(/```\s*/g, '')
+        .replace(/```json\s*/g, "")
+        .replace(/```\s*/g, "")
         .trim();
 }
 
@@ -213,11 +227,16 @@ export async function withRetry<T>(
             return await operation();
         } catch (error) {
             lastError = error;
-            console.warn(`[${context}] Attempt ${attempt}/${maxAttempts} failed:`, error);
+            console.warn(
+                `[${context}] Attempt ${attempt}/${maxAttempts} failed:`,
+                error
+            );
 
             if (attempt < maxAttempts) {
                 // Wait before retry (exponential backoff)
-                await new Promise(resolve => setTimeout(resolve, Math.pow(2, attempt) * 1000));
+                await new Promise((resolve) =>
+                    setTimeout(resolve, Math.pow(2, attempt) * 1000)
+                );
             }
         }
     }
@@ -236,7 +255,13 @@ export function withTimeout<T>(
     return Promise.race([
         operation,
         new Promise<never>((_, reject) =>
-            setTimeout(() => reject(new Error(`${context} timed out after ${timeoutMs}ms`)), timeoutMs)
-        )
+            setTimeout(
+                () =>
+                    reject(
+                        new Error(`${context} timed out after ${timeoutMs}ms`)
+                    ),
+                timeoutMs
+            )
+        ),
     ]);
 }
