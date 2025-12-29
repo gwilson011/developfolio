@@ -1092,8 +1092,8 @@ export default function Home() {
             )}
             {plan && !newPlan && (
                 <div className="space-y-6 flex flex-col">
-                    <div className="flex flex-col gap-6 md:flex-row w-full justify-between">
-                        <div className="flex flex-col text-center justify-center w-full gap-4">
+                    <div className="flex flex-col gap-6 md:flex-row w-full">
+                        <div className="flex flex-col text-center justify-center w-full md:max-w-[30%] gap-4">
                             <div className="">
                                 <h2 className="font-tango text-lg text-black">
                                     Week of
@@ -1118,7 +1118,7 @@ export default function Home() {
                                 </button>
                             </div>
                         </div>
-                        <div className="justify-center max-w-[100vh] md:p-10">
+                        <div className="max-w-[150vh] md:p-10">
                             <h3 className="font-tango text-black text-3xl">
                                 GROCERY LIST
                             </h3>
