@@ -4,7 +4,13 @@ import MealCard from "../components/MealCard";
 import PlanCard from "../components/PlanCard";
 import RecipePreview from "../components/RecipePreview";
 import Image from "next/image";
-import { RecipeForNotion, MealData, MealPlan, DayPlan, PlanSummary } from "@/app/types/recipe";
+import {
+    RecipeForNotion,
+    MealData,
+    MealPlan,
+    DayPlan,
+    PlanSummary,
+} from "@/app/types/recipe";
 import { useMealPlanningState } from "../../hooks/useMealPlanState";
 
 // const DAYS = ["M", "T", "W", "TH", "F", "S", "S"]; // Unused
@@ -140,8 +146,9 @@ export default function Home() {
                 // Filter unique meals by name
                 const uniqueMeals = (data.meals as MealData[]).filter(
                     (meal: MealData, index: number, array: MealData[]) =>
-                        array.findIndex((m: MealData) => m.name === meal.name) ===
-                        index
+                        array.findIndex(
+                            (m: MealData) => m.name === meal.name
+                        ) === index
                 );
                 setKnownMeals(uniqueMeals);
             }
@@ -267,7 +274,10 @@ export default function Home() {
                     try {
                         const errorText = await res.text();
                         if (errorText) {
-                            errorMessage = `Server error: ${errorText.slice(0, 200)}`;
+                            errorMessage = `Server error: ${errorText.slice(
+                                0,
+                                200
+                            )}`;
                         }
                     } catch {
                         // Use default error message
@@ -297,15 +307,19 @@ export default function Home() {
                     const currentDate = new Date(startDate);
                     currentDate.setDate(startDate.getDate() + i);
                     dayNames.push(
-                        currentDate.toLocaleDateString("en-US", { weekday: "long" })
+                        currentDate.toLocaleDateString("en-US", {
+                            weekday: "long",
+                        })
                     );
                 }
 
                 // Map the generic API response days to actual day names
-                data.plan.days = data.plan.days.map((day: DayPlan, index: number) => ({
-                    ...day,
-                    day: dayNames[index],
-                }));
+                data.plan.days = data.plan.days.map(
+                    (day: DayPlan, index: number) => ({
+                        ...day,
+                        day: dayNames[index],
+                    })
+                );
             }
 
             setPlan(data.plan);
@@ -313,7 +327,11 @@ export default function Home() {
             setNewPlan(false);
         } catch (error) {
             console.error("Error generating meal plan:", error);
-            alert(`Failed to generate meal plan: ${error instanceof Error ? error.message : 'Unknown error'}`);
+            alert(
+                `Failed to generate meal plan: ${
+                    error instanceof Error ? error.message : "Unknown error"
+                }`
+            );
             setLoading(false);
         }
     }
@@ -582,7 +600,7 @@ export default function Home() {
                                         setTodaySelected(!todaySelected);
                                     }}
                                     disabled={loading}
-                                    className={`flex w-full p-3 border-default items-center justify-center font-pixel text-xs hover:text-white hover:bg-black
+                                    className={`flex w-full p-3 pb-1 border-default items-center justify-center font-pixel text-xs hover:text-white hover:bg-black
                                 ${
                                     todaySelected
                                         ? "bg-black text-white"
@@ -596,7 +614,7 @@ export default function Home() {
                                         setTodaySelected(!todaySelected);
                                     }}
                                     disabled={loading}
-                                    className={`flex items-center p-3 border-default justify-center font-pixel text-xs hover:text-white hover:bg-black
+                                    className={`flex items-center p-3 pb-1 border-default justify-center font-pixel text-xs hover:text-white hover:bg-black
                                 ${
                                     todaySelected
                                         ? "bg-white text-black"
@@ -728,7 +746,7 @@ export default function Home() {
                                         setEatOut(eatOut > 0 ? 0 : 1);
                                     }}
                                     disabled={loading}
-                                    className={`flex w-full p-3 border-default items-center justify-center font-pixel text-xs hover:text-white hover:bg-black
+                                    className={`flex w-full p-3 pb-1 border-default items-center justify-center font-pixel text-xs hover:text-white hover:bg-black
                                 ${
                                     eatOut > 0
                                         ? "bg-black text-white"
@@ -900,7 +918,7 @@ export default function Home() {
                                         setAddInstructions(!addInstructions);
                                     }}
                                     disabled={loading}
-                                    className={`flex items-center w-full p-3 border-default justify-center font-pixel text-xs hover:text-white hover:bg-black
+                                    className={`flex items-center w-full p-3 pb-1 border-default justify-center font-pixel text-xs hover:text-white hover:bg-black
                                 ${
                                     addInstructions
                                         ? "bg-black text-white"
@@ -914,7 +932,7 @@ export default function Home() {
                                         setSelectKnownMeals(!selectKnownMeals);
                                     }}
                                     disabled={loading}
-                                    className={`flex items-center w-full p-3 border-default justify-center font-pixel text-xs hover:text-white hover:bg-black
+                                    className={`flex items-center w-full p-3 pb-1 border-default justify-center font-pixel text-xs hover:text-white hover:bg-black
                                 ${
                                     selectKnownMeals
                                         ? "bg-black text-white"
@@ -938,14 +956,14 @@ export default function Home() {
                                 <button
                                     onClick={() => setNewPlan(false)}
                                     disabled={loading}
-                                    className="flex items-center p-3 bg-white border-default justify-center text-black font-pixel text-xs hover:text-white hover:bg-black"
+                                    className="flex items-center p-3 pb-1 bg-white border-default justify-center text-black font-pixel text-xs hover:text-white hover:bg-black"
                                 >
                                     BACK
                                 </button>
                                 <button
                                     onClick={handleGenerate}
                                     disabled={loading}
-                                    className="flex items-center p-3 w-full hover:bg-white border-default justify-center hover:text-black font-pixel text-xs text-white bg-black"
+                                    className="flex items-center p-3 pb-1 w-full hover:bg-white border-default justify-center hover:text-black font-pixel text-xs text-white bg-black"
                                 >
                                     {loading
                                         ? "GENERATING..."
@@ -1094,7 +1112,7 @@ export default function Home() {
                                         setNewPlan(true);
                                     }}
                                     disabled={loading}
-                                    className="flex items-center p-2 bg-white border-default justify-center text-black font-pixel text-[8pt] hover:text-white hover:bg-black"
+                                    className="flex items-center px-2 pt-3 pb-1 bg-white border-default justify-center text-black font-pixel text-[8pt] hover:text-white hover:bg-black"
                                 >
                                     NEW PLAN
                                 </button>
@@ -1112,9 +1130,13 @@ export default function Home() {
                                                 {category.toUpperCase()}
                                             </h4>
                                             <ul className="font-louis text-black list-disc list-inside text-nowrap">
-                                                {(items as string[]).map((item: string) => (
-                                                    <li key={item}>{item}</li>
-                                                ))}
+                                                {(items as string[]).map(
+                                                    (item: string) => (
+                                                        <li key={item}>
+                                                            {item}
+                                                        </li>
+                                                    )
+                                                )}
                                             </ul>
                                         </div>
                                     )
@@ -1136,7 +1158,7 @@ export default function Home() {
                                     );
                                     setShowScreenshotImport(false);
                                 }}
-                                className={`w-full md:w-fit flex items-center px-4 py-2 border-default justify-center font-pixel text-xs hover:text-white hover:bg-black
+                                className={`w-full md:w-fit flex items-center px-4 pt-3 pb-1 border-default justify-center font-pixel text-xs hover:text-white hover:bg-black
                             ${
                                 showInstagramImport
                                     ? "bg-black text-white"
@@ -1152,7 +1174,7 @@ export default function Home() {
                                     );
                                     setShowInstagramImport(false);
                                 }}
-                                className={`flex items-center w-full md:w-fit px-4 py-2 border-default justify-center font-pixel text-xs hover:text-white hover:bg-black
+                                className={`flex items-center w-full md:w-fit px-4 pt-3 pb-1  border-default justify-center font-pixel text-xs hover:text-white hover:bg-black
                             ${
                                 showScreenshotImport
                                     ? "bg-black text-white"
@@ -1315,8 +1337,9 @@ export default function Home() {
                                         ].map((mealType) => {
                                             const mealName =
                                                 day.meals[mealType];
-                                            const recipe =
-                                                mealName ? plan.recipes?.[mealName] : undefined;
+                                            const recipe = mealName
+                                                ? plan.recipes?.[mealName]
+                                                : undefined;
 
                                             // Handle "Eating Out" and missing recipes gracefully
                                             const isEatingOut =
@@ -1370,7 +1393,7 @@ export default function Home() {
                         </div>
                         <button
                             onClick={handleAppend}
-                            className="flex items-center p-3 hover:bg-white border-default justify-center hover:text-black font-pixel text-sm text-white bg-black"
+                            className="flex items-center px-3 pt-3 pb-1  hover:bg-white border-default justify-center hover:text-black font-pixel text-sm text-white bg-black"
                         >
                             ADD TO NOTION
                         </button>
@@ -1391,18 +1414,22 @@ export default function Home() {
                     </div>
                 ) : (
                     <div className="flex flex-col gap-3">
-                        {previousPlans.map((planItem: PlanSummary, index: number) => (
-                            <PlanCard
-                                key={index}
-                                name={planItem.name}
-                                week={planItem.week}
-                                dailyCalories={planItem.dailyCalories}
-                                ingredientCount={planItem.ingredientCount}
-                                uniqueMealCount={planItem.uniqueMealCount}
-                                onLoadPlan={loadPreviousPlan}
-                                isLoading={loadingPlanWeek === planItem.week}
-                            />
-                        ))}
+                        {previousPlans.map(
+                            (planItem: PlanSummary, index: number) => (
+                                <PlanCard
+                                    key={index}
+                                    name={planItem.name}
+                                    week={planItem.week}
+                                    dailyCalories={planItem.dailyCalories}
+                                    ingredientCount={planItem.ingredientCount}
+                                    uniqueMealCount={planItem.uniqueMealCount}
+                                    onLoadPlan={loadPreviousPlan}
+                                    isLoading={
+                                        loadingPlanWeek === planItem.week
+                                    }
+                                />
+                            )
+                        )}
                     </div>
                 )}
             </div>
