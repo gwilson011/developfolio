@@ -1091,8 +1091,8 @@ export default function Home() {
                 </div>
             )}
             {plan && !newPlan && (
-                <div className="space-y-6 flex flex-col ">
-                    <div className="flex flex-col md:flex-row w-full justify-between">
+                <div className="space-y-6 flex flex-col">
+                    <div className="flex flex-col gap-6 md:flex-row w-full justify-between">
                         <div className="flex flex-col text-center justify-center w-full gap-4">
                             <div className="">
                                 <h2 className="font-tango text-lg text-black">
@@ -1118,18 +1118,18 @@ export default function Home() {
                                 </button>
                             </div>
                         </div>
-                        <div className="justify-center max-w-[100vh] p-6 md:p-10">
+                        <div className="justify-center max-w-[100vh] md:p-10">
                             <h3 className="font-tango text-black text-3xl">
                                 GROCERY LIST
                             </h3>
-                            <div className="flex gap-3 flex-col md:flex-row md:overflow-auto md:w-full border-default rounded p-8 mt-4">
+                            <div className="flex gap-3 flex-col md:flex-row md:overflow-auto w-full border-default rounded p-8 mt-4">
                                 {Object.entries(plan.grocery_list || {}).map(
                                     ([category, items]) => (
                                         <div key={category}>
                                             <h4 className="font-pixel text-xs text-black p-4">
                                                 {category.toUpperCase()}
                                             </h4>
-                                            <ul className="font-louis text-black list-disc list-inside text-nowrap">
+                                            <ul className="font-louis text-black list-disc list-inside md:text-nowrap">
                                                 {(items as string[]).map(
                                                     (item: string) => (
                                                         <li key={item}>
