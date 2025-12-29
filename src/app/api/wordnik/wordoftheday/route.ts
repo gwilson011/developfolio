@@ -55,7 +55,7 @@ export async function GET() {
             );
         }
 
-        console.log("Word of the Day data:", wordOfTheDay.data);
+        //console.log("Word of the Day data:", wordOfTheDay.data);
 
         const hyphenation = await safeAsyncOperation(
             async () => {
