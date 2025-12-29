@@ -262,7 +262,7 @@ const VocabCard = () => {
     }, []);
 
     return (
-        <div className="border-default rounded p-8 text-black max-w-[320px]">
+        <div className="border-default rounded p-8 text-black md:max-w-[320px]">
             {loading ? (
                 <div className="flex items-center justify-center min-h-[200px]">
                     <span className="font-louis text-lg">Loading...</span>

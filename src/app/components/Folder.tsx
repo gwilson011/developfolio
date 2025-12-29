@@ -56,7 +56,7 @@ const Folder: React.FC<FolderProps> = ({
                     />
                 )}
                 <div
-                    className={`pb-1 pl-1 text-black font-pixel text-[10px] ${
+                    className={`pt-2 px-1 text-black font-pixel text-[10px] leading-none ${
                         open ? "bg-black text-white" : "text-black"
                     }`}
                 >
@@ -80,7 +80,7 @@ const Folder: React.FC<FolderProps> = ({
                             //onClick={}
                         />
                         <div
-                            className={`font-pixel text-[10px] pb-1 px-1 ${
+                            className={`font-pixel text-[10px] pt-2 px-1 leading-none ${
                                 selectedIcon == project.slug
                                     ? "text-white bg-black"
                                     : "text-black"

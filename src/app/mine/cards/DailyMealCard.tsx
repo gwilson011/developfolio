@@ -110,7 +110,7 @@ const DailyMealCard = () => {
                                 <div
                                     key={mealType}
                                     ref={refs[mealType]}
-                                    className="flex-shrink-0 w-[250px] p-4 snap-center"
+                                    className="flex-shrink-0 p-4 snap-center"
                                 >
                                     <div className="flex h-full flex-col justify-between gap-2">
                                         <span className="font-pixel text-[10pt] uppercase">
