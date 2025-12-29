@@ -1092,7 +1092,7 @@ export default function Home() {
             )}
             {plan && !newPlan && (
                 <div className="space-y-6 flex flex-col ">
-                    <div className="flex flex-col md:flex-row w-full justify-between gap-6">
+                    <div className="flex flex-col md:flex-row w-full justify-between">
                         <div className="flex flex-col text-center justify-center w-full gap-4">
                             <div className="">
                                 <h2 className="font-tango text-lg text-black">
@@ -1106,7 +1106,7 @@ export default function Home() {
                                 {plan.target_daily_calories}{" "}
                                 <span className="font-louis">calories/day</span>
                             </p>
-                            <div>
+                            <div className="flex justify-center">
                                 <button
                                     onClick={() => {
                                         setNewPlan(true);
@@ -1118,11 +1118,11 @@ export default function Home() {
                                 </button>
                             </div>
                         </div>
-                        <div className="justify-center w-full p-6 md:p-10">
+                        <div className="justify-center max-w-[100vh] p-6 md:p-10">
                             <h3 className="font-tango text-black text-3xl">
                                 GROCERY LIST
                             </h3>
-                            <div className="flex gap-3 flex-col md:flex-row">
+                            <div className="flex gap-3 flex-col md:flex-row md:overflow-auto md:w-full border-default rounded p-8 mt-4">
                                 {Object.entries(plan.grocery_list || {}).map(
                                     ([category, items]) => (
                                         <div key={category}>
