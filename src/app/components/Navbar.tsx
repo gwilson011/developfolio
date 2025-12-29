@@ -3,18 +3,20 @@
 import Link from "next/link";
 import React from "react";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 interface NavbarProps {
-    home?: boolean;
     setHover?: (hover: string) => void; // Now setHover && setHover takes a string
 }
 
-const Navbar: React.FC<NavbarProps> = ({ home = true, setHover }) => {
+const Navbar: React.FC<NavbarProps> = ({ setHover }) => {
+    const pathname = usePathname();
+    const shouldShowHome = pathname !== "/";
     return (
         <nav className="">
             <div className="container mx-auto flex items-center">
                 <div className="flex flex-row flex-wrap gap-2 text-[8pt] leading-none">
-                    {home && (
+                    {shouldShowHome && (
                         <Link
                             href="/"
                             className="flex items-center p-1 bg-white border-default text-black font-pixel hover:text-white hover:bg-black"
@@ -29,7 +31,7 @@ const Navbar: React.FC<NavbarProps> = ({ home = true, setHover }) => {
                     )}
                     <Link
                         href="/under-construction" //story
-                        className="flex p-2 px-3 bg-white border-default text-black font-pixel hover:text-white hover:bg-black"
+                        className="flex items-center justify-center pt-3 pb-1 px-3 bg-white border-default text-black font-pixel hover:text-white hover:bg-black"
                         onMouseEnter={() => setHover && setHover("story")}
                         onMouseLeave={() => setHover && setHover("")}
                     >
@@ -37,7 +39,7 @@ const Navbar: React.FC<NavbarProps> = ({ home = true, setHover }) => {
                     </Link>
                     <Link
                         href="/skills"
-                        className="flex p-2 px-3 bg-white border-default text-black font-pixel hover:text-white hover:bg-black"
+                        className="flex items-center justify-center pt-3 pb-1 px-3 bg-white border-default text-black font-pixel hover:text-white hover:bg-black"
                         onMouseEnter={() => setHover && setHover("skills")}
                         onMouseLeave={() => setHover && setHover("")}
                     >
@@ -45,7 +47,7 @@ const Navbar: React.FC<NavbarProps> = ({ home = true, setHover }) => {
                     </Link>
                     <Link
                         href="/projects"
-                        className="flex p-2 px-3 bg-white border-default text-black font-pixel hover:text-white hover:bg-black"
+                        className="flex items-center justify-center pt-3 pb-1 px-3 bg-white border-default text-black font-pixel hover:text-white hover:bg-black"
                         onMouseEnter={() => setHover && setHover("projects")}
                         onMouseLeave={() => setHover && setHover("")}
                     >
@@ -53,7 +55,7 @@ const Navbar: React.FC<NavbarProps> = ({ home = true, setHover }) => {
                     </Link>
                     <Link
                         href="/resume"
-                        className="flex p-2 px-3 bg-white border-default text-black font-pixel hover:text-white hover:bg-black"
+                        className="flex items-center justify-center pt-3 pb-1 px-3 bg-white border-default text-black font-pixel hover:text-white hover:bg-black"
                         onMouseEnter={() => setHover && setHover("resume")}
                         onMouseLeave={() => setHover && setHover("")}
                     >

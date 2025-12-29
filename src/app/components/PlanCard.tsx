@@ -59,14 +59,14 @@ const PlanCard = ({
                         <button
                             onClick={() => onLoadPlan(week, false)}
                             disabled={isLoading}
-                            className="flex px-3 p-2 bg-white text-black font-pixel items-center text-xs hover:bg-gray-100 disabled:bg-gray-300 disabled:cursor-not-allowed border-default"
+                            className="flex px-3 p-2 bg-white text-black font-pixel items-center justify-center text-xs hover:bg-gray-100 disabled:bg-gray-300 disabled:cursor-not-allowed border-default"
                         >
                             {isLoading ? "LOADING..." : "LOAD AS-IS"}
                         </button>
                         <button
                             onClick={() => onLoadPlan(week, true)}
                             disabled={isLoading}
-                            className="flex px-3 p-2 bg-black text-white font-pixel items-center text-xs hover:bg-gray-800 disabled:bg-gray-400 disabled:cursor-not-allowed border-default"
+                            className="flex px-3 p-2 bg-black text-white font-pixel items-center justify-center text-xs hover:bg-gray-800 disabled:bg-gray-400 disabled:cursor-not-allowed border-default"
                         >
                             {isLoading ? "LOADING..." : "THIS WEEK"}
                         </button>

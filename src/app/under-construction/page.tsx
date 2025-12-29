@@ -6,7 +6,7 @@ export default function Resume() {
     return (
         <div className="flex flex-col w-full h-full p-4 gap-4 md:gap-6">
             <Socialbar />
-            <Navbar home={true} />
+            <Navbar />
             <div className="flex flex-col gap-16 h-[calc(100vh-160px)] md:flex-row md:mr-24 md:ml-24">
                 <div className="flex flex-col mb-6 gap-2 w-full h-full items-center justify-center">
                     <span className="font-tango text-black text-2xl self-center">

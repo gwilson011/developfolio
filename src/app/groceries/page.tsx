@@ -596,7 +596,7 @@ export default function Home() {
                                         setTodaySelected(!todaySelected);
                                     }}
                                     disabled={loading}
-                                    className={`flex p-3 border-default justify-center font-pixel text-xs hover:text-white hover:bg-black
+                                    className={`flex items-center p-3 border-default justify-center font-pixel text-xs hover:text-white hover:bg-black
                                 ${
                                     todaySelected
                                         ? "bg-white text-black"
@@ -900,7 +900,7 @@ export default function Home() {
                                         setAddInstructions(!addInstructions);
                                     }}
                                     disabled={loading}
-                                    className={`flex w-full p-3 border-default justify-center font-pixel text-xs hover:text-white hover:bg-black
+                                    className={`flex items-center w-full p-3 border-default justify-center font-pixel text-xs hover:text-white hover:bg-black
                                 ${
                                     addInstructions
                                         ? "bg-black text-white"
@@ -914,7 +914,7 @@ export default function Home() {
                                         setSelectKnownMeals(!selectKnownMeals);
                                     }}
                                     disabled={loading}
-                                    className={`flex w-full p-3 border-default justify-center font-pixel text-xs hover:text-white hover:bg-black
+                                    className={`flex items-center w-full p-3 border-default justify-center font-pixel text-xs hover:text-white hover:bg-black
                                 ${
                                     selectKnownMeals
                                         ? "bg-black text-white"
@@ -938,14 +938,14 @@ export default function Home() {
                                 <button
                                     onClick={() => setNewPlan(false)}
                                     disabled={loading}
-                                    className="flex p-3 bg-white border-default justify-center text-black font-pixel text-xs hover:text-white hover:bg-black"
+                                    className="flex items-center p-3 bg-white border-default justify-center text-black font-pixel text-xs hover:text-white hover:bg-black"
                                 >
                                     BACK
                                 </button>
                                 <button
                                     onClick={handleGenerate}
                                     disabled={loading}
-                                    className="flex p-3 w-full hover:bg-white border-default justify-center hover:text-black font-pixel text-xs text-white bg-black"
+                                    className="flex items-center p-3 w-full hover:bg-white border-default justify-center hover:text-black font-pixel text-xs text-white bg-black"
                                 >
                                     {loading
                                         ? "GENERATING..."
@@ -1094,7 +1094,7 @@ export default function Home() {
                                         setNewPlan(true);
                                     }}
                                     disabled={loading}
-                                    className="p-2 bg-white border-default justify-center text-black font-pixel text-[8pt] hover:text-white hover:bg-black"
+                                    className="flex items-center p-2 bg-white border-default justify-center text-black font-pixel text-[8pt] hover:text-white hover:bg-black"
                                 >
                                     NEW PLAN
                                 </button>
@@ -1136,7 +1136,7 @@ export default function Home() {
                                     );
                                     setShowScreenshotImport(false);
                                 }}
-                                className={`w-full md:w-fit flex px-4 py-2 border-default justify-center font-pixel text-xs hover:text-white hover:bg-black
+                                className={`w-full md:w-fit flex items-center px-4 py-2 border-default justify-center font-pixel text-xs hover:text-white hover:bg-black
                             ${
                                 showInstagramImport
                                     ? "bg-black text-white"
@@ -1152,7 +1152,7 @@ export default function Home() {
                                     );
                                     setShowInstagramImport(false);
                                 }}
-                                className={`flex w-full md:w-fit px-4 py-2 border-default justify-center font-pixel text-xs hover:text-white hover:bg-black
+                                className={`flex items-center w-full md:w-fit px-4 py-2 border-default justify-center font-pixel text-xs hover:text-white hover:bg-black
                             ${
                                 showScreenshotImport
                                     ? "bg-black text-white"
@@ -1179,7 +1179,7 @@ export default function Home() {
                                     disabled={
                                         importingRecipe || !instagramUrl.trim()
                                     }
-                                    className="flex p-2 border-default justify-center font-pixel text-xs text-black bg-white hover:text-white hover:bg-black disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="flex items-center p-2 border-default justify-center font-pixel text-xs text-black bg-white hover:text-white hover:bg-black disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     {importingRecipe
                                         ? "IMPORTING..."
@@ -1264,7 +1264,7 @@ export default function Home() {
                                             />
                                             <label
                                                 htmlFor="screenshot-upload"
-                                                className="cursor-pointer p-2 border-default bg-white text-black hover:bg-black hover:text-white font-pixel text-xs"
+                                                className="flex items-center justify-center cursor-pointer p-2 border-default bg-white text-black hover:bg-black hover:text-white font-pixel text-xs"
                                             >
                                                 CHOOSE FILE
                                             </label>
@@ -1275,7 +1275,7 @@ export default function Home() {
                                     <button
                                         onClick={handleScreenshotImport}
                                         disabled={processingScreenshot}
-                                        className="flex p-2 border-default justify-center font-pixel text-xs text-black bg-white hover:text-white hover:bg-black disabled:opacity-50 disabled:cursor-not-allowed"
+                                        className="flex items-center p-2 border-default justify-center font-pixel text-xs text-black bg-white hover:text-white hover:bg-black disabled:opacity-50 disabled:cursor-not-allowed"
                                     >
                                         {processingScreenshot
                                             ? "PROCESSING..."
@@ -1370,7 +1370,7 @@ export default function Home() {
                         </div>
                         <button
                             onClick={handleAppend}
-                            className="p-3 hover:bg-white border-default justify-center hover:text-black font-pixel text-sm text-white bg-black"
+                            className="flex items-center p-3 hover:bg-white border-default justify-center hover:text-black font-pixel text-sm text-white bg-black"
                         >
                             ADD TO NOTION
                         </button>

@@ -54,7 +54,7 @@ export default function Skills() {
     return (
         <div className="flex flex-col w-full h-screen p-4 gap-4 md:gap-6">
             <Socialbar />
-            <Navbar home={true} />
+            <Navbar />
             <div className="flex flex-col h-full md:mr-24 md:ml-24 mb-10 gap-8 md:justify-between">
                 <span className="font-tango text-black text-[70pt] text-start leading-none">
                     SKILLS

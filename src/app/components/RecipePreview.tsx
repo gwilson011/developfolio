@@ -60,14 +60,14 @@ export default function RecipePreview({
                 <div className="flex gap-2">
                     <button
                         onClick={onCancel}
-                        className="px-3 py-1 text-xs font-pixel border-default bg-white text-black hover:bg-black hover:text-white"
+                        className="flex items-center justify-center px-3 py-1 text-xs font-pixel border-default bg-white text-black hover:bg-black hover:text-white"
                     >
                         CANCEL
                     </button>
                     <button
                         onClick={handleSave}
                         disabled={isSaving}
-                        className="px-3 py-1 text-xs font-pixel border-default bg-black text-white hover:bg-white hover:text-black disabled:opacity-50"
+                        className="flex items-center justify-center px-3 py-1 text-xs font-pixel border-default bg-black text-white hover:bg-white hover:text-black disabled:opacity-50"
                     >
                         {isSaving ? "SAVING..." : "SAVE TO NOTION"}
                     </button>
@@ -115,7 +115,7 @@ export default function RecipePreview({
                         <label className="font-pixel text-xs">INGREDIENTS</label>
                         <button
                             onClick={addIngredient}
-                            className="px-2 py-1 text-xs font-pixel border-default bg-white text-black hover:bg-black hover:text-white"
+                            className="flex items-center justify-center px-2 py-1 text-xs font-pixel border-default bg-white text-black hover:bg-black hover:text-white"
                         >
                             + ADD
                         </button>
@@ -131,7 +131,7 @@ export default function RecipePreview({
                                 />
                                 <button
                                     onClick={() => removeIngredient(index)}
-                                    className="px-2 py-1 text-xs font-pixel border-default bg-white text-red-500 hover:bg-red-500 hover:text-white"
+                                    className="flex items-center justify-center px-2 py-1 text-xs font-pixel border-default bg-white text-red-500 hover:bg-red-500 hover:text-white"
                                 >
                                     ✕
                                 </button>
@@ -165,7 +165,7 @@ export default function RecipePreview({
                                             : [...editedRecipe.mealTypes, type];
                                         setEditedRecipe({ ...editedRecipe, mealTypes: newTypes });
                                     }}
-                                    className={`px-2 py-1 text-xs font-pixel border-default ${
+                                    className={`flex items-center justify-center px-2 py-1 text-xs font-pixel border-default ${
                                         editedRecipe.mealTypes.includes(type)
                                             ? "bg-black text-white"
                                             : "bg-white text-black hover:bg-black hover:text-white"

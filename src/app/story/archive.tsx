@@ -69,7 +69,7 @@ export default function Storyboard() {
     return (
         <div className="flex flex-col w-full h-screen p-4 gap-4 md:gap-6">
             <Socialbar />
-            <Navbar home={true} />
+            <Navbar />
             <div className="flex flex-col gap-32 md:flex-row h-full md:mr-24 md:ml-24 mb-10">
                 <div className="flex flex-col w-full justify-between py-4 mb-6 md:mb-0">
                     <span className="font-tango text-black text-[40pt] md:text-[70pt] text-start leading-none">
@@ -99,13 +99,13 @@ export default function Storyboard() {
                                     {i % 2 === 0 ? (
                                         <>
                                             <StoryCard story={story} />
-                                            <span className="flex font-pixel text-lg text-black justify-center h-[40px]">
+                                            <span className="flex items-center font-pixel text-lg text-black justify-center h-[40px]">
                                                 {story.year}
                                             </span>
                                         </>
                                     ) : (
                                         <>
-                                            <span className="flex font-pixel text-lg text-black justify-center h-[40px]">
+                                            <span className="flex items-center font-pixel text-lg text-black justify-center h-[40px]">
                                                 {story.year}
                                             </span>
                                             <StoryCard story={story} />

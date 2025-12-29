@@ -102,7 +102,7 @@ export default function Projects() {
     return (
         <div className="flex flex-col w-full h-full p-4 gap-4 md:gap-6">
             <Socialbar />
-            <Navbar home={true} />
+            <Navbar />
             <Suspense fallback={<div>Loading...</div>}>
                 <ProjectsContent />
             </Suspense>

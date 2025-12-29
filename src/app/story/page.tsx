@@ -53,7 +53,7 @@ export default function Storyboard() {
     return (
         <div className="flex flex-col w-full h-screen p-4 gap-4 md:gap-6">
             <Socialbar />
-            <Navbar home={true} />
+            <Navbar />
             {/* <div
                 className="fixed h-[3px] bg-black z-[-1]"
                 style={{

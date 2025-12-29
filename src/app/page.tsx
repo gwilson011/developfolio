@@ -29,7 +29,7 @@ export default function Home() {
                         <span className="font-tango text-black text-[70pt] text-start leading-none">
                             GRACE
                         </span>
-                        <Navbar setHover={setHover} home={false} />
+                        <Navbar setHover={setHover} />
                     </div>
                     <footer className="flex flex-col w-full h-[20%] justify-center text-black">
                         <div className="font-louis text-[15pt]">
