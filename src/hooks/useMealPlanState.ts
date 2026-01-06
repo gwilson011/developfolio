@@ -84,6 +84,7 @@ export interface UIState {
     selectKnownMeals: boolean;
     showInstagramImport: boolean;
     showScreenshotImport: boolean;
+    showUrlImport: boolean;
 }
 
 export function useUIState() {
@@ -92,6 +93,7 @@ export function useUIState() {
         selectKnownMeals: false,
         showInstagramImport: false,
         showScreenshotImport: false,
+        showUrlImport: false,
     });
 
     const updateUI = (updates: Partial<UIState>) => {
@@ -108,6 +110,7 @@ export function useUIState() {
         setSelectKnownMeals: (show: boolean) => updateUI({ selectKnownMeals: show }),
         setShowInstagramImport: (show: boolean) => updateUI({ showInstagramImport: show }),
         setShowScreenshotImport: (show: boolean) => updateUI({ showScreenshotImport: show }),
+        setShowUrlImport: (show: boolean) => updateUI({ showUrlImport: show }),
     };
 }
 
@@ -162,6 +165,7 @@ export interface DataState {
     parsedRecipe: ParsedRecipeData | null;
     uploadedImage: File | null;
     instagramUrl: string;
+    recipeUrl: string;
     prefs: { vegetarian: boolean; dislikes: string };
 }
 
@@ -174,6 +178,7 @@ export function useDataState() {
         parsedRecipe: null,
         uploadedImage: null,
         instagramUrl: "",
+        recipeUrl: "",
         prefs: { vegetarian: DEFAULTS.vegetarian, dislikes: DEFAULTS.dislikes },
     });
 
@@ -194,6 +199,7 @@ export function useDataState() {
         setParsedRecipe: (recipe: ParsedRecipeData | null) => updateData({ parsedRecipe: recipe }),
         setUploadedImage: (image: File | null) => updateData({ uploadedImage: image }),
         setInstagramUrl: (url: string) => updateData({ instagramUrl: url }),
+        setRecipeUrl: (url: string) => updateData({ recipeUrl: url }),
         setPrefs: (prefs: { vegetarian: boolean; dislikes: string }) => updateData({ prefs }),
     };
 }

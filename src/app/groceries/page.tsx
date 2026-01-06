@@ -68,10 +68,12 @@ export default function Home() {
         selectKnownMeals,
         showInstagramImport,
         showScreenshotImport,
+        showUrlImport,
         setAddInstructions,
         setSelectKnownMeals,
         setShowInstagramImport,
         setShowScreenshotImport,
+        setShowUrlImport,
 
         // Loading state
         loading,
@@ -97,6 +99,7 @@ export default function Home() {
         parsedRecipe,
         uploadedImage,
         instagramUrl,
+        recipeUrl,
         prefs,
         setPlan,
         setKnownMeals,
@@ -105,6 +108,7 @@ export default function Home() {
         setParsedRecipe,
         setUploadedImage,
         setInstagramUrl,
+        setRecipeUrl,
         // setPrefs, // Unused
 
         // Filter state
@@ -485,6 +489,47 @@ export default function Home() {
         }
     }
 
+    async function handleUrlImport() {
+        if (!recipeUrl.trim()) return;
+
+        setImportingRecipe(true);
+        try {
+            // Step 1: Extract URL data
+            const extractRes = await fetch("/api/url/extract", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ url: recipeUrl }),
+            });
+            const extractData = await extractRes.json();
+
+            if (!extractData.ok) {
+                alert(`Failed to extract recipe: ${extractData.error}`);
+                return;
+            }
+
+            // Step 2: Parse recipe with AI (reuse existing endpoint)
+            const parseRes = await fetch("/api/recipe/parse", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ instagramData: extractData.data }),
+            });
+            const parseData = await parseRes.json();
+
+            if (!parseData.ok) {
+                alert(`Failed to parse recipe: ${parseData.error}`);
+                return;
+            }
+
+            // Step 3: Show preview for editing
+            setParsedRecipe(parseData.recipe);
+        } catch (error) {
+            console.error("URL import error:", error);
+            alert("Failed to import recipe from URL. Please try again.");
+        } finally {
+            setImportingRecipe(false);
+        }
+    }
+
     async function handleRecipeSave(recipe: RecipeForNotion) {
         setSavingRecipe(true);
         try {
@@ -500,7 +545,9 @@ export default function Home() {
                 // Reset state
                 setParsedRecipe(null);
                 setInstagramUrl("");
+                setRecipeUrl("");
                 setShowInstagramImport(false);
+                setShowUrlImport(false);
                 // Refresh known meals if they're being shown
                 if (selectKnownMeals) {
                     fetchKnownMeals();
@@ -519,6 +566,7 @@ export default function Home() {
     function handleRecipeCancel() {
         setParsedRecipe(null);
         setInstagramUrl("");
+        setRecipeUrl("");
         setUploadedImage(null);
     }
 
@@ -640,7 +688,7 @@ export default function Home() {
                             </div>
                             {!todaySelected && (
                                 <input
-                                    className="border-default p-2 rounded text-black font-louis"
+                                    className="border-default px-4 pt-3 pb-1 rounded text-black font-louis"
                                     type="date"
                                     value={weekStart}
                                     onChange={(e) =>
@@ -1014,7 +1062,7 @@ export default function Home() {
                                         </span>
                                     </div>
                                     <select
-                                        className="border-default p-2 rounded text-black font-louis"
+                                        className="border-default px-4 pt-3 pb-1 rounded text-black font-louis bg-blue-100"
                                         value={selectedMealType}
                                         onChange={(e) =>
                                             setSelectedMealType(e.target.value)
@@ -1157,6 +1205,7 @@ export default function Home() {
                                         !showInstagramImport
                                     );
                                     setShowScreenshotImport(false);
+                                    setShowUrlImport(false);
                                 }}
                                 className={`w-full md:w-fit flex items-center px-4 pt-3 pb-1 border-default justify-center font-pixel text-xs hover:text-white hover:bg-black
                             ${
@@ -1173,6 +1222,7 @@ export default function Home() {
                                         !showScreenshotImport
                                     );
                                     setShowInstagramImport(false);
+                                    setShowUrlImport(false);
                                 }}
                                 className={`flex items-center w-full md:w-fit px-4 pt-3 pb-1  border-default justify-center font-pixel text-xs hover:text-white hover:bg-black
                             ${
@@ -1182,6 +1232,21 @@ export default function Home() {
                             }`}
                             >
                                 SCREENSHOT
+                            </button>
+                            <button
+                                onClick={() => {
+                                    setShowUrlImport(!showUrlImport);
+                                    setShowInstagramImport(false);
+                                    setShowScreenshotImport(false);
+                                }}
+                                className={`flex items-center w-full md:w-fit px-4 pt-3 pb-1 border-default justify-center font-pixel text-xs hover:text-white hover:bg-black
+                            ${
+                                showUrlImport
+                                    ? "bg-black text-white"
+                                    : "bg-white text-black"
+                            }`}
+                            >
+                                URL
                             </button>
                         </div>
 
@@ -1286,7 +1351,7 @@ export default function Home() {
                                             />
                                             <label
                                                 htmlFor="screenshot-upload"
-                                                className="flex items-center justify-center cursor-pointer p-2 border-default bg-white text-black hover:bg-black hover:text-white font-pixel text-xs"
+                                                className="flex items-center justify-center cursor-pointer px-4 pt-3 pb-1 border-default bg-white text-black hover:bg-black hover:text-white font-pixel text-xs"
                                             >
                                                 CHOOSE FILE
                                             </label>
@@ -1297,7 +1362,7 @@ export default function Home() {
                                     <button
                                         onClick={handleScreenshotImport}
                                         disabled={processingScreenshot}
-                                        className="flex items-center p-2 border-default justify-center font-pixel text-xs text-black bg-white hover:text-white hover:bg-black disabled:opacity-50 disabled:cursor-not-allowed"
+                                        className="flex items-center px-4 pt-3 pb-1 border-default justify-center font-pixel text-xs text-black bg-white hover:text-white hover:bg-black disabled:opacity-50 disabled:cursor-not-allowed"
                                     >
                                         {processingScreenshot
                                             ? "PROCESSING..."
@@ -1307,10 +1372,39 @@ export default function Home() {
                             </div>
                         )}
 
+                        {showUrlImport && (
+                            <div className="flex flex-col gap-2">
+                                <input
+                                    className="border-default font-louis p-2 rounded text-black"
+                                    type="url"
+                                    placeholder="Paste recipe URL here (e.g., allrecipes.com, foodnetwork.com)..."
+                                    value={recipeUrl}
+                                    onChange={(e) =>
+                                        setRecipeUrl(e.target.value)
+                                    }
+                                />
+                                <button
+                                    onClick={handleUrlImport}
+                                    disabled={
+                                        importingRecipe || !recipeUrl.trim()
+                                    }
+                                    className="flex items-center px-4 pt-3 pb-1 border-default justify-center font-pixel text-xs text-black bg-white hover:text-white hover:bg-black disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    {importingRecipe
+                                        ? "IMPORTING..."
+                                        : "EXTRACT RECIPE"}
+                                </button>
+                            </div>
+                        )}
+
                         {parsedRecipe && (
                             <RecipePreview
                                 recipe={parsedRecipe}
-                                originalUrl={instagramUrl}
+                                originalUrl={
+                                    instagramUrl ||
+                                    recipeUrl ||
+                                    "screenshot://uploaded"
+                                }
                                 onSave={handleRecipeSave}
                                 onCancel={handleRecipeCancel}
                                 isSaving={savingRecipe}

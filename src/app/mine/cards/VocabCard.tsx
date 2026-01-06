@@ -41,7 +41,9 @@ const VocabCard = () => {
     const fetchTodaysWord = async () => {
         try {
             console.log("[Today's Word] Fetching from Wordnik...");
-            const response = await fetch("/api/wordnik/wordoftheday");
+            const response = await fetch("/api/wordnik/wordoftheday", {
+                cache: 'no-store'
+            });
             const result = await response.json();
             console.log("[Today's Word] Wordnik response:", result);
 
@@ -60,6 +62,7 @@ const VocabCard = () => {
                     fetch("/api/notion/words/add", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
+                        cache: 'no-store',
                         body: JSON.stringify({
                             word: result.data.word,
                             definition: result.data.definition,
@@ -125,6 +128,7 @@ const VocabCard = () => {
                     {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
+                        cache: 'no-store',
                         body: JSON.stringify({
                             wordId: yesterdayWord.id,
                             learned: true,
@@ -175,7 +179,10 @@ const VocabCard = () => {
                 // Check if yesterday's word exists and is not learned
                 console.log("[VocabCard] Checking for yesterday's word...");
                 const yesterdayResponse = await fetch(
-                    "/api/notion/words/yesterday"
+                    "/api/notion/words/yesterday",
+                    {
+                        cache: 'no-store'
+                    }
                 );
                 const yesterdayData = await yesterdayResponse.json();
                 console.log(
@@ -199,7 +206,10 @@ const VocabCard = () => {
                     // Fetch random decoy words
                     console.log("[VocabCard] Fetching random decoy words...");
                     const randomResponse = await fetch(
-                        `/api/notion/words/random?exclude=${yesterdayData.data.word}&count=2`
+                        `/api/notion/words/random?exclude=${yesterdayData.data.word}&count=2`,
+                        {
+                            cache: 'no-store'
+                        }
                     );
                     const randomData = await randomResponse.json();
                     console.log(

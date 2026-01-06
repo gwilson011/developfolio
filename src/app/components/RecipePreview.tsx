@@ -15,7 +15,7 @@ export default function RecipePreview({
     originalUrl,
     onSave,
     onCancel,
-    isSaving
+    isSaving,
 }: RecipePreviewProps) {
     const [editedRecipe, setEditedRecipe] = useState<ParsedRecipeData>(recipe);
 
@@ -44,12 +44,14 @@ export default function RecipePreview({
     const addIngredient = () => {
         setEditedRecipe({
             ...editedRecipe,
-            ingredients: [...editedRecipe.ingredients, ""]
+            ingredients: [...editedRecipe.ingredients, ""],
         });
     };
 
     const removeIngredient = (index: number) => {
-        const newIngredients = editedRecipe.ingredients.filter((_, i) => i !== index);
+        const newIngredients = editedRecipe.ingredients.filter(
+            (_, i) => i !== index
+        );
         setEditedRecipe({ ...editedRecipe, ingredients: newIngredients });
     };
 
@@ -60,14 +62,14 @@ export default function RecipePreview({
                 <div className="flex gap-2">
                     <button
                         onClick={onCancel}
-                        className="flex items-center justify-center px-3 py-1 text-xs font-pixel border-default bg-white text-black hover:bg-black hover:text-white"
+                        className="flex items-center justify-center px-4 pt-3 pb-1 text-xs font-pixel border-default bg-white text-black hover:bg-black hover:text-white"
                     >
                         CANCEL
                     </button>
                     <button
                         onClick={handleSave}
                         disabled={isSaving}
-                        className="flex items-center justify-center px-3 py-1 text-xs font-pixel border-default bg-black text-white hover:bg-white hover:text-black disabled:opacity-50"
+                        className="flex items-center justify-center px-4 pt-3 pb-1 text-xs font-pixel border-default bg-black text-white hover:bg-white hover:text-black disabled:opacity-50"
                     >
                         {isSaving ? "SAVING..." : "SAVE TO NOTION"}
                     </button>
@@ -81,7 +83,12 @@ export default function RecipePreview({
                     <input
                         className="w-full border-default p-2 rounded font-louis text-sm"
                         value={editedRecipe.name}
-                        onChange={(e) => setEditedRecipe({ ...editedRecipe, name: e.target.value })}
+                        onChange={(e) =>
+                            setEditedRecipe({
+                                ...editedRecipe,
+                                name: e.target.value,
+                            })
+                        }
                     />
                 </div>
 
@@ -93,17 +100,29 @@ export default function RecipePreview({
                             type="number"
                             className="w-full border-default p-2 rounded font-louis text-sm"
                             value={editedRecipe.servings}
-                            onChange={(e) => setEditedRecipe({ ...editedRecipe, servings: Number(e.target.value) })}
+                            onChange={(e) =>
+                                setEditedRecipe({
+                                    ...editedRecipe,
+                                    servings: Number(e.target.value),
+                                })
+                            }
                             min="1"
                         />
                     </div>
                     <div className="flex-1">
-                        <label className="font-pixel text-xs">CALORIES PER SERVING</label>
+                        <label className="font-pixel text-xs">
+                            CALORIES PER SERVING
+                        </label>
                         <input
                             type="number"
                             className="w-full border-default p-2 rounded font-louis text-sm"
                             value={editedRecipe.estimatedCalories}
-                            onChange={(e) => setEditedRecipe({ ...editedRecipe, estimatedCalories: Number(e.target.value) })}
+                            onChange={(e) =>
+                                setEditedRecipe({
+                                    ...editedRecipe,
+                                    estimatedCalories: Number(e.target.value),
+                                })
+                            }
                             min="0"
                         />
                     </div>
@@ -111,11 +130,13 @@ export default function RecipePreview({
 
                 {/* Ingredients */}
                 <div>
-                    <div className="flex justify-between items-center">
-                        <label className="font-pixel text-xs">INGREDIENTS</label>
+                    <div className="flex justify-between items-end mb-2">
+                        <label className="font-pixel text-xs">
+                            INGREDIENTS
+                        </label>
                         <button
                             onClick={addIngredient}
-                            className="flex items-center justify-center px-2 py-1 text-xs font-pixel border-default bg-white text-black hover:bg-black hover:text-white"
+                            className="flex items-center justify-center px-4 pt-3 pb-1 text-xs font-pixel border-default bg-white text-black hover:bg-black hover:text-white"
                         >
                             + ADD
                         </button>
@@ -126,7 +147,9 @@ export default function RecipePreview({
                                 <input
                                     className="flex-1 border-default p-1 rounded font-louis text-sm"
                                     value={ingredient}
-                                    onChange={(e) => updateIngredient(index, e.target.value)}
+                                    onChange={(e) =>
+                                        updateIngredient(index, e.target.value)
+                                    }
                                     placeholder="Enter ingredient..."
                                 />
                                 <button
@@ -146,7 +169,12 @@ export default function RecipePreview({
                     <textarea
                         className="w-full border-default p-2 rounded font-louis text-sm h-32 resize-none"
                         value={editedRecipe.instructions}
-                        onChange={(e) => setEditedRecipe({ ...editedRecipe, instructions: e.target.value })}
+                        onChange={(e) =>
+                            setEditedRecipe({
+                                ...editedRecipe,
+                                instructions: e.target.value,
+                            })
+                        }
                         placeholder="Enter cooking instructions..."
                     />
                 </div>
@@ -156,16 +184,33 @@ export default function RecipePreview({
                     <div className="flex-1">
                         <label className="font-pixel text-xs">MEAL TYPES</label>
                         <div className="flex flex-wrap gap-1">
-                            {["breakfast", "lunch", "dinner", "snack", "dessert"].map((type) => (
+                            {[
+                                "breakfast",
+                                "lunch",
+                                "dinner",
+                                "snack",
+                                "dessert",
+                            ].map((type) => (
                                 <button
                                     key={type}
                                     onClick={() => {
-                                        const newTypes = editedRecipe.mealTypes.includes(type)
-                                            ? editedRecipe.mealTypes.filter(t => t !== type)
-                                            : [...editedRecipe.mealTypes, type];
-                                        setEditedRecipe({ ...editedRecipe, mealTypes: newTypes });
+                                        const newTypes =
+                                            editedRecipe.mealTypes.includes(
+                                                type
+                                            )
+                                                ? editedRecipe.mealTypes.filter(
+                                                      (t) => t !== type
+                                                  )
+                                                : [
+                                                      ...editedRecipe.mealTypes,
+                                                      type,
+                                                  ];
+                                        setEditedRecipe({
+                                            ...editedRecipe,
+                                            mealTypes: newTypes,
+                                        });
                                     }}
-                                    className={`flex items-center justify-center px-2 py-1 text-xs font-pixel border-default ${
+                                    className={`flex items-center justify-center px-4 pt-3 pb-1 text-xs font-pixel border-default ${
                                         editedRecipe.mealTypes.includes(type)
                                             ? "bg-black text-white"
                                             : "bg-white text-black hover:bg-black hover:text-white"
@@ -184,7 +229,12 @@ export default function RecipePreview({
                     <textarea
                         className="w-full border-default p-2 rounded font-louis text-sm h-16 resize-none"
                         value={editedRecipe.notes || ""}
-                        onChange={(e) => setEditedRecipe({ ...editedRecipe, notes: e.target.value })}
+                        onChange={(e) =>
+                            setEditedRecipe({
+                                ...editedRecipe,
+                                notes: e.target.value,
+                            })
+                        }
                         placeholder="Additional notes..."
                     />
                 </div>
