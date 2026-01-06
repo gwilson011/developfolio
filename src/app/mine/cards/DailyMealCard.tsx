@@ -100,7 +100,7 @@ const DailyMealCard = () => {
                 </div>
             ) : getTodaysMeals() ? (
                 <Link href="/groceries" className="cursor-pointer">
-                    <div className="flex flex-row gap-4 overflow-x-scroll overflow-y-hidden snap-x snap-mandatory max-w-[250px]">
+                    <div className="flex flex-row gap-4 overflow-x-scroll overflow-y-hidden snap-x snap-mandatory md:max-w-[250px]">
                         {mealTypes.map((mealType) => {
                             const todaysMeals = getTodaysMeals();
                             const mealName =
@@ -110,7 +110,7 @@ const DailyMealCard = () => {
                                 <div
                                     key={mealType}
                                     ref={refs[mealType]}
-                                    className="flex-shrink-0 p-4 snap-center"
+                                    className="flex-shrink-0 p-4 snap-center w-full"
                                 >
                                     <div className="flex h-full flex-col justify-between gap-2">
                                         <span className="font-pixel text-[10pt] uppercase">
