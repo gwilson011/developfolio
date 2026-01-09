@@ -32,12 +32,12 @@ export async function GET() {
 
         console.log(`[Quiz] Looking for most recent unlearned word`);
 
-        // Helper: Get today's date in local timezone
+        // Helper: Get today's date in UTC timezone (for consistency across environments)
         const getTodayDateString = (): string => {
             const today = new Date();
-            const year = today.getFullYear();
-            const month = String(today.getMonth() + 1).padStart(2, "0");
-            const day = String(today.getDate()).padStart(2, "0");
+            const year = today.getUTCFullYear();
+            const month = String(today.getUTCMonth() + 1).padStart(2, "0");
+            const day = String(today.getUTCDate()).padStart(2, "0");
             return `${year}-${month}-${day}`;
         };
 
