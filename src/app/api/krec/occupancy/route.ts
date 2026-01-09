@@ -16,7 +16,8 @@ export async function GET() {
                 signal: AbortSignal.timeout(FETCH_TIMEOUT),
                 headers: {
                     'Accept': 'application/json'
-                }
+                },
+                cache: 'no-store',
             });
 
             if (!response.ok) {

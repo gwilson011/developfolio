@@ -27,6 +27,7 @@ export async function GET() {
                             Accept: "application/json",
                         },
                         signal: AbortSignal.timeout(30000),
+                        cache: 'no-store',
                     }
                 );
 
@@ -67,6 +68,7 @@ export async function GET() {
                             Accept: "application/json",
                         },
                         signal: AbortSignal.timeout(30000),
+                        cache: 'no-store',
                     }
                 );
                 if (!response.ok) {
