@@ -137,7 +137,7 @@ const WorkoutCard = () => {
                                                 return (
                                                     <div
                                                         key={index}
-                                                        className="font-louis text-xs text-gray-700"
+                                                        className="font-louis text-s text-gray-700"
                                                     >
                                                         <div className="font-semibold">
                                                             • {exercise.name}
@@ -172,7 +172,7 @@ const WorkoutCard = () => {
                                                 return (
                                                     <div
                                                         key={index}
-                                                        className="font-louis text-xs text-gray-700"
+                                                        className="font-louis text-s text-gray-700"
                                                     >
                                                         <div className="font-semibold">
                                                             • {exercise.name}
@@ -209,7 +209,7 @@ const WorkoutCard = () => {
                                                 return (
                                                     <span
                                                         key={index}
-                                                        className="font-louis text-xs text-gray-700"
+                                                        className="font-louis text-s text-gray-700"
                                                     >
                                                         •{" "}
                                                         {formatExercise(
@@ -228,7 +228,7 @@ const WorkoutCard = () => {
                                             return (
                                                 <span
                                                     key={index}
-                                                    className="font-louis text-xs text-gray-700"
+                                                    className="font-louis text-s text-gray-700"
                                                 >
                                                     • {formatExercise(exercise)}
                                                 </span>
