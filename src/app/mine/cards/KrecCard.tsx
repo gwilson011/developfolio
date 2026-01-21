@@ -120,7 +120,7 @@ const ZoneDisplay = ({ zone }: { zone: KrecZone }) => {
                     style={{ width: `${zone.percentage}%` }}
                 />
                 <span className="text-black font-louis text-[10pt] leading-none">
-                    {zone.percentage}%
+                    {zone.count}/{zone.capacity}
                 </span>
             </div>
 
