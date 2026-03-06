@@ -106,7 +106,7 @@ const WorkoutCard = () => {
                     {showDetails ? (
                         <div className="flex flex-row gap-1 justify-between">
                             <div className="flex flex-col gap-2">
-                                <div className="flex flex-col gap-1 text-left">
+                                <div className="flex flex-col gap-1 text-left ">
                                     {todayWorkout.exercises.map(
                                         (exercise, index) => {
                                             const formatExercise = (
@@ -239,7 +239,7 @@ const WorkoutCard = () => {
                             </div>
                         </div>
                     ) : (
-                        <div className="flex flex-row gap-1 justify-between">
+                        <div className="flex flex-row gap-1 justify-center items-center">
                             <Image
                                 className="ml-4"
                                 alt="back"

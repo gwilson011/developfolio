@@ -49,7 +49,7 @@ const VocabCard = () => {
                     </span>
                 </div>
             ) : wordOfTheDay && definition ? (
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-3 items-center">
                     <span className="font-pixel text-[15pt] leading-none">
                         {hyphenation.map((s) => s.toUpperCase()).join("·")}
                     </span>
