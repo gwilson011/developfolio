@@ -1,18 +1,24 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { hasValidSession, saveSession } from "@/utils/session";
-import { AuthValidationResponse } from "@/app/types/auth";
 
 interface PasswordProtectionProps {
   children: React.ReactNode;
 }
 
+const SWIPE_THRESHOLD = 100;
+const BOBODY_LETTERS = ["O", "B", "O", "D", "Y"];
+const BIZNUS_LETTERS = ["I", "Z", "N", "U", "S"];
+
 export default function PasswordProtection({ children }: PasswordProtectionProps) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const [swipeProgress, setSwipeProgress] = useState(0);
+  const [isRevealed, setIsRevealed] = useState(false);
+
+  const startXRef = useRef(0);
+  const bRowRef = useRef<HTMLDivElement>(null);
 
   // Check for existing session on mount
   useEffect(() => {
@@ -21,35 +27,78 @@ export default function PasswordProtection({ children }: PasswordProtectionProps
     setIsLoading(false);
   }, []);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    setIsSubmitting(true);
+  const handleDragStart = useCallback((clientX: number) => {
+    setIsDragging(true);
+    startXRef.current = clientX;
+  }, []);
 
-    try {
-      const response = await fetch('/api/auth/validate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password })
-      });
+  const handleDragMove = useCallback((clientX: number) => {
+    if (!isDragging) return;
 
-      const data: AuthValidationResponse = await response.json();
+    const deltaX = clientX - startXRef.current;
+    const progress = Math.max(0, Math.min(deltaX, SWIPE_THRESHOLD));
+    setSwipeProgress(progress);
+  }, [isDragging]);
 
-      if (data.ok && data.token) {
-        saveSession(data.token);
+  const handleDragEnd = useCallback(() => {
+    if (!isDragging) return;
+
+    if (swipeProgress >= SWIPE_THRESHOLD) {
+      setIsRevealed(true);
+      setSwipeProgress(SWIPE_THRESHOLD);
+
+      // Brief delay before unlocking to show the revealed word
+      setTimeout(() => {
+        const token = `swipe_${Date.now()}_${Math.random().toString(36).substring(2)}`;
+        saveSession(token);
         setIsAuthenticated(true);
-        setPassword("");
-      } else {
-        setError(data.error || 'Invalid password');
-        setPassword("");
-      }
-    } catch (err) {
-      setError('Authentication failed. Please try again.');
-      console.error('[PasswordProtection] Error:', err);
-    } finally {
-      setIsSubmitting(false);
+      }, 800);
+    } else {
+      setSwipeProgress(0);
     }
-  };
+
+    setIsDragging(false);
+  }, [isDragging, swipeProgress]);
+
+  // Mouse event handlers
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    handleDragStart(e.clientX);
+  }, [handleDragStart]);
+
+  const handleMouseMove = useCallback((e: MouseEvent) => {
+    handleDragMove(e.clientX);
+  }, [handleDragMove]);
+
+  const handleMouseUp = useCallback(() => {
+    handleDragEnd();
+  }, [handleDragEnd]);
+
+  // Touch event handlers
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    handleDragStart(e.touches[0].clientX);
+  }, [handleDragStart]);
+
+  const handleTouchMove = useCallback((e: React.TouchEvent) => {
+    handleDragMove(e.touches[0].clientX);
+  }, [handleDragMove]);
+
+  const handleTouchEnd = useCallback(() => {
+    handleDragEnd();
+  }, [handleDragEnd]);
+
+  // Global mouse event listeners for drag tracking
+  useEffect(() => {
+    if (isDragging) {
+      window.addEventListener("mousemove", handleMouseMove);
+      window.addEventListener("mouseup", handleMouseUp);
+
+      return () => {
+        window.removeEventListener("mousemove", handleMouseMove);
+        window.removeEventListener("mouseup", handleMouseUp);
+      };
+    }
+  }, [isDragging, handleMouseMove, handleMouseUp]);
 
   // Loading state
   if (isLoading) {
@@ -60,54 +109,65 @@ export default function PasswordProtection({ children }: PasswordProtectionProps
     );
   }
 
-  // Show password modal if not authenticated
+  // Show swipe lock screen if not authenticated
   if (!isAuthenticated) {
+    const revealProgress = isRevealed ? 1 : swipeProgress / SWIPE_THRESHOLD;
+
     return (
       <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
         <div className="bg-white border-default p-8 rounded-md max-w-md w-full mx-4">
-          <h2 className="font-tango text-2xl mb-4 text-black">Protected Page</h2>
-          <p className="font-louis text-sm text-gray-600 mb-6">
-            Please enter the password to access this page.
-          </p>
+          <div className="flex flex-col items-center select-none">
+            {/* B row - swipeable */}
+            <div
+              ref={bRowRef}
+              onMouseDown={handleMouseDown}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+              className="flex items-center justify-center gap-1 py-2"
+              style={{ touchAction: "none" }}
+            >
+              <span className="font-tango text-4xl text-black">
+                B
+              </span>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              {/* Hidden username field helps iOS password managers recognize this as a login form */}
-              <input
-                type="text"
-                name="username"
-                id="username"
-                autoComplete="username"
-                style={{ display: 'none' }}
-                tabIndex={-1}
-                aria-hidden="true"
-              />
-              <input
-                type="password"
-                name="password"
-                id="password"
-                autoComplete="current-password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter password"
-                className="w-full px-4 py-2 border border-black border-[3px] rounded-md font-louis text-black focus:outline-none focus:ring-2 focus:ring-black"
-                disabled={isSubmitting}
-                autoFocus
-              />
+              {/* IZNUS reveal */}
+              <div
+                className="overflow-hidden flex"
+                style={{
+                  width: isRevealed ? "auto" : `${revealProgress * 120}px`,
+                  opacity: revealProgress,
+                  transition: isRevealed ? "all 0.3s ease-out" : "none",
+                }}
+              >
+                {BIZNUS_LETTERS.map((letter, index) => (
+                  <span
+                    key={index}
+                    className="font-tango text-4xl text-black"
+                    style={{
+                      opacity: revealProgress,
+                      transform: `translateX(${(1 - revealProgress) * -10}px)`,
+                      transition: isRevealed ? `all 0.3s ease-out ${index * 0.05}s` : "none",
+                    }}
+                  >
+                    {letter}
+                  </span>
+                ))}
+              </div>
             </div>
 
-            {error && (
-              <p className="text-red-600 font-louis text-sm">{error}</p>
-            )}
-
-            <button
-              type="submit"
-              disabled={isSubmitting || !password}
-              className="w-full bg-black text-white font-louis py-2 px-4 rounded-md hover:bg-gray-800 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
-            >
-              {isSubmitting ? 'Verifying...' : 'Access Page'}
-            </button>
-          </form>
+            {/* Remaining OBODY letters */}
+            {BOBODY_LETTERS.map((letter, index) => (
+              <div
+                key={index}
+                className="flex items-center justify-center py-2"
+              >
+                <span className="font-tango text-4xl text-black">
+                  {letter}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     );
