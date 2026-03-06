@@ -114,9 +114,9 @@ export default function PasswordProtection({ children }: PasswordProtectionProps
     const revealProgress = isRevealed ? 1 : swipeProgress / SWIPE_THRESHOLD;
 
     return (
-      <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
-        <div className="bg-white border-default p-8 rounded-md max-w-md w-full mx-4">
-          <div className="flex flex-col items-center select-none">
+      <div className="fixed inset-0 bg-white flex items-center justify-center z-50">
+        <div className="select-none">
+          <div className="flex flex-col items-start">
             {/* B row - swipeable */}
             <div
               ref={bRowRef}
@@ -124,16 +124,16 @@ export default function PasswordProtection({ children }: PasswordProtectionProps
               onTouchStart={handleTouchStart}
               onTouchMove={handleTouchMove}
               onTouchEnd={handleTouchEnd}
-              className="flex items-center justify-center gap-1 py-2"
+              className="relative py-2"
               style={{ touchAction: "none" }}
             >
               <span className="font-tango text-4xl text-black">
                 B
               </span>
 
-              {/* IZNUS reveal */}
+              {/* IZNUS reveal - positioned absolutely so it doesn't shift layout */}
               <div
-                className="overflow-hidden flex"
+                className="absolute left-full top-1/2 -translate-y-1/2 overflow-hidden flex"
                 style={{
                   width: isRevealed ? "auto" : `${revealProgress * 120}px`,
                   opacity: revealProgress,
