@@ -7,7 +7,7 @@ interface PasswordProtectionProps {
 }
 
 const SWIPE_THRESHOLD = 100;
-const BOBODY_LETTERS = ["O", "B", "O", "D", "Y"];
+const BOBODDY_LETTERS = ["O", "B", "O", "D", "D", "Y"];
 const BIZNUS_LETTERS = ["I", "Z", "N", "U", "S"];
 
 export default function PasswordProtection({ children }: PasswordProtectionProps) {
@@ -156,8 +156,8 @@ export default function PasswordProtection({ children }: PasswordProtectionProps
               </div>
             </div>
 
-            {/* Remaining OBODY letters */}
-            {BOBODY_LETTERS.map((letter, index) => (
+            {/* Remaining OBODDY letters */}
+            {BOBODDY_LETTERS.map((letter, index) => (
               <div
                 key={index}
                 className="flex items-center justify-center py-2"
