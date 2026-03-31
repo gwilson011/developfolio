@@ -109,7 +109,7 @@ export default function BonVoyage() {
                 </button>
             </div>
             <div className="flex flex-col md:flex-row items-center justify-center flex-1 h-full text-black">
-                <div className="relative flex w-[700px] h-[480px] px-[150px]">
+                <div className="relative flex w-[500px] h-[250] md:w-[700px] md:h-[480px] px-[150px] bg-red-100">
                     <Image
                         src="/bonvoyage/mac_1.png"
                         width={400}
