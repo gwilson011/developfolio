@@ -1,0 +1,43 @@
+{
+    "folders": {
+        "1FgDpmUc8WA6WWuORaoF6llT0zjvcnq8r": {
+            "id": "1FgDpmUc8WA6WWuORaoF6llT0zjvcnq8r",
+            "name": "hello",
+            "slug": "hello",
+            "floppyImage": "/bonvoyage/floppys/navy.png",
+            "createdTime": "2026-03-27T04:38:06.666Z",
+            "subtitle": "This is a test",
+            "images": [
+                {
+                    "id": "1tUkvLcUf1532Y1aXYR-Sso1_tnfj9H_b",
+                    "name": "288D9D89-7A36-4A58-9C86-46C86E801910_1_105_c.jpeg",
+                    "url": "/bonvoyage/images/hello/288D9D89-7A36-4A58-9C86-46C86E801910_1_105_c.webp",
+                    "caption": "me and charlie at griffith"
+                },
+                {
+                    "id": "125ELQjJ2YgeyyWg8Gg-cY5HX_NbG3YRr",
+                    "name": "8B023962-7930-4847-880E-A4263CA39308_4_5005_c.jpeg",
+                    "url": "/bonvoyage/images/hello/8B023962-7930-4847-880E-A4263CA39308_4_5005_c.webp",
+                    "caption": "dan sung sa"
+                }
+            ]
+        },
+        "1qiS8B9hi2LwxKiXuBP6OkjAlKfQe8cD0": {
+            "id": "1qiS8B9hi2LwxKiXuBP6OkjAlKfQe8cD0",
+            "name": "test",
+            "slug": "test",
+            "floppyImage": "/bonvoyage/floppys/orange.png",
+            "createdTime": "2026-03-27T04:38:01.844Z",
+            "images": []
+        },
+        "1pWcCUwFv3bsdHnwz6XaRhyw34YmYpXOO": {
+            "id": "1pWcCUwFv3bsdHnwz6XaRhyw34YmYpXOO",
+            "name": "test 2",
+            "slug": "test-2",
+            "floppyImage": "/bonvoyage/floppys/darkgreen.png",
+            "createdTime": "2026-03-27T04:30:12.568Z",
+            "images": []
+        }
+    },
+    "lastSynced": "2026-03-31T04:23:30.181Z"
+}

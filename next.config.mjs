@@ -1,5 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    images: {
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'drive.google.com',
+            },
+        ],
+    },
     // Increase API route timeout for complex operations like meal planning
     // This is especially important for routes that make multiple OpenAI API calls
     experimental: {
