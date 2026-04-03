@@ -59,7 +59,7 @@ function ImageCard({
                 />
             </div>
             {isHovered && (
-                <div className="absolute top-0 left-full ml-2 z-10 bg-pink-300 border-2 border-black px-3 py-2 max-w-[200px] font-louis text-sm whitespace-pre-wrap">
+                <div className="absolute top-0 left-full ml-2 z-10 bg-pink-300 border-2 border-black px-3 py-2 max-w-[200px] font-louis text-sm whitespace-pre-wrap text-black">
                     {image.caption || image.name}
                 </div>
             )}
