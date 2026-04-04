@@ -95,12 +95,58 @@ async function addSheetRow(
 ): Promise<void> {
     const imageFormula = `=IMAGE("https://drive.google.com/uc?id=${fileId}")`;
 
-    await sheets.spreadsheets.values.append({
+    // 1. Append row
+    const appendRes = await sheets.spreadsheets.values.append({
         spreadsheetId,
         range: "A2:C",
         valueInputOption: "USER_ENTERED",
         requestBody: {
             values: [[imageFormula, filename, ""]],
+        },
+    });
+
+    // 2. Get row index of inserted row
+    const updatedRange = appendRes.data.updates?.updatedRange; // e.g. "Sheet1!A5:C5"
+    if (!updatedRange) return;
+
+    const match = updatedRange.match(/!(?:[A-Z]+)(\d+):/);
+    if (!match) return;
+
+    const rowNumber = parseInt(match[1], 10);
+
+    // 3. Resize that row
+    await sheets.spreadsheets.batchUpdate({
+        spreadsheetId,
+        requestBody: {
+            requests: [
+                {
+                    updateDimensionProperties: {
+                        range: {
+                            sheetId: 0, // assumes first sheet
+                            dimension: "ROWS",
+                            startIndex: rowNumber - 1,
+                            endIndex: rowNumber,
+                        },
+                        properties: {
+                            pixelSize: 200, // 🔥 adjust this
+                        },
+                        fields: "pixelSize",
+                    },
+                },
+            ],
+        },
+    });
+}
+
+async function makeFilePublic(
+    drive: ReturnType<typeof google.drive>,
+    fileId: string,
+): Promise<void> {
+    await drive.permissions.create({
+        fileId,
+        requestBody: {
+            role: "reader",
+            type: "anyone",
         },
     });
 }
@@ -148,6 +194,7 @@ export async function POST(
         const sheets = google.sheets({ version: "v4", auth });
 
         const uploadResult = await uploadPhoto(drive, folderId, filename, data);
+        await makeFilePublic(drive, uploadResult.fileId);
         await addSheetRow(sheets, sheetId, filename, uploadResult.fileId);
 
         return NextResponse.json({
