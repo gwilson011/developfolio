@@ -45,8 +45,7 @@ export function DesktopImageViewer({
                             height={100}
                             alt={prevImage.name}
                             className="w-full h-full object-cover"
-                            unoptimized
-                        />
+                                                    />
                     </div>
                 )}
             </div>
@@ -77,8 +76,7 @@ export function DesktopImageViewer({
                         height={500}
                         alt={currentImage.name}
                         className="w-full h-full object-contain"
-                        unoptimized
-                    />
+                                            />
                 </div>
             </div>
 
@@ -108,8 +106,7 @@ export function DesktopImageViewer({
                             height={100}
                             alt={nextImage.name}
                             className="w-full h-full object-cover"
-                            unoptimized
-                        />
+                                                    />
                     </div>
                 )}
             </div>

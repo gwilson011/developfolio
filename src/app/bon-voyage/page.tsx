@@ -248,7 +248,7 @@ export default function BonVoyage() {
                     <div className="flex flex-col justify-end gap-12 h-[384px]">
                         {/* Featured floppy + text */}
                         {loading ? (
-                            <div className="font-pixel">Loading...</div>
+                            <div className="font-pixel">LOADING...</div>
                         ) : currentFolder ? (
                             <Link
                                 href={`/bon-voyage/${currentFolder.slug}`}
@@ -285,7 +285,7 @@ export default function BonVoyage() {
                                 </div>
                             </Link>
                         ) : (
-                            <div className="font-pixel">No folders</div>
+                            <div className="font-pixel">NO FOLDERS</div>
                         )}
 
                         {/* Other folders row - at bottom */}

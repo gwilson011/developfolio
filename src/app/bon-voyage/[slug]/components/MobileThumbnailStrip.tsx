@@ -53,8 +53,7 @@ export function MobileThumbnailStrip({
                             height={60}
                             alt={item.image.name}
                             className="w-full h-full object-cover"
-                            unoptimized
-                        />
+                                                    />
                     )}
                 </div>
             ))}

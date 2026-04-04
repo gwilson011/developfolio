@@ -1,9 +1,15 @@
+export const dynamic = "force-dynamic";
+
 import { NextRequest, NextResponse } from "next/server";
 import fs from "fs/promises";
 import path from "path";
 import type { BonVoyageData, FolderDetailResponse } from "@/app/types/bonvoyage";
 
-const DATA_FILE_PATH = path.join(process.cwd(), "src/data/bonvoyage-folders.json");
+// Use /tmp on Vercel (serverless), fallback to src/data locally
+const isVercel = process.env.VERCEL === "1";
+const DATA_FILE_PATH = isVercel
+    ? "/tmp/bonvoyage-folders.json"
+    : path.join(process.cwd(), "src/data/bonvoyage-folders.json");
 
 async function readDataFile(): Promise<BonVoyageData> {
     try {

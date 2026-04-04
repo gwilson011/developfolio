@@ -76,8 +76,7 @@ export function ImageViewer({
                         height={500}
                         alt={currentImage.name}
                         className="w-full h-auto object-contain"
-                        unoptimized
-                    />
+                                            />
                 </div>
             </div>
 

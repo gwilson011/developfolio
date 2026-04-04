@@ -28,8 +28,7 @@ export function ImageCard({
                     height={170}
                     alt={image.name}
                     className="w-full h-full object-cover"
-                    unoptimized
-                    loading="lazy"
+                                        loading="lazy"
                 />
             </div>
             {isHovered && (

@@ -4,7 +4,6 @@ import { google } from "googleapis";
 import { NextRequest, NextResponse } from "next/server";
 import fs from "fs/promises";
 import path from "path";
-import sharp from "sharp";
 import type {
     BonVoyageData,
     BonVoyageFolder,
@@ -29,10 +28,11 @@ const FLOPPY_IMAGES = [
     "/bonvoyage/floppys/red.png",
 ];
 
-const DATA_FILE_PATH = path.join(
-    process.cwd(),
-    "src/data/bonvoyage-folders.json",
-);
+// Use /tmp on Vercel (serverless), fallback to src/data locally
+const isVercel = process.env.VERCEL === "1";
+const DATA_FILE_PATH = isVercel
+    ? "/tmp/bonvoyage-folders.json"
+    : path.join(process.cwd(), "src/data/bonvoyage-folders.json");
 
 async function readDataFile(): Promise<BonVoyageData> {
     try {
@@ -52,7 +52,6 @@ function getRandomFloppyImage(usedImages: string[]): string {
         (img) => !usedImages.includes(img),
     );
     if (availableImages.length === 0) {
-        // All images used, pick random from full list
         return FLOPPY_IMAGES[Math.floor(Math.random() * FLOPPY_IMAGES.length)];
     }
     return availableImages[Math.floor(Math.random() * availableImages.length)];
@@ -71,20 +70,9 @@ function isCacheStale(lastSynced: string): boolean {
     return Date.now() - syncTime > CACHE_MAX_AGE_MS;
 }
 
-async function downloadAndProcessImage(
-    drive: ReturnType<typeof google.drive>,
-    fileId: string,
-    destPath: string
-): Promise<void> {
-    const response = await drive.files.get(
-        { fileId, alt: "media" },
-        { responseType: "arraybuffer" }
-    );
-
-    await sharp(Buffer.from(response.data as ArrayBuffer))
-        .resize(1600, 1600, { fit: "inside", withoutEnlargement: true })
-        .webp({ quality: 80 })
-        .toFile(destPath);
+// Generate Google Drive direct image URL
+function getDriveImageUrl(fileId: string): string {
+    return `https://drive.google.com/uc?export=view&id=${fileId}`;
 }
 
 export async function GET(
@@ -101,7 +89,6 @@ export async function GET(
             !isCacheStale(existingData.lastSynced) &&
             Object.keys(existingData.folders).length > 0
         ) {
-            // Return cached data
             const allFolders: BonVoyageFolder[] = Object.values(
                 existingData.folders,
             ).sort(
@@ -132,7 +119,6 @@ export async function GET(
             });
         }
 
-        // Initialize Google Drive client
         const credentials = JSON.parse(serviceAccountKey);
         const auth = new google.auth.GoogleAuth({
             credentials,
@@ -162,7 +148,6 @@ export async function GET(
             if (!driveFolder.id || !driveFolder.name) continue;
 
             if (!existingData.folders[driveFolder.id]) {
-                // New folder - assign random floppy image
                 const floppyImage = getRandomFloppyImage(usedImages);
                 usedImages.push(floppyImage);
 
@@ -175,7 +160,6 @@ export async function GET(
                         driveFolder.createdTime || new Date().toISOString(),
                 };
             } else {
-                // Ensure existing folders have slug (migration)
                 if (!existingData.folders[driveFolder.id].slug) {
                     existingData.folders[driveFolder.id].slug = slugify(
                         existingData.folders[driveFolder.id].name,
@@ -183,7 +167,6 @@ export async function GET(
                 }
             }
 
-            // Sync images for this folder
             const folder = existingData.folders[driveFolder.id];
 
             // Fetch subtitle.txt
@@ -238,53 +221,19 @@ export async function GET(
                 }
             }
 
-            // Build image list - download and serve locally
+            // Build image list - serve directly from Google Drive
             const images: FolderImage[] = [];
-            const imagesDir = path.join(
-                process.cwd(),
-                "public/bonvoyage/images",
-                folder.slug
-            );
-            await fs.mkdir(imagesDir, { recursive: true });
-
-            // Track which files should exist
-            const expectedFiles = new Set<string>();
 
             for (const img of driveImages) {
                 const originalName = img.name || "";
                 const caption = captionsMap[originalName.toLowerCase()];
-                // Change extension to .webp
-                const webpName = originalName.replace(/\.[^.]+$/, ".webp");
-                const localPath = `/bonvoyage/images/${folder.slug}/${webpName}`;
-                const fullPath = path.join(imagesDir, webpName);
-
-                expectedFiles.add(webpName);
-
-                // Download and convert if not already cached
-                const exists = await fs
-                    .access(fullPath)
-                    .then(() => true)
-                    .catch(() => false);
-                if (!exists) {
-                    await downloadAndProcessImage(drive, img.id!, fullPath);
-                }
 
                 images.push({
                     id: img.id!,
                     name: originalName,
-                    url: localPath,
+                    url: getDriveImageUrl(img.id!),
                     caption,
                 });
-            }
-
-            // Clean up deleted images - remove local files not in Drive
-            const localFiles = await fs.readdir(imagesDir).catch(() => []);
-            for (const localFile of localFiles) {
-                if (!expectedFiles.has(localFile)) {
-                    await fs
-                        .unlink(path.join(imagesDir, localFile))
-                        .catch(() => {});
-                }
             }
 
             folder.images = images;
@@ -294,28 +243,13 @@ export async function GET(
         const driveFolderIds = new Set(driveFolders.map((df) => df.id));
         for (const folderId of Object.keys(existingData.folders)) {
             if (!driveFolderIds.has(folderId)) {
-                // Clean up local images for deleted folder
-                const deletedFolder = existingData.folders[folderId];
-                const deletedImagesDir = path.join(
-                    process.cwd(),
-                    "public/bonvoyage/images",
-                    deletedFolder.slug
-                );
-                await fs
-                    .rm(deletedImagesDir, { recursive: true, force: true })
-                    .catch(() => {});
-
                 delete existingData.folders[folderId];
             }
         }
 
-        // Update lastSynced timestamp
         existingData.lastSynced = new Date().toISOString();
-
-        // Write updated data
         await writeDataFile(existingData);
 
-        // Get all folders sorted by createdTime (newest first)
         const allFolders: BonVoyageFolder[] = Object.values(
             existingData.folders,
         ).sort(
