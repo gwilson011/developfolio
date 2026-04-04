@@ -21,20 +21,27 @@ interface UploadPhotoResponse {
     error?: string;
 }
 
-function getGoogleAuth() {
-    const serviceAccountKey = process.env.GOOGLE_SERVICE_ACCOUNT_KEY;
-    if (!serviceAccountKey) {
-        throw new Error("Missing GOOGLE_SERVICE_ACCOUNT_KEY");
+function getGoogleOAuthClient() {
+    const clientId = process.env.GOOGLE_OAUTH_CLIENT_ID;
+    const clientSecret = process.env.GOOGLE_OAUTH_CLIENT_SECRET;
+    const redirectUri = process.env.GOOGLE_OAUTH_REDIRECT_URI;
+    const refreshToken = process.env.GOOGLE_OAUTH_REFRESH_TOKEN;
+
+    if (!clientId || !clientSecret || !redirectUri || !refreshToken) {
+        throw new Error("Missing Google OAuth environment variables");
     }
 
-    const credentials = JSON.parse(serviceAccountKey);
-    return new google.auth.GoogleAuth({
-        credentials,
-        scopes: [
-            "https://www.googleapis.com/auth/drive",
-            "https://www.googleapis.com/auth/spreadsheets",
-        ],
+    const oauth2Client = new google.auth.OAuth2(
+        clientId,
+        clientSecret,
+        redirectUri,
+    );
+
+    oauth2Client.setCredentials({
+        refresh_token: refreshToken,
     });
+
+    return oauth2Client;
 }
 
 async function uploadPhoto(
@@ -136,7 +143,7 @@ export async function POST(
             );
         }
 
-        const auth = getGoogleAuth();
+        const auth = getGoogleOAuthClient();
         const drive = google.drive({ version: "v3", auth });
         const sheets = google.sheets({ version: "v4", auth });
 
