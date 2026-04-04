@@ -10,6 +10,8 @@ import type {
 const PIXELS_PER_TICK = 20;
 const TICK_INTERVAL_MS = 500;
 const IMAGE_HEIGHT = 350;
+const MAC_IMAGE = "/bonvoyage/mac_europe.png";
+const ENABLE_REVEAL_ANIMATION = false;
 
 function formatTimeSince(isoDate: string): string {
     const diff = Date.now() - new Date(isoDate).getTime();
@@ -71,9 +73,9 @@ export default function BonVoyage() {
         }
     };
 
-    // Animation effect - runs continuously and loops
+    // Animation effect - runs continuously and loops (only when enabled)
     useEffect(() => {
-        if (!currentFolder) return;
+        if (!ENABLE_REVEAL_ANIMATION || !currentFolder) return;
 
         const interval = setInterval(() => {
             setRevealPixels((prev) =>
@@ -113,32 +115,15 @@ export default function BonVoyage() {
             <div className="md:hidden flex flex-col items-center text-black">
                 {/* Hero section: Computer + Featured Floppy */}
                 <div className="flex items-center justify-center gap-3 h-full">
-                    {/* Computer with Europe map */}
-                    <div className="relative flex-shrink-0 w-[180px]">
+                    {/* Computer */}
+                    <div className="flex-shrink-0 w-[180px]">
                         <Image
-                            src="/bonvoyage/mac_1.png"
+                            src={MAC_IMAGE}
                             width={180}
                             height={216}
                             alt="Computer"
                             className="w-full h-auto"
                         />
-                        {/* Europe map overlay - positioned on the screen */}
-                        <div
-                            className="absolute"
-                            style={{
-                                top: "14%",
-                                left: "14%",
-                                width: "72%",
-                                height: "40%",
-                            }}
-                        >
-                            <Image
-                                src="/bonvoyage/europe_map.png"
-                                fill
-                                alt="Europe Map"
-                                className="object-cover"
-                            />
-                        </div>
                     </div>
 
                     {/* Featured folder floppy + text */}
@@ -148,28 +133,43 @@ export default function BonVoyage() {
                         ) : currentFolder ? (
                             <Link
                                 href={`/bon-voyage/${currentFolder.slug}`}
-                                className="flex flex-col items-center gap-2"
+                                className="flex flex-col items-center gap-2 !cursor-pointer"
                             >
-                                <div className="relative w-[105px] h-[105px]">
-                                    {/* Base layer at 30% opacity */}
-                                    <Image
-                                        src={currentFolder.floppyImage}
-                                        width={105}
-                                        height={105}
-                                        alt="LOADING..."
-                                        className="absolute inset-0 opacity-30 w-full h-full object-contain"
-                                    />
-                                    {/* Colored layer with clip-path reveal */}
-                                    <Image
-                                        src={currentFolder.floppyImage}
-                                        width={105}
-                                        height={105}
-                                        alt={currentFolder.name}
-                                        className="absolute inset-0 w-full h-full object-contain"
-                                        style={{
-                                            clipPath: `inset(${((IMAGE_HEIGHT - revealPixels) / IMAGE_HEIGHT) * 100}% 0 0 0)`,
-                                        }}
-                                    />
+                                <div className="relative w-[105px] h-[105px] cursor-pointer">
+                                    {ENABLE_REVEAL_ANIMATION ? (
+                                        <>
+                                            {/* Base layer at 30% opacity */}
+                                            <Image
+                                                src={currentFolder.floppyImage}
+                                                width={105}
+                                                height={105}
+                                                alt="LOADING..."
+                                                className="absolute inset-0 opacity-30 w-full h-full object-contain"
+                                                style={{ cursor: 'pointer' }}
+                                            />
+                                            {/* Colored layer with clip-path reveal */}
+                                            <Image
+                                                src={currentFolder.floppyImage}
+                                                width={105}
+                                                height={105}
+                                                alt={currentFolder.name}
+                                                className="absolute inset-0 w-full h-full object-contain"
+                                                style={{
+                                                    cursor: 'pointer',
+                                                    clipPath: `inset(${((IMAGE_HEIGHT - revealPixels) / IMAGE_HEIGHT) * 100}% 0 0 0)`,
+                                                }}
+                                            />
+                                        </>
+                                    ) : (
+                                        <Image
+                                            src={currentFolder.floppyImage}
+                                            width={105}
+                                            height={105}
+                                            alt={currentFolder.name}
+                                            className="w-full h-full object-contain"
+                                            style={{ cursor: 'pointer' }}
+                                        />
+                                    )}
                                 </div>
                                 <div className="font-tango text-[28pt] leading-none text-center mt-1">
                                     {currentFolder.name.toUpperCase()}
@@ -188,7 +188,7 @@ export default function BonVoyage() {
 
                 {/* Grid of other folders (3 columns) - centered */}
                 <div className="flex justify-center w-full mt-6">
-                    <div className="grid grid-cols-3 gap-x-4 gap-y-4">
+                    <div className="grid grid-cols-3 gap-x-4 gap-y-4 ml-[-25px]">
                         {allFolders
                             .slice(1)
                             .reverse()
@@ -204,6 +204,7 @@ export default function BonVoyage() {
                                         height={85}
                                         alt={folder.name}
                                         className="w-[85px] h-[85px] object-contain"
+                                        style={{ cursor: 'pointer' }}
                                     />
                                     <span className="text-xs font-pixel pt-1 text-center max-w-[85px] leading-tight">
                                         {folder.name.toUpperCase()}
@@ -218,30 +219,14 @@ export default function BonVoyage() {
             <div className="hidden md:flex justify-center text-black py-8">
                 {/* Two-column layout: Computer left, content right */}
                 <div className="flex gap-12">
-                    {/* Left: Computer with Europe map */}
-                    <div className="relative w-[320px] h-[384px]">
+                    {/* Left: Computer */}
+                    <div className="w-[320px] h-[384px]">
                         <Image
-                            src="/bonvoyage/mac_1.png"
+                            src={MAC_IMAGE}
                             width={320}
                             height={384}
                             alt="Computer"
                         />
-                        <div
-                            className="absolute"
-                            style={{
-                                top: "14%",
-                                left: "14%",
-                                width: "72%",
-                                height: "40%",
-                            }}
-                        >
-                            <Image
-                                src="/bonvoyage/europe_map.png"
-                                fill
-                                alt="Europe Map"
-                                className="object-cover"
-                            />
-                        </div>
                     </div>
 
                     {/* Right: Featured floppy + text on top, smaller floppies below */}
@@ -252,26 +237,40 @@ export default function BonVoyage() {
                         ) : currentFolder ? (
                             <Link
                                 href={`/bon-voyage/${currentFolder.slug}`}
-                                className="flex items-center gap-4"
+                                className="flex items-center gap-4 !cursor-pointer"
                             >
-                                <div className="relative w-[140px] h-[140px]">
-                                    <Image
-                                        src={currentFolder.floppyImage}
-                                        width={140}
-                                        height={140}
-                                        alt="LOADING..."
-                                        className="absolute inset-0 opacity-30"
-                                    />
-                                    <Image
-                                        src={currentFolder.floppyImage}
-                                        width={140}
-                                        height={140}
-                                        alt={currentFolder.name}
-                                        className="absolute inset-0"
-                                        style={{
-                                            clipPath: `inset(${((IMAGE_HEIGHT - revealPixels) / IMAGE_HEIGHT) * 100}% 0 0 0)`,
-                                        }}
-                                    />
+                                <div className="relative w-[140px] h-[140px] cursor-pointer">
+                                    {ENABLE_REVEAL_ANIMATION ? (
+                                        <>
+                                            <Image
+                                                src={currentFolder.floppyImage}
+                                                width={140}
+                                                height={140}
+                                                alt="LOADING..."
+                                                className="absolute inset-0 opacity-30"
+                                                style={{ cursor: 'pointer' }}
+                                            />
+                                            <Image
+                                                src={currentFolder.floppyImage}
+                                                width={140}
+                                                height={140}
+                                                alt={currentFolder.name}
+                                                className="absolute inset-0"
+                                                style={{
+                                                    cursor: 'pointer',
+                                                    clipPath: `inset(${((IMAGE_HEIGHT - revealPixels) / IMAGE_HEIGHT) * 100}% 0 0 0)`,
+                                                }}
+                                            />
+                                        </>
+                                    ) : (
+                                        <Image
+                                            src={currentFolder.floppyImage}
+                                            width={140}
+                                            height={140}
+                                            alt={currentFolder.name}
+                                            style={{ cursor: 'pointer' }}
+                                        />
+                                    )}
                                 </div>
                                 <div className="flex flex-col gap-2">
                                     <div className="font-tango text-[56pt] leading-none">
@@ -297,13 +296,14 @@ export default function BonVoyage() {
                                     <Link
                                         key={folder.id}
                                         href={`/bon-voyage/${folder.slug}`}
-                                        className="flex flex-col items-center hover:opacity-80 gap-2 transition-opacity"
+                                        className="flex flex-col items-center cursor-pointer hover:opacity-80 gap-2 transition-opacity"
                                     >
                                         <Image
                                             src={folder.floppyImage}
                                             width={90}
                                             height={90}
                                             alt={folder.name}
+                                            style={{ cursor: 'pointer' }}
                                         />
                                         <span className="text-sm font-pixel pt-1 text-center">
                                             {folder.name.toUpperCase()}

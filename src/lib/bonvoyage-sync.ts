@@ -11,7 +11,6 @@ const CACHE_MAX_AGE_MS = 30 * 60 * 1000; // 30 minutes
 
 const FLOPPY_IMAGES = [
     "/bonvoyage/floppys/lightpink.png",
-    "/bonvoyage/floppys/white.png",
     "/bonvoyage/floppys/black.png",
     "/bonvoyage/floppys/orange.png",
     "/bonvoyage/floppys/pink.png",
@@ -217,7 +216,10 @@ export async function syncFromDrive(): Promise<BonVoyageData> {
 
 export async function getOrSyncData(): Promise<BonVoyageData> {
     const data = await readDataFile();
-    if (Object.keys(data.folders).length === 0 || isCacheStale(data.lastSynced)) {
+    if (
+        Object.keys(data.folders).length === 0 ||
+        isCacheStale(data.lastSynced)
+    ) {
         return await syncFromDrive();
     }
     return data;
