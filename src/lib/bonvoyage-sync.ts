@@ -66,9 +66,9 @@ export function isCacheStale(lastSynced: string): boolean {
     return Date.now() - syncTime > CACHE_MAX_AGE_MS;
 }
 
-// Generate Google Drive direct image URL
+// Generate proxied image URL through our API
 export function getDriveImageUrl(fileId: string): string {
-    return `https://drive.google.com/uc?export=view&id=${fileId}`;
+    return `/api/drive/image/${fileId}`;
 }
 
 export async function syncFromDrive(): Promise<BonVoyageData> {
