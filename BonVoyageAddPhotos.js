@@ -2,30 +2,32 @@
 // Scriptable script for iOS to add photos to an existing Bon Voyage folder
 // Usage: Select photos in Photos app, tap Share, run this script
 
-const API_BASE = "https://gracewilson.info";
+const BASE_API_URL = "https://gracewilson.info/api/drive";
+
+// 🔧 Tunable settings (match BonVoyageUploader.js)
+const MAX_DIMENSION = 1200;
+const JPEG_QUALITY = 0.55;
 
 async function main() {
     // 1. Get photos from Share Sheet
     const photos = args.images;
 
     if (!photos || photos.length === 0) {
-        await showError("No photos shared. Select photos in Photos app, tap Share, then run this script.");
+        await showError(
+            "No photos shared. Select photos in Photos app, tap Share, then run this script.",
+        );
         return;
     }
 
-    // 2. Fetch existing folders (using lightweight endpoint)
-    const foldersRequest = new Request(`${API_BASE}/api/drive/upload`);
-    let folders;
+    // 2. Fetch existing folders with sheetIds
+    await notify("Bon Voyage", "Fetching folders...");
 
+    let folders;
     try {
+        const foldersRequest = new Request(`${BASE_API_URL}/add-photos`);
         const responseText = await foldersRequest.loadString();
-        let response;
-        try {
-            response = JSON.parse(responseText);
-        } catch {
-            await showError(`Invalid response: ${responseText.substring(0, 200)}`);
-            return;
-        }
+        const response = parseJson(responseText);
+
         if (!response.ok) {
             await showError(response.error || "Failed to fetch folders");
             return;
@@ -56,72 +58,115 @@ async function main() {
 
     const selectedFolder = folders[selectedIndex];
 
-    // 4. Show progress
-    const progressNotification = new Notification();
-    progressNotification.title = "Uploading...";
-    progressNotification.body = `Adding ${photos.length} photos to "${selectedFolder.name}"`;
-    await progressNotification.schedule();
-
-    // 5. Convert photos to base64
-    const photoData = [];
-    for (let i = 0; i < photos.length; i++) {
-        const photo = photos[i];
-        const data = Data.fromJPEG(photo, 0.8);
-        const base64 = data.toBase64String();
-
-        // Use timestamp to avoid filename collisions
-        const timestamp = Date.now();
-        photoData.push({
-            filename: `IMG_${timestamp}_${String(i + 1).padStart(4, "0")}.jpg`,
-            data: base64,
-        });
-    }
-
-    // 6. POST to API
-    const uploadRequest = new Request(`${API_BASE}/api/drive/upload`);
-    uploadRequest.method = "POST";
-    uploadRequest.headers = {
-        "Content-Type": "application/json",
-    };
-    uploadRequest.body = JSON.stringify({
-        folderId: selectedFolder.id,
-        photos: photoData,
-    });
-    uploadRequest.timeoutInterval = 300;
-
     try {
-        const responseText = await uploadRequest.loadString();
-        let response;
-        try {
-            response = JSON.parse(responseText);
-        } catch {
-            await showError(`Invalid upload response: ${responseText.substring(0, 200)}`);
-            return;
-        }
+        let uploaded = 0;
 
-        if (response.ok) {
-            const successAlert = new Alert();
-            successAlert.title = "Success!";
-            successAlert.message = `Added ${response.data.photosUploaded} photos to "${selectedFolder.name}"`;
-            successAlert.addAction("Open Folder");
-            successAlert.addAction("Done");
+        // 4. Upload each photo one at a time
+        for (let i = 0; i < photos.length; i++) {
+            await notify("Uploading...", `Photo ${i + 1} of ${photos.length}`);
 
-            const action = await successAlert.present();
-            if (action === 0) {
-                Safari.open(response.data.folderUrl);
+            const payload = buildPhotoPayload(photos[i], i);
+
+            const uploadReq = new Request(`${BASE_API_URL}/upload-photo`);
+            uploadReq.method = "POST";
+            uploadReq.headers = { "Content-Type": "application/json" };
+            uploadReq.body = JSON.stringify({
+                folderId: selectedFolder.id,
+                sheetId: selectedFolder.sheetId,
+                filename: payload.filename,
+                data: payload.data,
+            });
+            uploadReq.timeoutInterval = 180;
+
+            const uploadRes = parseJson(await uploadReq.loadString());
+
+            if (!uploadRes.ok) {
+                throw new Error(
+                    uploadRes.error || `Failed on ${payload.filename}`,
+                );
             }
-        } else {
-            await showError(response.error || "Upload failed");
+
+            uploaded++;
         }
-    } catch (error) {
-        await showError(`Request failed: ${error.message}`);
+
+        // 5. Success UI
+        const folderUrl = `https://drive.google.com/drive/folders/${selectedFolder.id}`;
+        const alert = new Alert();
+        alert.title = "Success";
+        alert.message = `Added ${uploaded} photos to "${selectedFolder.name}"`;
+        alert.addAction("Open Folder");
+        alert.addAction("Done");
+
+        const action = await alert.present();
+        if (action === 0) {
+            Safari.open(folderUrl);
+        }
+    } catch (err) {
+        await showError(err.message || String(err));
     }
 }
 
-async function showError(message) {
+//
+// 🔥 IMAGE OPTIMIZATION (KEY PART)
+//
+
+function resizeImage(image, maxDimension = MAX_DIMENSION) {
+    const w = image.size.width;
+    const h = image.size.height;
+
+    const scale = Math.min(maxDimension / w, maxDimension / h, 1);
+
+    const newW = Math.round(w * scale);
+    const newH = Math.round(h * scale);
+
+    const ctx = new DrawContext();
+    ctx.size = new Size(newW, newH);
+    ctx.opaque = true;
+    ctx.respectScreenScale = false;
+
+    ctx.drawImageInRect(image, new Rect(0, 0, newW, newH));
+
+    return ctx.getImage();
+}
+
+function buildPhotoPayload(photo, index) {
+    // 🔥 Resize first (huge size reduction)
+    const resized = resizeImage(photo);
+
+    // 🔥 Then compress
+    const data = Data.fromJPEG(resized, JPEG_QUALITY);
+
+    const base64 = data.toBase64String();
+
+    return {
+        filename: `IMG_${Date.now()}_${index}.jpg`,
+        data: base64,
+    };
+}
+
+//
+// HELPERS
+//
+
+function parseJson(str) {
+    try {
+        return JSON.parse(str);
+    } catch {
+        throw new Error("Invalid JSON response");
+    }
+}
+
+async function notify(title, body) {
+    const n = new Notification();
+    n.title = title;
+    n.body = body;
+    await n.schedule();
+}
+
+async function showError(msg) {
     const alert = new Alert();
     alert.title = "Error";
-    alert.message = message;
+    alert.message = msg;
     alert.addAction("OK");
     await alert.present();
 }

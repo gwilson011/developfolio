@@ -29,7 +29,7 @@ export function ImageCard({
             onMouseLeave={() => setIsHovered(false)}
             onClick={handleClick}
         >
-            <div className="relative w-[120px] h-[120px] md:w-[170px] md:h-[170px] border-2 border-black overflow-hidden">
+            <div className="relative w-[130px] h-[130px] md:w-[170px] md:h-[170px] border-2 border-black overflow-hidden">
                 <Image
                     src={image.url}
                     alt={image.name}

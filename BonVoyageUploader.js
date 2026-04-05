@@ -1,11 +1,22 @@
 // BonVoyageUploader.js
-// Scriptable script for iOS to upload photos to Bon Voyage
 
-// Configuration - Update this to your deployed URL
-const API_URL = "https://gracewilson.info/api/drive/upload";
+const BASE_API_URL = "https://gracewilson.info/api/drive";
+
+// 🔧 Tunable settings
+const MAX_DIMENSION = 1200;
+const JPEG_QUALITY = 0.55;
 
 async function main() {
-    // 1. Prompt for folder name
+    const photos = args.images;
+
+    if (!photos || photos.length === 0) {
+        await showError(
+            "No photos shared. Select photos in Photos app, tap Share, then run this script.",
+        );
+        return;
+    }
+
+    // 1. Folder name
     const folderAlert = new Alert();
     folderAlert.title = "New Trip";
     folderAlert.message = "Enter the trip/folder name:";
@@ -13,101 +24,151 @@ async function main() {
     folderAlert.addAction("Next");
     folderAlert.addCancelAction("Cancel");
 
-    const folderResult = await folderAlert.present();
-    if (folderResult === -1) return;
+    if ((await folderAlert.present()) === -1) return;
 
-    const folderName = folderAlert.textFieldValue(0);
-    if (!folderName || !folderName.trim()) {
+    const folderName = folderAlert.textFieldValue(0).trim();
+    if (!folderName) {
         await showError("Folder name is required");
         return;
     }
 
-    // 2. Prompt for trip notes
+    // 2. Notes
     const notesAlert = new Alert();
     notesAlert.title = "Trip Notes";
     notesAlert.message = "Enter a subtitle/description (optional):";
-    notesAlert.addTextField("e.g., Summer 2024");
-    notesAlert.addAction("Next");
+    notesAlert.addTextField("e.g., Summer 2026");
+    notesAlert.addAction("Upload");
     notesAlert.addCancelAction("Cancel");
 
-    const notesResult = await notesAlert.present();
-    if (notesResult === -1) return;
+    if ((await notesAlert.present()) === -1) return;
 
-    const tripNotes = notesAlert.textFieldValue(0) || "";
+    const tripNotes = notesAlert.textFieldValue(0).trim();
 
-    // 3. Get photos from Share Sheet
-    const photos = args.images;
-
-    if (!photos || photos.length === 0) {
-        await showError("No photos shared. Select photos in Photos app, tap Share, then run this script.");
-        return;
-    }
-
-    // Show progress
-    const progressNotification = new Notification();
-    progressNotification.title = "Uploading...";
-    progressNotification.body = `Processing ${photos.length} photos`;
-    await progressNotification.schedule();
-
-    // 4. Convert photos to base64
-    const photoData = [];
-    for (let i = 0; i < photos.length; i++) {
-        const photo = photos[i];
-        const data = Data.fromJPEG(photo, 0.8);
-        const base64 = data.toBase64String();
-
-        photoData.push({
-            filename: `IMG_${String(i + 1).padStart(4, "0")}.jpg`,
-            data: base64,
-        });
-    }
-
-    // 5. POST to API
-    const request = new Request(API_URL);
-    request.method = "POST";
-    request.headers = {
-        "Content-Type": "application/json",
-    };
-    request.body = JSON.stringify({
-        folderName: folderName.trim(),
-        tripNotes: tripNotes.trim(),
-        photos: photoData,
-    });
-    request.timeoutInterval = 300; // 5 minutes for large uploads
+    await notify("Bon Voyage", `Creating folder...`);
 
     try {
-        const responseText = await request.loadString();
-        let response;
-        try {
-            response = JSON.parse(responseText);
-        } catch {
-            await showError(`Invalid response: ${responseText.substring(0, 200)}`);
-            return;
-        }
+        // 3. Setup folder + sheet
+        const setupReq = new Request(`${BASE_API_URL}/setup`);
+        setupReq.method = "POST";
+        setupReq.headers = { "Content-Type": "application/json" };
+        setupReq.body = JSON.stringify({
+            folderName,
+            tripNotes,
+        });
 
-        if (response.ok) {
-            const successAlert = new Alert();
-            successAlert.title = "Success!";
-            successAlert.message = `Uploaded ${response.data.photosUploaded} photos to "${folderName}"`;
-            successAlert.addAction("Open Folder");
-            successAlert.addAction("Done");
+        const setupRes = parseJson(await setupReq.loadString());
 
-            const action = await successAlert.present();
-            if (action === 0) {
-                Safari.open(response.data.folderUrl);
+        if (!setupRes.ok) throw new Error(setupRes.error);
+
+        const { folderId, folderUrl, sheetId } = setupRes.data;
+
+        let uploaded = 0;
+
+        // 4. Upload each photo
+        for (let i = 0; i < photos.length; i++) {
+            await notify("Uploading...", `Photo ${i + 1} of ${photos.length}`);
+
+            const payload = buildPhotoPayload(photos[i], i);
+
+            const uploadReq = new Request(`${BASE_API_URL}/upload-photo`);
+            uploadReq.method = "POST";
+            uploadReq.headers = { "Content-Type": "application/json" };
+            uploadReq.body = JSON.stringify({
+                folderId,
+                sheetId,
+                filename: payload.filename,
+                data: payload.data,
+            });
+            uploadReq.timeoutInterval = 180;
+
+            const uploadRes = parseJson(await uploadReq.loadString());
+
+            if (!uploadRes.ok) {
+                throw new Error(
+                    uploadRes.error || `Failed on ${payload.filename}`,
+                );
             }
-        } else {
-            await showError(response.error || "Upload failed");
+
+            uploaded++;
         }
-    } catch (error) {
-        await showError(`Request failed: ${error.message}`);
+
+        // 5. Success UI
+        const alert = new Alert();
+        alert.title = "Success";
+        alert.message = `Uploaded ${uploaded} photos`;
+        alert.addAction("Open Folder");
+        alert.addAction("Done");
+
+        const action = await alert.present();
+        if (action === 0) {
+            Safari.open(folderUrl);
+        }
+    } catch (err) {
+        await showError(err.message || String(err));
     }
 }
 
-async function showError(message) {
+//
+// 🔥 IMAGE OPTIMIZATION (KEY PART)
+//
+
+function resizeImage(image, maxDimension = MAX_DIMENSION) {
+    const w = image.size.width;
+    const h = image.size.height;
+
+    const scale = Math.min(maxDimension / w, maxDimension / h, 1);
+
+    const newW = Math.round(w * scale);
+    const newH = Math.round(h * scale);
+
+    const ctx = new DrawContext();
+    ctx.size = new Size(newW, newH);
+    ctx.opaque = true;
+    ctx.respectScreenScale = false;
+
+    ctx.drawImageInRect(image, new Rect(0, 0, newW, newH));
+
+    return ctx.getImage();
+}
+
+function buildPhotoPayload(photo, index) {
+    // 🔥 Resize first (huge size reduction)
+    const resized = resizeImage(photo);
+
+    // 🔥 Then compress
+    const data = Data.fromJPEG(resized, JPEG_QUALITY);
+
+    const base64 = data.toBase64String();
+
+    return {
+        filename: `IMG_${Date.now()}_${index}.jpg`,
+        data: base64,
+    };
+}
+
+//
+// HELPERS
+//
+
+function parseJson(str) {
+    try {
+        return JSON.parse(str);
+    } catch {
+        throw new Error("Invalid JSON response");
+    }
+}
+
+async function notify(title, body) {
+    const n = new Notification();
+    n.title = title;
+    n.body = body;
+    await n.schedule();
+}
+
+async function showError(msg) {
     const alert = new Alert();
     alert.title = "Error";
-    alert.message = message;
+    alert.message = msg;
     alert.addAction("OK");
     await alert.present();
 }

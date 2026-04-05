@@ -17,6 +17,8 @@ const ENABLE_REVEAL_ANIMATION = false;
 // Adjust these values to move the dot on the map
 const LOCATION_DOT_X = 54; // % from left edge
 const LOCATION_DOT_Y = 43; // % from top edge
+const MOBILE_LOCATION_DOT_X = 54; // % from left edge
+const MOBILE_LOCATION_DOT_Y = 38; // % from top edge
 
 function formatTimeSince(isoDate: string): string {
     const diff = Date.now() - new Date(isoDate).getTime();
@@ -134,10 +136,10 @@ export default function BonVoyage() {
                             className="w-full h-auto"
                         />
                         <div
-                            className="absolute w-0.5 h-0.5 bg-red-500 animate-pulse shadow-[0_0_6px_2px_rgba(239,68,68,0.6)]"
+                            className="absolute w-1 h-1 bg-red-500 animate-pulse shadow-[0_0_6px_2px_rgba(239,68,68,0.6)]"
                             style={{
-                                left: `${LOCATION_DOT_X}%`,
-                                top: `${LOCATION_DOT_Y}%`,
+                                left: `${MOBILE_LOCATION_DOT_X}%`,
+                                top: `${MOBILE_LOCATION_DOT_Y}%`,
                             }}
                         />
                     </div>
