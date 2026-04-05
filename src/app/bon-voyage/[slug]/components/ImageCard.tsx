@@ -6,19 +6,27 @@ import type { FolderImage } from "@/app/types/bonvoyage";
 export function ImageCard({
     image,
     onClick,
+    isPreviewActive,
+    onPreviewChange,
 }: {
     image: FolderImage;
     onClick?: () => void;
+    isPreviewActive?: boolean;
+    onPreviewChange?: (active: boolean) => void;
 }) {
     const [isHovered, setIsHovered] = useState(false);
 
+    // Show popup if hovered (desktop) OR preview active (mobile)
+    const showPopup = isHovered || isPreviewActive;
+
     const handleClick = () => {
-        // toggle caption instead of immediate navigation
-        if (!isHovered) {
-            setIsHovered(true);
+        if (isPreviewActive) {
+            // Second tap: deactivate preview and select
+            onPreviewChange?.(false);
+            onClick?.();
         } else {
-            setIsHovered(false);
-            onClick?.(); // optional: only trigger action on second tap
+            // First tap: activate preview (mobile)
+            onPreviewChange?.(true);
         }
     };
 
@@ -38,7 +46,7 @@ export function ImageCard({
                 />
             </div>
 
-            {isHovered && (
+            {showPopup && (
                 <div className="absolute top-0 left-full ml-2 z-10 bg-pink-300 border-2 border-black px-3 py-2 text-black font-louis text-sm max-h-[170px] w-max max-w-[400px]">
                     {image.caption || image.name}
                 </div>

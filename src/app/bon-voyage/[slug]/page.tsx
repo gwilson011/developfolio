@@ -49,6 +49,19 @@ export default function FolderPage() {
         initialIndex !== null && !isNaN(initialIndex) ? initialIndex : null,
     );
 
+    // Mobile tap preview state
+    const [previewIndex, setPreviewIndex] = useState<number | null>(null);
+    const [canHover, setCanHover] = useState(true);
+
+    // Detect hover capability (desktop vs mobile)
+    useEffect(() => {
+        const mediaQuery = window.matchMedia("(hover: hover)");
+        setCanHover(mediaQuery.matches);
+        const handler = (e: MediaQueryListEvent) => setCanHover(e.matches);
+        mediaQuery.addEventListener("change", handler);
+        return () => mediaQuery.removeEventListener("change", handler);
+    }, []);
+
     // Sync state to URL
     const selectImage = useCallback(
         (index: number | null) => {
@@ -209,6 +222,16 @@ export default function FolderPage() {
                                     key={image.id}
                                     image={image}
                                     onClick={() => selectImage(index)}
+                                    isPreviewActive={!canHover && previewIndex === index}
+                                    onPreviewChange={(active) => {
+                                        if (canHover) {
+                                            // Desktop: click selects immediately
+                                            selectImage(index);
+                                        } else {
+                                            // Mobile: manage preview state
+                                            setPreviewIndex(active ? index : null);
+                                        }
+                                    }}
                                 />
                             ))}
                         </div>
