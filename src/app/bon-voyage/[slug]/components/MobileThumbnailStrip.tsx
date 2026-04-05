@@ -29,7 +29,7 @@ export function MobileThumbnailStrip({
     };
 
     return (
-        <div className="flex justify-center gap-2 md:hidden mb-4">
+        <div className="flex justify-center gap-2 md:hidden mb-4 items-center">
             {getVisibleThumbnails().map((item, idx) => (
                 <div
                     key={idx}
@@ -37,13 +37,11 @@ export function MobileThumbnailStrip({
                         item.isCurrent
                             ? "border-4 border-pink-400"
                             : item.image
-                              ? "border-2 border-black cursor-pointer opacity-50 hover:opacity-75 transition-opacity"
-                              : "border-2 border-neutral-300 bg-neutral-50"
+                              ? "!w-[40px] !h-[40px] border-2 border-black cursor-pointer opacity-50 hover:opacity-75 transition-opacity"
+                              : "!w-[40px] !h-[40px] border-2 border-neutral-300 bg-neutral-50"
                     }`}
                     onClick={() =>
-                        item.image &&
-                        !item.isCurrent &&
-                        onNavigate(item.index)
+                        item.image && !item.isCurrent && onNavigate(item.index)
                     }
                 >
                     {item.image && (
@@ -53,7 +51,7 @@ export function MobileThumbnailStrip({
                             height={60}
                             alt={item.image.name}
                             className="w-full h-full object-cover"
-                                                    />
+                        />
                     )}
                 </div>
             ))}

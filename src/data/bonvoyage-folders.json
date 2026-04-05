@@ -30,7 +30,7 @@
                     "id": "1NOFd384prEmm7s-BnAJ0auLqn5dP6uQx",
                     "name": "IMG_1775342440791_3.jpg",
                     "url": "/api/drive/image/1NOFd384prEmm7s-BnAJ0auLqn5dP6uQx",
-                    "caption": "253 steps up the tower in St. Vitus Cathedral."
+                    "caption": "287 steps up the tower in St. Vitus Cathedral."
                 },
                 {
                     "id": "1TwWYNZegGHOkurQdDqgO8dPKNCWsrub2",
@@ -117,7 +117,16 @@
                     "caption": "I love european candy so much."
                 }
             ]
+        },
+        "1MQA5AaraiKIlqY-OariKv48UkR_BdTY9": {
+            "id": "1MQA5AaraiKIlqY-OariKv48UkR_BdTY9",
+            "name": "Vienna",
+            "slug": "vienna",
+            "floppyImage": "/bonvoyage/floppys/green.png",
+            "createdTime": "2026-04-05T16:11:09.470Z",
+            "subtitle": "Austria",
+            "images": []
         }
     },
-    "lastSynced": "2026-04-05T15:48:49.478Z"
+    "lastSynced": "2026-04-05T16:22:10.128Z"
 }
