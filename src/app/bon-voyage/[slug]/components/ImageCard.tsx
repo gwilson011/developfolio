@@ -29,7 +29,7 @@ export function ImageCard({
             onMouseLeave={() => setIsHovered(false)}
             onClick={handleClick}
         >
-            <div className="relative w-[100px] h-[100px] md:w-[170px] md:h-[170px] border-2 border-black overflow-hidden">
+            <div className="relative w-[120px] h-[120px] md:w-[170px] md:h-[170px] border-2 border-black overflow-hidden">
                 <Image
                     src={image.url}
                     alt={image.name}
@@ -39,7 +39,7 @@ export function ImageCard({
             </div>
 
             {isHovered && (
-                <div className="absolute top-0 left-full ml-2 z-10 bg-pink-300 border-2 border-black px-3 py-2 max-w-[200px] text-black font-louis text-sm">
+                <div className="absolute top-0 left-full ml-2 z-10 bg-pink-300 border-2 border-black px-3 py-2 text-black font-louis text-sm max-h-[170px] w-max max-w-[400px]">
                     {image.caption || image.name}
                 </div>
             )}

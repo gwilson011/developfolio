@@ -13,6 +13,11 @@ const IMAGE_HEIGHT = 350;
 const MAC_IMAGE = "/bonvoyage/mac_europe.png";
 const ENABLE_REVEAL_ANIMATION = false;
 
+// Location dot position on the Mac map (percentage-based)
+// Adjust these values to move the dot on the map
+const LOCATION_DOT_X = 54; // % from left edge
+const LOCATION_DOT_Y = 43; // % from top edge
+
 function formatTimeSince(isoDate: string): string {
     const diff = Date.now() - new Date(isoDate).getTime();
     const minutes = Math.floor(diff / 60000);
@@ -73,9 +78,13 @@ export default function BonVoyage() {
         }
     };
 
+    // Show animation if enabled by default OR if folder has no images
+    const showRevealAnimation =
+        ENABLE_REVEAL_ANIMATION || !currentFolder?.images?.length;
+
     // Animation effect - runs continuously and loops (only when enabled)
     useEffect(() => {
-        if (!ENABLE_REVEAL_ANIMATION || !currentFolder) return;
+        if (!showRevealAnimation || !currentFolder) return;
 
         const interval = setInterval(() => {
             setRevealPixels((prev) =>
@@ -84,7 +93,7 @@ export default function BonVoyage() {
         }, TICK_INTERVAL_MS);
 
         return () => clearInterval(interval);
-    }, [currentFolder]);
+    }, [currentFolder, showRevealAnimation]);
 
     // Reset animation when folder changes
     useEffect(() => {
@@ -116,13 +125,20 @@ export default function BonVoyage() {
                 {/* Hero section: Computer + Featured Floppy */}
                 <div className="flex items-center justify-center gap-3 h-full">
                     {/* Computer */}
-                    <div className="flex-shrink-0 w-[180px]">
+                    <div className="flex-shrink-0 w-[180px] relative">
                         <Image
                             src={MAC_IMAGE}
                             width={180}
                             height={216}
                             alt="Computer"
                             className="w-full h-auto"
+                        />
+                        <div
+                            className="absolute w-0.5 h-0.5 bg-red-500 animate-pulse shadow-[0_0_6px_2px_rgba(239,68,68,0.6)]"
+                            style={{
+                                left: `${LOCATION_DOT_X}%`,
+                                top: `${LOCATION_DOT_Y}%`,
+                            }}
                         />
                     </div>
 
@@ -136,7 +152,7 @@ export default function BonVoyage() {
                                 className="flex flex-col items-center gap-2 !cursor-pointer"
                             >
                                 <div className="relative w-[105px] h-[105px] cursor-pointer">
-                                    {ENABLE_REVEAL_ANIMATION ? (
+                                    {showRevealAnimation ? (
                                         <>
                                             {/* Base layer at 30% opacity */}
                                             <Image
@@ -145,7 +161,7 @@ export default function BonVoyage() {
                                                 height={105}
                                                 alt="LOADING..."
                                                 className="absolute inset-0 opacity-30 w-full h-full object-contain"
-                                                style={{ cursor: 'pointer' }}
+                                                style={{ cursor: "pointer" }}
                                             />
                                             {/* Colored layer with clip-path reveal */}
                                             <Image
@@ -155,7 +171,7 @@ export default function BonVoyage() {
                                                 alt={currentFolder.name}
                                                 className="absolute inset-0 w-full h-full object-contain"
                                                 style={{
-                                                    cursor: 'pointer',
+                                                    cursor: "pointer",
                                                     clipPath: `inset(${((IMAGE_HEIGHT - revealPixels) / IMAGE_HEIGHT) * 100}% 0 0 0)`,
                                                 }}
                                             />
@@ -167,7 +183,7 @@ export default function BonVoyage() {
                                             height={105}
                                             alt={currentFolder.name}
                                             className="w-full h-full object-contain"
-                                            style={{ cursor: 'pointer' }}
+                                            style={{ cursor: "pointer" }}
                                         />
                                     )}
                                 </div>
@@ -204,7 +220,7 @@ export default function BonVoyage() {
                                         height={85}
                                         alt={folder.name}
                                         className="w-[85px] h-[85px] object-contain"
-                                        style={{ cursor: 'pointer' }}
+                                        style={{ cursor: "pointer" }}
                                     />
                                     <span className="text-xs font-pixel pt-1 text-center max-w-[85px] leading-tight">
                                         {folder.name.toUpperCase()}
@@ -220,12 +236,19 @@ export default function BonVoyage() {
                 {/* Two-column layout: Computer left, content right */}
                 <div className="flex gap-12">
                     {/* Left: Computer */}
-                    <div className="w-[320px] h-[384px]">
+                    <div className="w-[320px] h-[384px] relative">
                         <Image
                             src={MAC_IMAGE}
                             width={320}
                             height={384}
                             alt="Computer"
+                        />
+                        <div
+                            className="absolute w-1 h-1 bg-red-500 animate-pulse shadow-[0_0_8px_3px_rgba(239,68,68,0.6)]"
+                            style={{
+                                left: `${LOCATION_DOT_X}%`,
+                                top: `${LOCATION_DOT_Y}%`,
+                            }}
                         />
                     </div>
 
@@ -240,7 +263,7 @@ export default function BonVoyage() {
                                 className="flex items-center gap-4 !cursor-pointer"
                             >
                                 <div className="relative w-[140px] h-[140px] cursor-pointer">
-                                    {ENABLE_REVEAL_ANIMATION ? (
+                                    {showRevealAnimation ? (
                                         <>
                                             <Image
                                                 src={currentFolder.floppyImage}
@@ -248,7 +271,7 @@ export default function BonVoyage() {
                                                 height={140}
                                                 alt="LOADING..."
                                                 className="absolute inset-0 opacity-30"
-                                                style={{ cursor: 'pointer' }}
+                                                style={{ cursor: "pointer" }}
                                             />
                                             <Image
                                                 src={currentFolder.floppyImage}
@@ -257,7 +280,7 @@ export default function BonVoyage() {
                                                 alt={currentFolder.name}
                                                 className="absolute inset-0"
                                                 style={{
-                                                    cursor: 'pointer',
+                                                    cursor: "pointer",
                                                     clipPath: `inset(${((IMAGE_HEIGHT - revealPixels) / IMAGE_HEIGHT) * 100}% 0 0 0)`,
                                                 }}
                                             />
@@ -268,7 +291,7 @@ export default function BonVoyage() {
                                             width={140}
                                             height={140}
                                             alt={currentFolder.name}
-                                            style={{ cursor: 'pointer' }}
+                                            style={{ cursor: "pointer" }}
                                         />
                                     )}
                                 </div>
@@ -303,7 +326,7 @@ export default function BonVoyage() {
                                             width={90}
                                             height={90}
                                             alt={folder.name}
-                                            style={{ cursor: 'pointer' }}
+                                            style={{ cursor: "pointer" }}
                                         />
                                         <span className="text-sm font-pixel pt-1 text-center">
                                             {folder.name.toUpperCase()}

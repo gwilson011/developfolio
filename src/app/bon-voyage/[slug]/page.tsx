@@ -426,7 +426,7 @@ export default function FolderPage() {
                             onNavigate={selectImage}
                         />
                     ) : (
-                        <div className="flex flex-wrap gap-4 p-4">
+                        <div className="flex flex-wrap gap-4 p-4 w-full">
                             {images.map((image, index) => (
                                 <ImageCard
                                     key={image.id}

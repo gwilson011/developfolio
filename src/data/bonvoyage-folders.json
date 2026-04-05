@@ -1,49 +1,123 @@
 {
     "folders": {
-        "1FgDpmUc8WA6WWuORaoF6llT0zjvcnq8r": {
-            "id": "1FgDpmUc8WA6WWuORaoF6llT0zjvcnq8r",
-            "name": "hello",
-            "slug": "hello",
-            "floppyImage": "/bonvoyage/floppys/navy.png",
-            "createdTime": "2026-03-27T04:38:06.666Z",
-            "subtitle": "This is a test",
+        "1lWZ3eVakmU-bdIYh6CjbO719-jLlKgjy": {
+            "id": "1lWZ3eVakmU-bdIYh6CjbO719-jLlKgjy",
+            "name": "Prague",
+            "slug": "prague",
+            "floppyImage": "/bonvoyage/floppys/yellow.png",
+            "createdTime": "2026-04-04T22:40:08.796Z",
+            "subtitle": "Czechia",
             "images": [
                 {
-                    "id": "1tUkvLcUf1532Y1aXYR-Sso1_tnfj9H_b",
-                    "name": "288D9D89-7A36-4A58-9C86-46C86E801910_1_105_c.jpeg",
-                    "url": "/api/drive/image/1tUkvLcUf1532Y1aXYR-Sso1_tnfj9H_b",
-                    "caption": "me and charlie at griffith"
+                    "id": "1Mw49h1Jf9Q8BRtrZfb1r7TVQtXYz90jb",
+                    "name": "IMG_1775342411033_0.jpg",
+                    "url": "/api/drive/image/1Mw49h1Jf9Q8BRtrZfb1r7TVQtXYz90jb",
+                    "caption": "Fresh off the plane. A lovely night stroll through Prague's main square."
                 },
                 {
-                    "id": "125ELQjJ2YgeyyWg8Gg-cY5HX_NbG3YRr",
-                    "name": "8B023962-7930-4847-880E-A4263CA39308_4_5005_c.jpeg",
-                    "url": "/api/drive/image/125ELQjJ2YgeyyWg8Gg-cY5HX_NbG3YRr",
-                    "caption": "dan sung sa"
+                    "id": "1xn3DPAcaPL-Cv5eTb8KOX-KTVytgBcBQ",
+                    "name": "IMG_1775342423924_1.jpg",
+                    "url": "/api/drive/image/1xn3DPAcaPL-Cv5eTb8KOX-KTVytgBcBQ",
+                    "caption": "The Astrological Clock: apparently the 2nd most disappointing tourist attraction in the world, second to the lovely Mona Lisa"
                 },
                 {
-                    "id": "1moLgbc8lQ9DCgre8aEP00CfT4IvLLfjI",
-                    "name": "CD9EDF24-66D7-4FCF-81D5-2138D27FD80C_4_5005_c.jpeg",
-                    "url": "/api/drive/image/1moLgbc8lQ9DCgre8aEP00CfT4IvLLfjI",
-                    "caption": "undie run"
+                    "id": "1vnQiT0eoM4MrfSDGY3ehuAVgQamAYqIN",
+                    "name": "IMG_1775342433089_2.jpg",
+                    "url": "/api/drive/image/1vnQiT0eoM4MrfSDGY3ehuAVgQamAYqIN",
+                    "caption": "This is Miral! My travel companion. Day 1. Fresh faced and cold."
+                },
+                {
+                    "id": "1NOFd384prEmm7s-BnAJ0auLqn5dP6uQx",
+                    "name": "IMG_1775342440791_3.jpg",
+                    "url": "/api/drive/image/1NOFd384prEmm7s-BnAJ0auLqn5dP6uQx",
+                    "caption": "253 steps up the tower in St. Vitus Cathedral."
+                },
+                {
+                    "id": "1TwWYNZegGHOkurQdDqgO8dPKNCWsrub2",
+                    "name": "IMG_1775342449516_4.jpg",
+                    "url": "/api/drive/image/1TwWYNZegGHOkurQdDqgO8dPKNCWsrub2",
+                    "caption": "Some misc. stained glass 🤤"
+                },
+                {
+                    "id": "1osgFIpk-XoprnrhG2RGjTSqUk10BUIdu",
+                    "name": "IMG_1775342458916_5.jpg",
+                    "url": "/api/drive/image/1osgFIpk-XoprnrhG2RGjTSqUk10BUIdu",
+                    "caption": "Statue of Franz Kafka atop (the ghost of) his father, capturing the way Kafka saw himself in relation to his father and, in turn, his daddy issues"
+                },
+                {
+                    "id": "1OwUf0FyL06Wcn60wUtLVAorNf-z9OOOE",
+                    "name": "IMG_1775342467930_6.jpg",
+                    "url": "/api/drive/image/1OwUf0FyL06Wcn60wUtLVAorNf-z9OOOE",
+                    "caption": "Czech Golaush, which I learned after is actually technically the national dish of Hungary so that's slightly awkward. Regardless, is was delicious."
+                },
+                {
+                    "id": "19hpDcNTzrc0lS84s1V1L-DY5wySTL5r3",
+                    "name": "IMG_1775342476290_7.jpg",
+                    "url": "/api/drive/image/19hpDcNTzrc0lS84s1V1L-DY5wySTL5r3",
+                    "caption": "Imagine two entire stories of this..."
+                },
+                {
+                    "id": "1cWkqlSuJm0C3GUEbZjpIelLYhXg6U3XN",
+                    "name": "IMG_1775342485331_8.jpg",
+                    "url": "/api/drive/image/1cWkqlSuJm0C3GUEbZjpIelLYhXg6U3XN",
+                    "caption": "Czech soda. It was eh."
+                },
+                {
+                    "id": "19FXu36PxveGBY1uFA8iaUYFxSOGiLTso",
+                    "name": "IMG_1775342494464_9.jpg",
+                    "url": "/api/drive/image/19FXu36PxveGBY1uFA8iaUYFxSOGiLTso",
+                    "caption": "Miral and I searched far and wide for pomegranate \"jemně perlivá voda\" or mildly sparkling water. You can always rely on Lidl. The tiny little bubbles were scrumptous. To our dismay, we learned that 1. this was actually orange and we misidentified the fruit pictured on the bottle and 2. there is lke 60g of sugar in this thing. No wonder it was so good."
+                },
+                {
+                    "id": "1Hek7LqtdGD3FmlNzRk0lV7v_FEFhvMt8",
+                    "name": "IMG_1775342503512_10.jpg",
+                    "url": "/api/drive/image/1Hek7LqtdGD3FmlNzRk0lV7v_FEFhvMt8",
+                    "caption": "Not pictured: the \"no taking pictures\" sign"
+                },
+                {
+                    "id": "1ybkArq7mo9RUFk_UK36AoD8ER1DlMj7Y",
+                    "name": "IMG_1775342514325_11.jpg",
+                    "url": "/api/drive/image/1ybkArq7mo9RUFk_UK36AoD8ER1DlMj7Y",
+                    "caption": "A little chimney cake: a spiral pastry covered in sugar. We opted for nutella. Advertised as the desert of Prague but actually this one was from Hungary as well. Figures."
+                },
+                {
+                    "id": "1tmbnYEdC6aKtQN-qVdky6D9nSKE5GuGr",
+                    "name": "IMG_1775342523288_12.jpg",
+                    "url": "/api/drive/image/1tmbnYEdC6aKtQN-qVdky6D9nSKE5GuGr",
+                    "caption": "Found an egg."
+                },
+                {
+                    "id": "1ZuWZnkpD6oMcCoOQOJ2c9f5brypHPIZG",
+                    "name": "IMG_1775342534396_13.jpg",
+                    "url": "/api/drive/image/1ZuWZnkpD6oMcCoOQOJ2c9f5brypHPIZG",
+                    "caption": "LOOK AT THIS BABY JESUS. THEY MAKE TINY DRESSES FOR HIM."
+                },
+                {
+                    "id": "1SVrdO_Dhkql3aUsL4ZNXuZCPn-ey1Nz-",
+                    "name": "IMG_1775342543849_14.jpg",
+                    "url": "/api/drive/image/1SVrdO_Dhkql3aUsL4ZNXuZCPn-ey1Nz-",
+                    "caption": "The work and legacy of one Antonín Langweil, a Czech lithographer and library assistant. Being a failed artist, devoted 11 years of his life creating a replica of the entire city of prague as it was in the 19th century. Following the museum's rejection of his model and his dying of TB, some emperor purchased and recoverd it, preserving what the city looked like at this time. Sad story really."
+                },
+                {
+                    "id": "1H8SVgGUYYc8X9Yg2OuzltAGkcoMpWbxK",
+                    "name": "IMG_1775342552805_15.jpg",
+                    "url": "/api/drive/image/1H8SVgGUYYc8X9Yg2OuzltAGkcoMpWbxK",
+                    "caption": "I believe this is the street food/tourist version of ovocné knedlíky, which is a type of dumpling. We got one filled with apple and one with cheese, could you guess which is which?"
+                },
+                {
+                    "id": "1KuuHJD5njIaNFDdrbSd1LtuchFFCaRbA",
+                    "name": "IMG_1775342561091_16.jpg",
+                    "url": "/api/drive/image/1KuuHJD5njIaNFDdrbSd1LtuchFFCaRbA",
+                    "caption": "On the move. Our backpacks are only barely as big as we are."
+                },
+                {
+                    "id": "1craGIjySIcdGeCp7ML-kDMW9SVuq3nQi",
+                    "name": "IMG_1775342571410_17.jpg",
+                    "url": "/api/drive/image/1craGIjySIcdGeCp7ML-kDMW9SVuq3nQi",
+                    "caption": "I love european candy so much."
                 }
             ]
-        },
-        "1qiS8B9hi2LwxKiXuBP6OkjAlKfQe8cD0": {
-            "id": "1qiS8B9hi2LwxKiXuBP6OkjAlKfQe8cD0",
-            "name": "test",
-            "slug": "test",
-            "floppyImage": "/bonvoyage/floppys/orange.png",
-            "createdTime": "2026-03-27T04:38:01.844Z",
-            "images": []
-        },
-        "1pWcCUwFv3bsdHnwz6XaRhyw34YmYpXOO": {
-            "id": "1pWcCUwFv3bsdHnwz6XaRhyw34YmYpXOO",
-            "name": "test 2",
-            "slug": "test-2",
-            "floppyImage": "/bonvoyage/floppys/darkgreen.png",
-            "createdTime": "2026-03-27T04:30:12.568Z",
-            "images": []
         }
     },
-    "lastSynced": "2026-04-04T20:21:27.619Z"
+    "lastSynced": "2026-04-05T15:48:49.478Z"
 }
