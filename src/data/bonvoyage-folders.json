@@ -4,7 +4,7 @@
             "id": "1lWZ3eVakmU-bdIYh6CjbO719-jLlKgjy",
             "name": "Prague",
             "slug": "prague",
-            "floppyImage": "/bonvoyage/floppys/yellow.png",
+            "floppyImage": "/bonvoyage/floppys/cyan.png",
             "createdTime": "2026-04-04T22:40:08.796Z",
             "subtitle": "Czechia",
             "images": [
@@ -276,7 +276,7 @@
             "id": "1AiNk7d8U6NRDkd2GUuWYFvZHWQfEDcO_",
             "name": "Ljubljana",
             "slug": "ljubljana",
-            "floppyImage": "/bonvoyage/floppys/lightpink.png",
+            "floppyImage": "/bonvoyage/floppys/purple.png",
             "createdTime": "2026-04-07T19:18:26.240Z",
             "subtitle": "Slovenia",
             "images": []
@@ -285,7 +285,7 @@
             "id": "1mBOXftIR76QlNbhGgsNcGRM1Kqyn0O5A",
             "name": "Kloster",
             "slug": "kloster",
-            "floppyImage": "/bonvoyage/floppys/cyan.png",
+            "floppyImage": "/bonvoyage/floppys/red.png",
             "createdTime": "2026-04-07T19:16:12.890Z",
             "subtitle": "Wernberg, Austria",
             "images": [
