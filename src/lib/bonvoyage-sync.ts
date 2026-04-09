@@ -71,14 +71,30 @@ export async function writeDataFile(data: BonVoyageData): Promise<void> {
     }
 }
 
-export function getRandomFloppyImage(usedImages: string[]): string {
+function hashStringToIndex(str: string, max: number): number {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+        hash = ((hash << 5) - hash) + str.charCodeAt(i);
+        hash = hash & hash; // Convert to 32-bit integer
+    }
+    return Math.abs(hash) % max;
+}
+
+export function getFloppyImageForId(folderId: string, usedImages: string[]): string {
+    // Filter available images (not yet used by other folders)
     const availableImages = FLOPPY_IMAGES.filter(
         (img) => !usedImages.includes(img),
     );
+
     if (availableImages.length === 0) {
-        return FLOPPY_IMAGES[Math.floor(Math.random() * FLOPPY_IMAGES.length)];
+        // All colors used - deterministically pick based on folder ID
+        const index = hashStringToIndex(folderId, FLOPPY_IMAGES.length);
+        return FLOPPY_IMAGES[index];
     }
-    return availableImages[Math.floor(Math.random() * availableImages.length)];
+
+    // Pick from available colors deterministically based on folder ID
+    const index = hashStringToIndex(folderId, availableImages.length);
+    return availableImages[index];
 }
 
 export function slugify(name: string): string {
@@ -138,7 +154,7 @@ export async function syncFromDrive(): Promise<BonVoyageData> {
         if (!driveFolder.id || !driveFolder.name) continue;
 
         if (!existingData.folders[driveFolder.id]) {
-            const floppyImage = getRandomFloppyImage(usedImages);
+            const floppyImage = getFloppyImageForId(driveFolder.id, usedImages);
             usedImages.push(floppyImage);
 
             existingData.folders[driveFolder.id] = {

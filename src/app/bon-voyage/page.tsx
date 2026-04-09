@@ -1,7 +1,13 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import {
+    useCallback,
+    useEffect,
+    useLayoutEffect,
+    useRef,
+    useState,
+} from "react";
 import type {
     BonVoyageFolder,
     BonVoyageAPIResponse,
@@ -36,10 +42,19 @@ function getCachedData(): CachedData | null {
     }
 }
 
-function setCachedData(current: BonVoyageFolder | null, all: BonVoyageFolder[], lastSynced: string) {
+function setCachedData(
+    current: BonVoyageFolder | null,
+    all: BonVoyageFolder[],
+    lastSynced: string,
+) {
     if (typeof window === "undefined") return;
     try {
-        const data: CachedData = { current, all, lastSynced, cachedAt: Date.now() };
+        const data: CachedData = {
+            current,
+            all,
+            lastSynced,
+            cachedAt: Date.now(),
+        };
         localStorage.setItem(CACHE_KEY, JSON.stringify(data));
     } catch {
         // Ignore localStorage errors
@@ -52,8 +67,8 @@ function isCacheStale(cachedAt: number): boolean {
 
 // Location dot position on the Mac map (percentage-based)
 // Adjust these values to move the dot on the map
-const LOCATION_DOT_X = 54; // % from left edge
-const LOCATION_DOT_Y = 43; // % from top edge
+const LOCATION_DOT_X = 53; // % from left edge
+const LOCATION_DOT_Y = 44; // % from top edge
 const MOBILE_LOCATION_DOT_X = 54; // % from left edge
 const MOBILE_LOCATION_DOT_Y = 38; // % from top edge
 
@@ -62,7 +77,7 @@ function FitText({
     maxWidth,
     baseFontSize,
     minFontSize = 12,
-    className
+    className,
 }: {
     text: string;
     maxWidth: number;
@@ -121,37 +136,46 @@ export default function BonVoyage() {
     const [revealPixels, setRevealPixels] = useState(0);
     const [lastSynced, setLastSynced] = useState<string | null>(null);
 
-    const fetchFolders = useCallback(async (forceSync = false, isBackgroundRefresh = false) => {
-        try {
-            if (forceSync) {
-                setSyncing(true);
-            }
-            const url = forceSync
-                ? "/api/drive/folders?forceSync=true"
-                : "/api/drive/folders";
-            const response = await fetch(url);
-            const data: BonVoyageAPIResponse = await response.json();
+    const fetchFolders = useCallback(
+        async (forceSync = false, isBackgroundRefresh = false) => {
+            try {
+                if (forceSync) {
+                    setSyncing(true);
+                }
+                const url = forceSync
+                    ? "/api/drive/folders?forceSync=true"
+                    : "/api/drive/folders";
+                const response = await fetch(url);
+                const data: BonVoyageAPIResponse = await response.json();
 
-            if (data.ok && data.data) {
-                setCurrentFolder(data.data.current);
-                setAllFolders(data.data.all);
-                setLastSynced(data.data.lastSynced);
-                // Cache the response in localStorage
-                setCachedData(data.data.current, data.data.all, data.data.lastSynced);
-            } else if (!isBackgroundRefresh) {
-                setError(data.error || "Failed to fetch folders");
+                if (data.ok && data.data) {
+                    setCurrentFolder(data.data.current);
+                    setAllFolders(data.data.all);
+                    setLastSynced(data.data.lastSynced);
+                    // Cache the response in localStorage
+                    setCachedData(
+                        data.data.current,
+                        data.data.all,
+                        data.data.lastSynced,
+                    );
+                } else if (!isBackgroundRefresh) {
+                    setError(data.error || "Failed to fetch folders");
+                }
+            } catch (err) {
+                if (!isBackgroundRefresh) {
+                    setError(
+                        err instanceof Error
+                            ? err.message
+                            : "Failed to fetch folders",
+                    );
+                }
+            } finally {
+                setLoading(false);
+                setSyncing(false);
             }
-        } catch (err) {
-            if (!isBackgroundRefresh) {
-                setError(
-                    err instanceof Error ? err.message : "Failed to fetch folders",
-                );
-            }
-        } finally {
-            setLoading(false);
-            setSyncing(false);
-        }
-    }, []);
+        },
+        [],
+    );
 
     useEffect(() => {
         // Check localStorage cache first for instant load
@@ -311,7 +335,6 @@ export default function BonVoyage() {
                     <div className="grid grid-cols-3 gap-x-4 gap-y-4 ml-[-25px]">
                         {allFolders
                             .slice(1)
-                            .reverse()
                             .map((folder) => (
                                 <Link
                                     key={folder.id}
@@ -422,7 +445,6 @@ export default function BonVoyage() {
                         <div className="flex gap-6">
                             {allFolders
                                 .slice(1)
-                                .reverse()
                                 .map((folder) => (
                                     <Link
                                         key={folder.id}
