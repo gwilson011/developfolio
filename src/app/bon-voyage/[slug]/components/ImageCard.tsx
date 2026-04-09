@@ -25,7 +25,8 @@ export function ImageCard({
     useEffect(() => {
         if (showPopup && containerRef.current) {
             const rect = containerRef.current.getBoundingClientRect();
-            const popupWidth = 200; // Approximate popup width
+            // Use actual popup widths: 130px on mobile, 400px on desktop (md: 768px+)
+            const popupWidth = window.innerWidth >= 768 ? 400 : 130;
             const spaceOnRight = window.innerWidth - rect.right;
             setPopupOnLeft(spaceOnRight < popupWidth);
         }
