@@ -21,8 +21,19 @@ const nextConfig = {
     // Free tier: 10s, Hobby: 10s, Pro: 60s, Enterprise: 900s
     async headers() {
         return [
+            // Allow browser/CDN caching for bon-voyage API (5 min cache, 10 min stale-while-revalidate)
             {
-                source: '/api/:path*',
+                source: '/api/drive/folders/:path*',
+                headers: [
+                    {
+                        key: 'Cache-Control',
+                        value: 'public, s-maxage=300, stale-while-revalidate=600',
+                    },
+                ],
+            },
+            // No caching for other APIs
+            {
+                source: '/api/:path((?!drive/folders).*)',
                 headers: [
                     {
                         key: 'Cache-Control',

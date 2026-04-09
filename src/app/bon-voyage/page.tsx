@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import type {
     BonVoyageFolder,
     BonVoyageAPIResponse,
@@ -13,12 +13,91 @@ const IMAGE_HEIGHT = 350;
 const MAC_IMAGE = "/bonvoyage/mac_europe.png";
 const ENABLE_REVEAL_ANIMATION = false;
 
+// LocalStorage caching for instant load on return visits
+const CACHE_KEY = "bonvoyage-cache";
+const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
+
+interface CachedData {
+    current: BonVoyageFolder | null;
+    all: BonVoyageFolder[];
+    lastSynced: string;
+    cachedAt: number;
+}
+
+function getCachedData(): CachedData | null {
+    if (typeof window === "undefined") return null;
+    try {
+        const cached = localStorage.getItem(CACHE_KEY);
+        if (!cached) return null;
+        const data: CachedData = JSON.parse(cached);
+        return data;
+    } catch {
+        return null;
+    }
+}
+
+function setCachedData(current: BonVoyageFolder | null, all: BonVoyageFolder[], lastSynced: string) {
+    if (typeof window === "undefined") return;
+    try {
+        const data: CachedData = { current, all, lastSynced, cachedAt: Date.now() };
+        localStorage.setItem(CACHE_KEY, JSON.stringify(data));
+    } catch {
+        // Ignore localStorage errors
+    }
+}
+
+function isCacheStale(cachedAt: number): boolean {
+    return Date.now() - cachedAt > CACHE_TTL_MS;
+}
+
 // Location dot position on the Mac map (percentage-based)
 // Adjust these values to move the dot on the map
 const LOCATION_DOT_X = 54; // % from left edge
 const LOCATION_DOT_Y = 43; // % from top edge
 const MOBILE_LOCATION_DOT_X = 54; // % from left edge
 const MOBILE_LOCATION_DOT_Y = 38; // % from top edge
+
+function FitText({
+    text,
+    maxWidth,
+    baseFontSize,
+    minFontSize = 12,
+    className
+}: {
+    text: string;
+    maxWidth: number;
+    baseFontSize: number;
+    minFontSize?: number;
+    className?: string;
+}) {
+    const [fontSize, setFontSize] = useState(baseFontSize);
+    const textRef = useRef<HTMLDivElement>(null);
+
+    useLayoutEffect(() => {
+        const el = textRef.current;
+        if (!el) return;
+
+        let size = baseFontSize;
+        el.style.fontSize = `${size}pt`;
+
+        while (el.scrollWidth > maxWidth && size > minFontSize) {
+            size -= 2;
+            el.style.fontSize = `${size}pt`;
+        }
+
+        setFontSize(size);
+    }, [text, maxWidth, baseFontSize, minFontSize]);
+
+    return (
+        <div
+            ref={textRef}
+            className={className}
+            style={{ fontSize: `${fontSize}pt` }}
+        >
+            {text}
+        </div>
+    );
+}
 
 function formatTimeSince(isoDate: string): string {
     const diff = Date.now() - new Date(isoDate).getTime();
@@ -42,7 +121,7 @@ export default function BonVoyage() {
     const [revealPixels, setRevealPixels] = useState(0);
     const [lastSynced, setLastSynced] = useState<string | null>(null);
 
-    const fetchFolders = useCallback(async (forceSync = false) => {
+    const fetchFolders = useCallback(async (forceSync = false, isBackgroundRefresh = false) => {
         try {
             if (forceSync) {
                 setSyncing(true);
@@ -57,13 +136,17 @@ export default function BonVoyage() {
                 setCurrentFolder(data.data.current);
                 setAllFolders(data.data.all);
                 setLastSynced(data.data.lastSynced);
-            } else {
+                // Cache the response in localStorage
+                setCachedData(data.data.current, data.data.all, data.data.lastSynced);
+            } else if (!isBackgroundRefresh) {
                 setError(data.error || "Failed to fetch folders");
             }
         } catch (err) {
-            setError(
-                err instanceof Error ? err.message : "Failed to fetch folders",
-            );
+            if (!isBackgroundRefresh) {
+                setError(
+                    err instanceof Error ? err.message : "Failed to fetch folders",
+                );
+            }
         } finally {
             setLoading(false);
             setSyncing(false);
@@ -71,7 +154,22 @@ export default function BonVoyage() {
     }, []);
 
     useEffect(() => {
-        fetchFolders();
+        // Check localStorage cache first for instant load
+        const cached = getCachedData();
+        if (cached) {
+            setCurrentFolder(cached.current);
+            setAllFolders(cached.all);
+            setLastSynced(cached.lastSynced);
+            setLoading(false);
+
+            // If cache is stale, refresh in background
+            if (isCacheStale(cached.cachedAt)) {
+                fetchFolders(false, true);
+            }
+        } else {
+            // No cache, fetch from API
+            fetchFolders();
+        }
     }, [fetchFolders]);
 
     const handleRefresh = () => {
@@ -189,9 +287,13 @@ export default function BonVoyage() {
                                         />
                                     )}
                                 </div>
-                                <div className="font-tango text-[28pt] leading-none text-center mt-1">
-                                    {currentFolder.name.toUpperCase()}
-                                </div>
+                                <FitText
+                                    text={currentFolder.name.toUpperCase()}
+                                    maxWidth={150}
+                                    baseFontSize={28}
+                                    minFontSize={16}
+                                    className="font-tango leading-none text-center mt-1"
+                                />
                                 {currentFolder.subtitle && (
                                     <div className="font-pixel text-xs text-center">
                                         {currentFolder.subtitle.toUpperCase()}
@@ -298,9 +400,13 @@ export default function BonVoyage() {
                                     )}
                                 </div>
                                 <div className="flex flex-col gap-2">
-                                    <div className="font-tango text-[56pt] leading-none">
-                                        {currentFolder.name.toUpperCase()}
-                                    </div>
+                                    <FitText
+                                        text={currentFolder.name.toUpperCase()}
+                                        maxWidth={400}
+                                        baseFontSize={56}
+                                        minFontSize={28}
+                                        className="font-tango leading-none"
+                                    />
                                     {currentFolder.subtitle && (
                                         <div className="font-pixel text-lg">
                                             {currentFolder.subtitle.toUpperCase()}

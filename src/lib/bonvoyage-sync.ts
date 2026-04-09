@@ -7,7 +7,13 @@ import type {
     FolderImage,
 } from "@/app/types/bonvoyage";
 
+// Import static data as build-time fallback (bundled into serverless function)
+import staticBonVoyageData from "@/data/bonvoyage-folders.json";
+
 const CACHE_MAX_AGE_MS = 30 * 60 * 1000; // 30 minutes
+
+// Module-level in-memory cache for warm serverless instances
+let memoryCache: BonVoyageData | null = null;
 
 const FLOPPY_IMAGES = [
     "/bonvoyage/floppys/lightpink.png",
@@ -23,23 +29,46 @@ const FLOPPY_IMAGES = [
     "/bonvoyage/floppys/red.png",
 ];
 
-// Use /tmp on Vercel (serverless), fallback to src/data locally
+// Check if running on Vercel (serverless)
 const isVercel = process.env.VERCEL === "1";
-const DATA_FILE_PATH = isVercel
-    ? "/tmp/bonvoyage-folders.json"
-    : path.join(process.cwd(), "src/data/bonvoyage-folders.json");
 
 export async function readDataFile(): Promise<BonVoyageData> {
-    try {
-        const data = await fs.readFile(DATA_FILE_PATH, "utf-8");
-        return JSON.parse(data);
-    } catch {
-        return { folders: {}, lastSynced: "" };
+    // Check memory cache first (warm serverless instance)
+    if (memoryCache && !isCacheStale(memoryCache.lastSynced)) {
+        return memoryCache;
     }
+
+    // In development, try to read from local file for fresh data
+    if (!isVercel) {
+        try {
+            const localPath = path.join(
+                process.cwd(),
+                "src/data/bonvoyage-folders.json"
+            );
+            const data = await fs.readFile(localPath, "utf-8");
+            const parsed = JSON.parse(data) as BonVoyageData;
+            memoryCache = parsed;
+            return parsed;
+        } catch {
+            // Fall through to static data
+        }
+    }
+
+    // Fall back to static build-time data (bundled at deploy)
+    return staticBonVoyageData as BonVoyageData;
 }
 
 export async function writeDataFile(data: BonVoyageData): Promise<void> {
-    await fs.writeFile(DATA_FILE_PATH, JSON.stringify(data, null, 4));
+    // Always update memory cache
+    memoryCache = data;
+
+    // In development, also write to local file for persistence
+    if (!isVercel) {
+        await fs.writeFile(
+            path.join(process.cwd(), "src/data/bonvoyage-folders.json"),
+            JSON.stringify(data, null, 4)
+        );
+    }
 }
 
 export function getRandomFloppyImage(usedImages: string[]): string {

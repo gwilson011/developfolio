@@ -42,7 +42,7 @@
                     "id": "1osgFIpk-XoprnrhG2RGjTSqUk10BUIdu",
                     "name": "IMG_1775342458916_5.jpg",
                     "url": "/api/drive/image/1osgFIpk-XoprnrhG2RGjTSqUk10BUIdu",
-                    "caption": "Statue of Franz Kafka atop (the ghost of) his father, capturing the way Kafka saw himself in relation to his father and, in turn, his daddy issues"
+                    "caption": "Statue of Franz Kafka atop (the ghost of) his father, capturing the way Kafka saw himself in relation to his father (daddy issues)"
                 },
                 {
                     "id": "1OwUf0FyL06Wcn60wUtLVAorNf-z9OOOE",
@@ -66,7 +66,7 @@
                     "id": "19FXu36PxveGBY1uFA8iaUYFxSOGiLTso",
                     "name": "IMG_1775342494464_9.jpg",
                     "url": "/api/drive/image/19FXu36PxveGBY1uFA8iaUYFxSOGiLTso",
-                    "caption": "Miral and I searched far and wide for pomegranate \"jemně perlivá voda\" or mildly sparkling water. You can always rely on Lidl. The tiny little bubbles were scrumptous. To our dismay, we learned that 1. this was actually orange and we misidentified the fruit pictured on the bottle and 2. there is lke 60g of sugar in this thing. No wonder it was so good."
+                    "caption": "Miral and I searched far and wide for pomegranate \"jemně perlivá voda\" or mildly sparkling water. You can always rely on Lidl. The tiny little bubbles were scrumptous. To our dismay, we learned that 1. this was actually orange and we misidentified the fruit pictured on the bottle and 2. there is like 60g of sugar in this thing. No wonder it was so good."
                 },
                 {
                     "id": "1Hek7LqtdGD3FmlNzRk0lV7v_FEFhvMt8",
@@ -125,8 +125,250 @@
             "floppyImage": "/bonvoyage/floppys/green.png",
             "createdTime": "2026-04-05T16:11:09.470Z",
             "subtitle": "Austria",
+            "images": [
+                {
+                    "id": "1T0dL-b-N2FcLcJJpCPD6p8rbIG01m3u8",
+                    "name": "IMG_1775588849366_0.jpg",
+                    "url": "/api/drive/image/1T0dL-b-N2FcLcJJpCPD6p8rbIG01m3u8",
+                    "caption": "Mozart seemed like a strange, small, funny looking man. Apparently everyone hated him."
+                },
+                {
+                    "id": "1P3CGwf_JLZg8fqnPjFeS0LAUVuEJNyQ3",
+                    "name": "IMG_1775588858202_1.jpg",
+                    "url": "/api/drive/image/1P3CGwf_JLZg8fqnPjFeS0LAUVuEJNyQ3",
+                    "caption": "Our funny tour guide in his cute yellow jacket and pony tail"
+                },
+                {
+                    "id": "10bHZv02A0MY_T_xKcS9ROSRvueeb75-9",
+                    "name": "IMG_1775588865204_2.jpg",
+                    "url": "/api/drive/image/10bHZv02A0MY_T_xKcS9ROSRvueeb75-9",
+                    "caption": "Photo for julie"
+                },
+                {
+                    "id": "18rCppuXfSQl-ot4ZE5rLNKz8AxkteIhT",
+                    "name": "IMG_1775588871847_3.jpg",
+                    "url": "/api/drive/image/18rCppuXfSQl-ot4ZE5rLNKz8AxkteIhT",
+                    "caption": "Dirty hot chocolate 🤭"
+                },
+                {
+                    "id": "1LwJuewoOk0G_swVp4wsm7-IcaKKMkgJR",
+                    "name": "IMG_1775588878772_4.jpg",
+                    "url": "/api/drive/image/1LwJuewoOk0G_swVp4wsm7-IcaKKMkgJR",
+                    "caption": "Phone eats first. Strudel."
+                },
+                {
+                    "id": "1WLokNu7trxFiQglGkUCoxj4bCq5m3Vej",
+                    "name": "IMG_1775588886077_5.jpg",
+                    "url": "/api/drive/image/1WLokNu7trxFiQglGkUCoxj4bCq5m3Vej",
+                    "caption": "We listened to mozart while we ate aforementioned strudel. Apparently mozart himself used to preform in this cafe so we really wanted to immerse ourselves in history yk."
+                },
+                {
+                    "id": "1Svn6pBMOgxSzIfPXdt7npuMoNiIw9Yku",
+                    "name": "IMG_1775588892426_6.jpg",
+                    "url": "/api/drive/image/1Svn6pBMOgxSzIfPXdt7npuMoNiIw9Yku",
+                    "caption": "Something about italian marble, no?"
+                },
+                {
+                    "id": "1j4-Ol3_4-kfpafKSv0-RFMAo-hwJ1-EC",
+                    "name": "IMG_1775588900734_7.jpg",
+                    "url": "/api/drive/image/1j4-Ol3_4-kfpafKSv0-RFMAo-hwJ1-EC",
+                    "caption": "Personal fav from the Kunsthistorisches Museum. Pictured is a quarrelsome woman who oppresses her husband, fears nothing and no one, and even takes on the devil himself. Here, she energetically drives demons from the jaws of hell with her broom. Epic."
+                },
+                {
+                    "id": "1O-LzZ15dBjTpt4RbFDdATm3ZkwmSkMlf",
+                    "name": "IMG_1775588908336_8.jpg",
+                    "url": "/api/drive/image/1O-LzZ15dBjTpt4RbFDdATm3ZkwmSkMlf",
+                    "caption": "Another good one. Tower of Babel."
+                },
+                {
+                    "id": "1t-pq6nXGS9-TozSGKIc4kbMaFrwU_fbc",
+                    "name": "IMG_1775588916861_9.jpg",
+                    "url": "/api/drive/image/1t-pq6nXGS9-TozSGKIc4kbMaFrwU_fbc",
+                    "caption": "Find the imposter."
+                },
+                {
+                    "id": "1jiyKLddOeVBErHFidudQA9olWvgpG8Hw",
+                    "name": "IMG_1775589034157_0.jpg",
+                    "url": "/api/drive/image/1jiyKLddOeVBErHFidudQA9olWvgpG8Hw",
+                    "caption": "Miral and I debated the ethics of french landscaping as represented specfically by this unnaturally conical tree. We decided it was weird and freaky. Feel free to weigh in."
+                },
+                {
+                    "id": "1-K3QKhPQe3G8TqH7XxDx03n_zZam4Omi",
+                    "name": "IMG_1775589044691_1.jpg",
+                    "url": "/api/drive/image/1-K3QKhPQe3G8TqH7XxDx03n_zZam4Omi",
+                    "caption": "Little itty bitty sandwhiches with egg and fish on them!! They were way better than they look okay. Apparently a Vienese specialty."
+                },
+                {
+                    "id": "1vpjfoorTwYHhxK5gILOjxERQntnRiCOS",
+                    "name": "IMG_1775589053417_2.jpg",
+                    "url": "/api/drive/image/1vpjfoorTwYHhxK5gILOjxERQntnRiCOS",
+                    "caption": "Unfortunately never had the opportunity to ask where they purchased their wigs."
+                },
+                {
+                    "id": "1-ji5nKdvFL54OERvJxlm_lDswXVl8M5E",
+                    "name": "IMG_1775589062747_3.jpg",
+                    "url": "/api/drive/image/1-ji5nKdvFL54OERvJxlm_lDswXVl8M5E",
+                    "caption": "Another egg!"
+                },
+                {
+                    "id": "1KfebYWJO2uOQpPoJgoMD-h-hYVXXseL9",
+                    "name": "IMG_1775589070542_4.jpg",
+                    "url": "/api/drive/image/1KfebYWJO2uOQpPoJgoMD-h-hYVXXseL9",
+                    "caption": "Waited in line and hunted down an ATM to eat schnitzel here. AND it was so worth it."
+                },
+                {
+                    "id": "1yur_cXSIsUUo1J-FXM2s0C5-XlqFfgrP",
+                    "name": "IMG_1775589077222_5.jpg",
+                    "url": "/api/drive/image/1yur_cXSIsUUo1J-FXM2s0C5-XlqFfgrP",
+                    "caption": "Cheesin!"
+                },
+                {
+                    "id": "1ObXBDqVyzokA2vigO7kGqjAxjq9jOurt",
+                    "name": "IMG_1775589085360_6.jpg",
+                    "url": "/api/drive/image/1ObXBDqVyzokA2vigO7kGqjAxjq9jOurt",
+                    "caption": "This is the cake of Vienna. Sachet Torte. Dark Chocolate. Apricot. Cream. It does not get better than that."
+                },
+                {
+                    "id": "1fnXdKHH-i53bf-TdyNRioL8_cBpoWiMj",
+                    "name": "IMG_1775589091458_7.jpg",
+                    "url": "/api/drive/image/1fnXdKHH-i53bf-TdyNRioL8_cBpoWiMj",
+                    "caption": "Just two tourist snapping pictures of the eggs."
+                },
+                {
+                    "id": "1iZzXxP-h8a6IwLnOHbYBqQ1t5SIHNjZ2",
+                    "name": "IMG_1775589098566_8.jpg",
+                    "url": "/api/drive/image/1iZzXxP-h8a6IwLnOHbYBqQ1t5SIHNjZ2",
+                    "caption": "Mine were probably better."
+                },
+                {
+                    "id": "1sBXy9IbuaobFU3B2gooLvse5cIfLJFTa",
+                    "name": "IMG_1775589106231_9.jpg",
+                    "url": "/api/drive/image/1sBXy9IbuaobFU3B2gooLvse5cIfLJFTa",
+                    "caption": "Easter mass!!!"
+                },
+                {
+                    "id": "1riX0e58p--zDaepJ5GcSuZ_LwSAIb3V0",
+                    "name": "IMG_1775589112775_10.jpg",
+                    "url": "/api/drive/image/1riX0e58p--zDaepJ5GcSuZ_LwSAIb3V0",
+                    "caption": "I was actually so impressed with google translate's live listening feature. Behold the arch bishop's easter sermon."
+                },
+                {
+                    "id": "1gIQlMvOHLzaul2phWqp_0iVYAXP3ELGV",
+                    "name": "IMG_1775589118131_11.jpg",
+                    "url": "/api/drive/image/1gIQlMvOHLzaul2phWqp_0iVYAXP3ELGV",
+                    "caption": "happy easter!!"
+                },
+                {
+                    "id": "1jyDrQz_fxoFx5-LSNI5SM4U-RF9OROGX",
+                    "name": "IMG_1775589125276_12.jpg",
+                    "url": "/api/drive/image/1jyDrQz_fxoFx5-LSNI5SM4U-RF9OROGX",
+                    "caption": "Another opened face sandwhich with random things on it. It's good, I PROMISE."
+                },
+                {
+                    "id": "1TAR2qTrtpDr3hpeY6SHdZrPCypOdDRn2",
+                    "name": "IMG_1775589132204_13.jpg",
+                    "url": "/api/drive/image/1TAR2qTrtpDr3hpeY6SHdZrPCypOdDRn2",
+                    "caption": "Conference on the train <3 #emilybellefreeman #aprilconference2026"
+                }
+            ]
+        },
+        "1AiNk7d8U6NRDkd2GUuWYFvZHWQfEDcO_": {
+            "id": "1AiNk7d8U6NRDkd2GUuWYFvZHWQfEDcO_",
+            "name": "Ljubljana",
+            "slug": "ljubljana",
+            "floppyImage": "/bonvoyage/floppys/lightpink.png",
+            "createdTime": "2026-04-07T19:18:26.240Z",
+            "subtitle": "Slovenia",
             "images": []
+        },
+        "1mBOXftIR76QlNbhGgsNcGRM1Kqyn0O5A": {
+            "id": "1mBOXftIR76QlNbhGgsNcGRM1Kqyn0O5A",
+            "name": "Kloster",
+            "slug": "kloster",
+            "floppyImage": "/bonvoyage/floppys/cyan.png",
+            "createdTime": "2026-04-07T19:16:12.890Z",
+            "subtitle": "Wernberg, Austria",
+            "images": [
+                {
+                    "id": "1nXpW9dML0sxz_GPVgCHZ0HK6kefdoG4L",
+                    "name": "IMG_1775589376185_0.jpg",
+                    "url": "/api/drive/image/1nXpW9dML0sxz_GPVgCHZ0HK6kefdoG4L",
+                    "caption": "We arrived late so they made sure we knew where our room was😭😭"
+                },
+                {
+                    "id": "1BwLG08GE5FIrIqF6bJ_7R_VrxWHwSCtv",
+                    "name": "IMG_1775589382817_1.jpg",
+                    "url": "/api/drive/image/1BwLG08GE5FIrIqF6bJ_7R_VrxWHwSCtv",
+                    "caption": "They had so much cool art!! Noah's ark."
+                },
+                {
+                    "id": "1AvZg-zerxZfqLjw2oeSfHf4FbNqb-60f",
+                    "name": "IMG_1775589390141_2.jpg",
+                    "url": "/api/drive/image/1AvZg-zerxZfqLjw2oeSfHf4FbNqb-60f",
+                    "caption": "This one depicts several impactful and powerful women in the Bible and throughout catholic history!! Girl power!!"
+                },
+                {
+                    "id": "1-bN0vm5BtKgzpEy383rTQnYF7RKsI5Uy",
+                    "name": "IMG_1775589396887_3.jpg",
+                    "url": "/api/drive/image/1-bN0vm5BtKgzpEy383rTQnYF7RKsI5Uy",
+                    "caption": "I sat in some flowers and stained my pants. Isn't that hilarious? My attempt to remedy it"
+                },
+                {
+                    "id": "1Zgy-EZcLb47xxBuMTi-ifuV-H8Lk7du2",
+                    "name": "IMG_1775589402870_4.jpg",
+                    "url": "/api/drive/image/1Zgy-EZcLb47xxBuMTi-ifuV-H8Lk7du2",
+                    "caption": "Morning prayer!!!!"
+                },
+                {
+                    "id": "1S-U-vnFK43fiFWFlKAb8-mrvGbedC4gD",
+                    "name": "IMG_1775589409065_5.jpg",
+                    "url": "/api/drive/image/1S-U-vnFK43fiFWFlKAb8-mrvGbedC4gD",
+                    "caption": "The nature walk trail had a variety of scenery"
+                },
+                {
+                    "id": "1LDyCtsW5yWHPh-Cdu9X3gr6fi7mg24iv",
+                    "name": "IMG_1775589421283_6.jpg",
+                    "url": "/api/drive/image/1LDyCtsW5yWHPh-Cdu9X3gr6fi7mg24iv",
+                    "caption": "Nun breakfast"
+                },
+                {
+                    "id": "1mBNWBjmU3_6q7y0kgk34w1FGoiAhX1sn",
+                    "name": "IMG_1775589427350_7.jpg",
+                    "url": "/api/drive/image/1mBNWBjmU3_6q7y0kgk34w1FGoiAhX1sn",
+                    "caption": "Meet my bff Ruth!! She began at the convent when she was my age and has been here ever since. She was one of the few nuns with whom we could communicate (german isn't even close to Spanish unfortunately)"
+                },
+                {
+                    "id": "199yPyb6NTt_UC3ucwL7oQubdJtfeNcJ7",
+                    "name": "IMG_1775589434194_8.jpg",
+                    "url": "/api/drive/image/199yPyb6NTt_UC3ucwL7oQubdJtfeNcJ7",
+                    "caption": "Perfect stone skipping conditions"
+                },
+                {
+                    "id": "1Wi3NGXq7Ts9NWLfsL58sSwueD-5U1lxc",
+                    "name": "IMG_1775589440414_9.jpg",
+                    "url": "/api/drive/image/1Wi3NGXq7Ts9NWLfsL58sSwueD-5U1lxc",
+                    "caption": "Translation: beauty is not found in things, but in the innermost of our soul"
+                },
+                {
+                    "id": "1YNWscbYWTfTvacgovxT6rc-JRh4BOoYJ",
+                    "name": "IMG_1775589447528_10.jpg",
+                    "url": "/api/drive/image/1YNWscbYWTfTvacgovxT6rc-JRh4BOoYJ",
+                    "caption": "One of the nuns gave us directions to the nearest restaurant 😭😭"
+                },
+                {
+                    "id": "1Emw9VTV9Z66zT0xAiNY0tF-5Kp73ejCZ",
+                    "name": "IMG_1775589453740_11.jpg",
+                    "url": "/api/drive/image/1Emw9VTV9Z66zT0xAiNY0tF-5Kp73ejCZ",
+                    "caption": "German is such a violent language"
+                },
+                {
+                    "id": "173s-UkUld8F1A4CojJAlubC6hryB5QXs",
+                    "name": "IMG_1775589461375_12.jpg",
+                    "url": "/api/drive/image/173s-UkUld8F1A4CojJAlubC6hryB5QXs",
+                    "caption": "🥰🥰dream come true"
+                }
+            ]
         }
     },
-    "lastSynced": "2026-04-05T16:22:10.128Z"
+    "lastSynced": "2026-04-09T18:51:44.392Z"
 }
