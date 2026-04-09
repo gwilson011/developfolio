@@ -23,20 +23,37 @@ export function ImageViewer({
     // Touch state for swipe gestures
     const [touchStart, setTouchStart] = useState<number | null>(null);
     const [touchEnd, setTouchEnd] = useState<number | null>(null);
+    const [isPinching, setIsPinching] = useState(false);
 
     // Minimum swipe distance to trigger navigation (in pixels)
     const minSwipeDistance = 50;
 
     const onTouchStart = (e: React.TouchEvent) => {
+        if (e.touches.length > 1) {
+            setIsPinching(true);
+            return;
+        }
+        setIsPinching(false);
         setTouchEnd(null);
         setTouchStart(e.targetTouches[0].clientX);
     };
 
     const onTouchMove = (e: React.TouchEvent) => {
+        if (e.touches.length > 1) {
+            setIsPinching(true);
+            return;
+        }
+        if (isPinching) return;
         setTouchEnd(e.targetTouches[0].clientX);
     };
 
     const onTouchEnd = () => {
+        if (isPinching) {
+            setIsPinching(false);
+            setTouchStart(null);
+            setTouchEnd(null);
+            return;
+        }
         if (!touchStart || !touchEnd) return;
         const distance = touchStart - touchEnd;
         const isLeftSwipe = distance > minSwipeDistance;
@@ -62,6 +79,7 @@ export function ImageViewer({
             {/* Mobile main image (hidden on md+) */}
             <div
                 className="md:hidden w-full px-2"
+                style={{ touchAction: 'pan-y pinch-zoom' }}
                 onTouchStart={onTouchStart}
                 onTouchMove={onTouchMove}
                 onTouchEnd={onTouchEnd}
