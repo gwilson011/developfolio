@@ -349,7 +349,7 @@ export default function BonVoyage() {
                                         className="w-[85px] h-[85px] object-contain"
                                         style={{ cursor: "pointer" }}
                                     />
-                                    <span className="text-xs font-pixel pt-1 text-center max-w-[85px] leading-tight">
+                                    <span className="text-xs font-pixel pt-1 text-center w-[85px] leading-tight truncate">
                                         {folder.name.toUpperCase()}
                                     </span>
                                 </Link>
