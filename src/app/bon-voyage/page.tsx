@@ -333,27 +333,25 @@ export default function BonVoyage() {
                 {/* Grid of other folders (3 columns) - centered */}
                 <div className="flex justify-center w-full mt-6">
                     <div className="grid grid-cols-3 gap-x-4 gap-y-4 ml-[-25px]">
-                        {allFolders
-                            .slice(1)
-                            .map((folder) => (
-                                <Link
-                                    key={folder.id}
-                                    href={`/bon-voyage/${folder.slug}`}
-                                    className="flex flex-col items-center cursor-pointer hover:opacity-80 gap-2 transition-opacity"
-                                >
-                                    <Image
-                                        src={folder.floppyImage}
-                                        width={85}
-                                        height={85}
-                                        alt={folder.name}
-                                        className="w-[85px] h-[85px] object-contain"
-                                        style={{ cursor: "pointer" }}
-                                    />
-                                    <span className="text-xs font-pixel pt-1 text-center w-[85px] leading-tight truncate">
-                                        {folder.name.toUpperCase()}
-                                    </span>
-                                </Link>
-                            ))}
+                        {allFolders.slice(1).map((folder) => (
+                            <Link
+                                key={folder.id}
+                                href={`/bon-voyage/${folder.slug}`}
+                                className="flex flex-col items-center cursor-pointer hover:opacity-80 gap-2 transition-opacity"
+                            >
+                                <Image
+                                    src={folder.floppyImage}
+                                    width={85}
+                                    height={85}
+                                    alt={folder.name}
+                                    className="w-[85px] h-[85px] object-contain"
+                                    style={{ cursor: "pointer" }}
+                                />
+                                <span className="text-xs font-pixel pt-2 text-center w-[85px] leading-tight truncate">
+                                    {folder.name.toUpperCase()}
+                                </span>
+                            </Link>
+                        ))}
                     </div>
                 </div>
             </div>
@@ -443,26 +441,24 @@ export default function BonVoyage() {
 
                         {/* Other folders row - at bottom */}
                         <div className="flex gap-6">
-                            {allFolders
-                                .slice(1)
-                                .map((folder) => (
-                                    <Link
-                                        key={folder.id}
-                                        href={`/bon-voyage/${folder.slug}`}
-                                        className="flex flex-col items-center cursor-pointer hover:opacity-80 gap-2 transition-opacity"
-                                    >
-                                        <Image
-                                            src={folder.floppyImage}
-                                            width={90}
-                                            height={90}
-                                            alt={folder.name}
-                                            style={{ cursor: "pointer" }}
-                                        />
-                                        <span className="text-sm font-pixel pt-1 text-center">
-                                            {folder.name.toUpperCase()}
-                                        </span>
-                                    </Link>
-                                ))}
+                            {allFolders.slice(1).map((folder) => (
+                                <Link
+                                    key={folder.id}
+                                    href={`/bon-voyage/${folder.slug}`}
+                                    className="flex flex-col items-center cursor-pointer hover:opacity-80 gap-2 transition-opacity"
+                                >
+                                    <Image
+                                        src={folder.floppyImage}
+                                        width={90}
+                                        height={90}
+                                        alt={folder.name}
+                                        style={{ cursor: "pointer" }}
+                                    />
+                                    <span className="text-sm font-pixel pt-1 text-center">
+                                        {folder.name.toUpperCase()}
+                                    </span>
+                                </Link>
+                            ))}
                         </div>
                     </div>
                 </div>

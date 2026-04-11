@@ -117,6 +117,26 @@ async function createCaptionsSheet(
         },
     });
 
+    await sheets.spreadsheets.batchUpdate({
+        spreadsheetId: sheetId,
+        requestBody: {
+            requests: [{
+                updateDimensionProperties: {
+                    range: {
+                        sheetId: 0,
+                        dimension: "COLUMNS",
+                        startIndex: 1,  // Column B (0-indexed)
+                        endIndex: 2,
+                    },
+                    properties: {
+                        pixelSize: 300,  // 3x default (~100)
+                    },
+                    fields: "pixelSize",
+                },
+            }],
+        },
+    });
+
     return sheetId;
 }
 

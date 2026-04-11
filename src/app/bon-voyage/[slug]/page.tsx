@@ -167,7 +167,7 @@ export default function FolderPage() {
                                 className="border border-white flex-shrink-0"
                             />
                         )}
-                        <h1 className="font-pixel text-white text-title-fluid tracking-wide truncate">
+                        <h1 className="font-pixel text-white text-title-fluid tracking-wide">
                             {folder.name.toUpperCase()}
                         </h1>
                     </div>

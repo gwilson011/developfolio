@@ -216,14 +216,16 @@ export async function syncFromDrive(): Promise<BonVoyageData> {
                 });
 
                 const rows = sheetData.data.values || [];
+
                 for (const row of rows) {
                     if (row[0] && row[1]) {
-                        captionsMap[row[0].toString().toLowerCase()] =
-                            row[1].toString();
+                        const filename = row[0].toString().toLowerCase();
+                        const caption = row[1].toString();
+                        captionsMap[filename] = caption;
                     }
                 }
-            } catch (sheetError) {
-                console.error("Error reading captions sheet:", sheetError);
+            } catch {
+                // Ignore errors reading captions sheet
             }
         }
 
@@ -232,7 +234,8 @@ export async function syncFromDrive(): Promise<BonVoyageData> {
 
         for (const img of driveImages) {
             const originalName = img.name || "";
-            const caption = captionsMap[originalName.toLowerCase()];
+            const lookupKey = originalName.toLowerCase();
+            const caption = captionsMap[lookupKey];
 
             images.push({
                 id: img.id!,
