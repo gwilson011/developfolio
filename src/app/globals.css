@@ -52,6 +52,9 @@ body {
     .text-fit {
         font-size: clamp(50pt, 2vw, 70pt);
     }
+    .text-title-fluid {
+        font-size: clamp(8px, 2.5vw + 0.25rem, 16px);
+    }
 }
 
 .border-default {

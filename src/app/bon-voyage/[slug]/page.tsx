@@ -157,21 +157,21 @@ export default function FolderPage() {
             <div className="w-full max-w-[1200px] border-2 border-black bg-neutral-200 shadow-[8px_8px_0_0_rgba(0,0,0,0.3)]">
                 {/* Title Bar */}
                 <div className="flex items-center justify-between bg-black pr-3">
-                    <div className="flex items-center gap-3 p-4 pb-1">
+                    <div className="flex items-center gap-2 sm:gap-3 p-3 sm:p-4 pb-1 min-w-0 flex-1">
                         {flagPath && (
                             <Image
                                 src={flagPath}
                                 width={32}
                                 height={20}
                                 alt={folder.countryCode || ""}
-                                className="border border-white"
+                                className="border border-white flex-shrink-0"
                             />
                         )}
-                        <h1 className="font-pixel text-white text-md tracking-wide">
+                        <h1 className="font-pixel text-white text-title-fluid tracking-wide truncate">
                             {folder.name.toUpperCase()}
                         </h1>
                     </div>
-                    <div className="flex gap-2 items-center">
+                    <div className="flex gap-2 items-center flex-shrink-0">
                         {selectedIndex !== null &&
                         selectedIndex >= 0 &&
                         selectedIndex < images.length ? (
@@ -197,7 +197,10 @@ export default function FolderPage() {
                 <div className="bg-neutral-200 items-center p-4 pb-2 border-black">
                     <span className="font-pixel text-sm text-black">
                         {formatDate(folder.createdTime)}
-                    </span>
+                    </span>{" "}
+                    {/* <span className="font-pixel text-[11px] text-gray-400">
+                        | TAP TWICE FOR FULL VIEW
+                    </span> */}
                 </div>
 
                 {/* Content Area */}
@@ -222,14 +225,18 @@ export default function FolderPage() {
                                     key={image.id}
                                     image={image}
                                     onClick={() => selectImage(index)}
-                                    isPreviewActive={!canHover && previewIndex === index}
+                                    isPreviewActive={
+                                        !canHover && previewIndex === index
+                                    }
                                     onPreviewChange={(active) => {
                                         if (canHover) {
                                             // Desktop: click selects immediately
                                             selectImage(index);
                                         } else {
                                             // Mobile: manage preview state
-                                            setPreviewIndex(active ? index : null);
+                                            setPreviewIndex(
+                                                active ? index : null,
+                                            );
                                         }
                                     }}
                                 />
