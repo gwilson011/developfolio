@@ -67,10 +67,10 @@ function isCacheStale(cachedAt: number): boolean {
 
 // Location dot position on the Mac map (percentage-based)
 // Adjust these values to move the dot on the map
-const LOCATION_DOT_X = 53; // % from left edge
-const LOCATION_DOT_Y = 44; // % from top edge
+const LOCATION_DOT_X = 54; // % from left edge
+const LOCATION_DOT_Y = 46; // % from top edge
 const MOBILE_LOCATION_DOT_X = 54; // % from left edge
-const MOBILE_LOCATION_DOT_Y = 38; // % from top edge
+const MOBILE_LOCATION_DOT_Y = 39; // % from top edge
 
 function FitText({
     text,
