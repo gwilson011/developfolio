@@ -3,6 +3,7 @@
 // Usage: Select photos in Photos app, tap Share, run this script
 
 const BASE_API_URL = "https://gracewilson.info/api/drive";
+const AUTH_URL = "https://www.gracewilson.info/api/auth/google";
 
 // 🔧 Tunable settings (match BonVoyageUploader.js)
 const MAX_DIMENSION = 1200;
@@ -163,7 +164,27 @@ async function notify(title, body) {
     await n.schedule();
 }
 
+function isAuthError(msg) {
+    const authErrors = ["invalid_grant", "token", "unauthorized", "401", "auth"];
+    const lower = msg.toLowerCase();
+    return authErrors.some(e => lower.includes(e));
+}
+
 async function showError(msg) {
+    if (isAuthError(msg)) {
+        const alert = new Alert();
+        alert.title = "Authentication Required";
+        alert.message = "Your Google token has expired. Open the auth page to re-authenticate?";
+        alert.addAction("Open Auth Page");
+        alert.addCancelAction("Cancel");
+
+        const choice = await alert.present();
+        if (choice === 0) {
+            Safari.open(AUTH_URL);
+        }
+        return;
+    }
+
     const alert = new Alert();
     alert.title = "Error";
     alert.message = msg;

@@ -497,8 +497,174 @@
             "floppyImage": "/bonvoyage/floppys/navy.png",
             "createdTime": "2026-04-10T21:18:54.577Z",
             "subtitle": "Croatia",
+            "images": [
+                {
+                    "id": "1qPXsdONE_Nt3wVeNpnfKBMqIPgIJr7hw",
+                    "name": "IMG_1776110613742_0.jpg",
+                    "url": "/api/drive/image/1qPXsdONE_Nt3wVeNpnfKBMqIPgIJr7hw",
+                    "caption": "Rockin new ride and the official commencement of our croatian roadtrip **edit: yeah it was much too large of a vehicle europe is merciless"
+                },
+                {
+                    "id": "1CzQN5jy64_-6Bwx8kvedraRaAfrNN-2N",
+                    "name": "IMG_1776110626806_1.jpg",
+                    "url": "/api/drive/image/1CzQN5jy64_-6Bwx8kvedraRaAfrNN-2N",
+                    "caption": "Chasing waterfalls forever and always🌈"
+                },
+                {
+                    "id": "1tGnTSuO1owTVt64FxTWd0hOMWh3TKY2C",
+                    "name": "IMG_1776110635980_2.jpg",
+                    "url": "/api/drive/image/1tGnTSuO1owTVt64FxTWd0hOMWh3TKY2C",
+                    "caption": "Even if they force us to literally walk on top of the waterfall in order to find them 🌈"
+                },
+                {
+                    "id": "1iZNKJGOURKK22RBOn0jfscoZRdmI25iD",
+                    "name": "IMG_1776110645918_3.jpg",
+                    "url": "/api/drive/image/1iZNKJGOURKK22RBOn0jfscoZRdmI25iD",
+                    "caption": "Still unclear what this large reflective surface was in Zadar"
+                },
+                {
+                    "id": "1ktMnQibgMN3neOvMuVCldxeiMnEjFr5V",
+                    "name": "IMG_1776110654760_4.jpg",
+                    "url": "/api/drive/image/1ktMnQibgMN3neOvMuVCldxeiMnEjFr5V",
+                    "caption": "Apparently this whole meal was vegan? it was so good too"
+                },
+                {
+                    "id": "1SfzrsaWJUTEnIx0gsx2E0q4RO9A-nBcU",
+                    "name": "IMG_1776110664586_5.jpg",
+                    "url": "/api/drive/image/1SfzrsaWJUTEnIx0gsx2E0q4RO9A-nBcU",
+                    "caption": "After struggling in the parking lot for the better part of 20 mins, two croatian men took pity on us and put us out of our misery first by directing and then kindly asking us to get out of the drivers seat and let them take care of it for us. Such a blessing honestly, these old town streets are brutal af"
+                },
+                {
+                    "id": "1ceHKt2_QlpltE_fisy4maylKeMl9K7UZ",
+                    "name": "IMG_1776110675379_6.jpg",
+                    "url": "/api/drive/image/1ceHKt2_QlpltE_fisy4maylKeMl9K7UZ",
+                    "caption": "Split!! Croatia!! From above!!"
+                },
+                {
+                    "id": "1HnTx1YoU5z29eYCAqmtuHB-1F5Gqgckc",
+                    "name": "IMG_1776110684665_7.jpg",
+                    "url": "/api/drive/image/1HnTx1YoU5z29eYCAqmtuHB-1F5Gqgckc",
+                    "caption": "Went on an extremely humbling run. After wandering around lost in the old town for a considerable amount of time, i finally found my way out only to be greeted with like 290475 stairs. It was so awesome"
+                },
+                {
+                    "id": "1qLkRvyOhP37E9xwU0872tlGjwF-bQbBh",
+                    "name": "IMG_1776110694156_8.jpg",
+                    "url": "/api/drive/image/1qLkRvyOhP37E9xwU0872tlGjwF-bQbBh",
+                    "caption": "Not to be dramatic but i literally cannot stop thinking about this mountainside monastry i accidentally found. like it's weird how much ive been thinking about it"
+                },
+                {
+                    "id": "1Qgr9XCUF25itajM9ssj57laVF07HTKXt",
+                    "name": "IMG_1776110703606_9.jpg",
+                    "url": "/api/drive/image/1Qgr9XCUF25itajM9ssj57laVF07HTKXt",
+                    "caption": "There was a girl absolutely shamelessly singing in here while her friends filmed her and our tour guide shameless talked over her"
+                },
+                {
+                    "id": "14gXpn4J3PGGPQS7vPBxVxXVKXC0DMPZ_",
+                    "name": "IMG_1776110713290_10.jpg",
+                    "url": "/api/drive/image/14gXpn4J3PGGPQS7vPBxVxXVKXC0DMPZ_",
+                    "caption": "Touch the toes for good luck!!🤞🥰"
+                },
+                {
+                    "id": "1CV5qqmhsxqwerdg9K9jxMUAH19EHJxqd",
+                    "name": "IMG_1776110722509_11.jpg",
+                    "url": "/api/drive/image/1CV5qqmhsxqwerdg9K9jxMUAH19EHJxqd",
+                    "caption": "Croatian native right here"
+                },
+                {
+                    "id": "1u3W8F_4CeDifsLAN-2D8Zl4aQK1-j6Ku",
+                    "name": "IMG_1776110731970_12.jpg",
+                    "url": "/api/drive/image/1u3W8F_4CeDifsLAN-2D8Zl4aQK1-j6Ku",
+                    "caption": "Another country, another egg"
+                },
+                {
+                    "id": "1ClFwXu5Zd7S_62gjbsfdj0n25ioQyRHO",
+                    "name": "IMG_1776110741203_13.jpg",
+                    "url": "/api/drive/image/1ClFwXu5Zd7S_62gjbsfdj0n25ioQyRHO",
+                    "caption": "Miral has slowly but surely been perfecting her rock skip"
+                },
+                {
+                    "id": "1v52zFZjJhF87hRQJeIJzw-UhpekeB_91",
+                    "name": "IMG_1776110750084_14.jpg",
+                    "url": "/api/drive/image/1v52zFZjJhF87hRQJeIJzw-UhpekeB_91",
+                    "caption": "I can now confidentaly say that i dont hate monopoly but only because this card version only lasts like 15 mins"
+                },
+                {
+                    "id": "1wy4U_xh1sgl98HNxXV4M2dqArHZyfp8G",
+                    "name": "IMG_1776110760147_15.jpg",
+                    "url": "/api/drive/image/1wy4U_xh1sgl98HNxXV4M2dqArHZyfp8G",
+                    "caption": "I was feeling very european with my wet clothes on public display for everyone passing by"
+                },
+                {
+                    "id": "18zUm3tIrZ4mZunJJDZKwnMjhJ0p0rlBf",
+                    "name": "IMG_1776110770396_16.jpg",
+                    "url": "/api/drive/image/18zUm3tIrZ4mZunJJDZKwnMjhJ0p0rlBf",
+                    "caption": "Miral the chef!!!!!!!"
+                },
+                {
+                    "id": "1VYvkfsEirgfaFekD5hs_U7OEBd_nyf6K",
+                    "name": "IMG_1776110779663_17.jpg",
+                    "url": "/api/drive/image/1VYvkfsEirgfaFekD5hs_U7OEBd_nyf6K",
+                    "caption": "It was so bomb i was feeling so blessed to be with someone who actually know her way around a kitchen (and a chicken)"
+                },
+                {
+                    "id": "11LyEUDEO8QmQVW9_EEJ2FOHPzf5wlB1z",
+                    "name": "IMG_1776110789017_18.jpg",
+                    "url": "/api/drive/image/11LyEUDEO8QmQVW9_EEJ2FOHPzf5wlB1z",
+                    "caption": "This picture pretty much sums it up"
+                },
+                {
+                    "id": "1_Q9QRzUHzbFXA77pe9HMyE4zUQrCf8Xp",
+                    "name": "IMG_1776110797834_19.jpg",
+                    "url": "/api/drive/image/1_Q9QRzUHzbFXA77pe9HMyE4zUQrCf8Xp",
+                    "caption": "Guess where we were when I took this!! You are right, another monastery!! Those guys really get it i mean they literally always choose the best spot. \n\nI think i have an issue"
+                },
+                {
+                    "id": "1kfcIRNFmMp0GJsRlt59Il4iU9z3RPPrR",
+                    "name": "IMG_1776110807648_20.jpg",
+                    "url": "/api/drive/image/1kfcIRNFmMp0GJsRlt59Il4iU9z3RPPrR",
+                    "caption": "These reminded me of the rock people from frozen so i made miral stop so i could take a picture to show you"
+                },
+                {
+                    "id": "1pKh8_aPbUvDvNWVdz09k7PzKLmf8w4OO",
+                    "name": "IMG_1776110818536_21.jpg",
+                    "url": "/api/drive/image/1pKh8_aPbUvDvNWVdz09k7PzKLmf8w4OO",
+                    "caption": "Look how cute and obedient he was waiting for his owner outside the market"
+                },
+                {
+                    "id": "1D2F9Non5GBnNSa7PYsTkhBeJ6aeTM7Yn",
+                    "name": "IMG_1776110827833_22.jpg",
+                    "url": "/api/drive/image/1D2F9Non5GBnNSa7PYsTkhBeJ6aeTM7Yn",
+                    "caption": "Secret beach!! Taken from the uber rocky and mountainous trail I accidentally dragged miral on which comically deposited us right on the paved path that all these other people took to arrive at the same beach. If you look really closely you can see the group of 10 study abroad girls that for some reason we ended up seeing at every excursion throughout our time at split"
+                },
+                {
+                    "id": "18lyzfQv8KPlumw24lxYOy0MTAshWuZ8T",
+                    "name": "IMG_1776110838113_23.jpg",
+                    "url": "/api/drive/image/18lyzfQv8KPlumw24lxYOy0MTAshWuZ8T",
+                    "caption": "I think we ended up scaring them all away though so"
+                },
+                {
+                    "id": "1gdxoNZoEhKe1b-EfJUaLGm8_Wd704_XN",
+                    "name": "IMG_1776110847068_24.jpg",
+                    "url": "/api/drive/image/1gdxoNZoEhKe1b-EfJUaLGm8_Wd704_XN",
+                    "caption": "Coke zero with built in lemon is my new favorite (is what i tell myself so i don't despair over the lack of dr pepper in these lands)"
+                },
+                {
+                    "id": "1Z7cl_voALJIrO26qK_mXkiASowMVSV34",
+                    "name": "IMG_1776110856094_25.jpg",
+                    "url": "/api/drive/image/1Z7cl_voALJIrO26qK_mXkiASowMVSV34",
+                    "caption": "LOOK THE GIRLS AGAIN THEY LITERALLY FOLLOWED US ALL DAY"
+                }
+            ]
+        },
+        "19L5GpTeqyeRMVaCDdTxXaEN64A7c4K5R": {
+            "id": "19L5GpTeqyeRMVaCDdTxXaEN64A7c4K5R",
+            "name": "Dubrovnik",
+            "slug": "dubrovnik",
+            "floppyImage": "/bonvoyage/floppys/lightpink.png",
+            "createdTime": "2026-04-13T20:08:05.617Z",
+            "subtitle": "Croatia",
             "images": []
         }
     },
-    "lastSynced": "2026-04-11T21:06:15.544Z"
+    "lastSynced": "2026-04-13T20:38:17.230Z"
 }
