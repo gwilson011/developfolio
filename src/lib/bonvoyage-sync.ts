@@ -1,19 +1,23 @@
 import { google } from "googleapis";
 import fs from "fs/promises";
 import path from "path";
+import { Redis } from "@upstash/redis";
 import type {
     BonVoyageData,
     BonVoyageFolder,
     FolderImage,
 } from "@/app/types/bonvoyage";
+import { createDriveAuth } from "@/lib/google-auth";
 
 // Import static data as build-time fallback (bundled into serverless function)
 import staticBonVoyageData from "@/data/bonvoyage-folders.json";
 
-const CACHE_MAX_AGE_MS = 30 * 60 * 1000; // 30 minutes
+// Initialize Upstash Redis client
+const redis = Redis.fromEnv();
 
-// Module-level in-memory cache for warm serverless instances
-let memoryCache: BonVoyageData | null = null;
+const CACHE_MAX_AGE_MS = 30 * 60 * 1000; // 30 minutes
+const CACHE_KEY = "bonvoyage-data";
+const CACHE_TTL_SECONDS = 30 * 60; // 30 minutes
 
 const FLOPPY_IMAGES = [
     "/bonvoyage/floppys/lightpink.png",
@@ -33,9 +37,14 @@ const FLOPPY_IMAGES = [
 const isVercel = process.env.VERCEL === "1";
 
 export async function readDataFile(): Promise<BonVoyageData> {
-    // Check memory cache first (warm serverless instance)
-    if (memoryCache && !isCacheStale(memoryCache.lastSynced)) {
-        return memoryCache;
+    // Try Redis cache first
+    try {
+        const cached = await redis.get<BonVoyageData>(CACHE_KEY);
+        if (cached && !isCacheStale(cached.lastSynced)) {
+            return cached;
+        }
+    } catch (e) {
+        console.error("Redis read error:", e);
     }
 
     // In development, try to read from local file for fresh data
@@ -47,7 +56,6 @@ export async function readDataFile(): Promise<BonVoyageData> {
             );
             const data = await fs.readFile(localPath, "utf-8");
             const parsed = JSON.parse(data) as BonVoyageData;
-            memoryCache = parsed;
             return parsed;
         } catch {
             // Fall through to static data
@@ -59,8 +67,12 @@ export async function readDataFile(): Promise<BonVoyageData> {
 }
 
 export async function writeDataFile(data: BonVoyageData): Promise<void> {
-    // Always update memory cache
-    memoryCache = data;
+    // Write to Redis cache
+    try {
+        await redis.set(CACHE_KEY, data, { ex: CACHE_TTL_SECONDS });
+    } catch (e) {
+        console.error("Redis write error:", e);
+    }
 
     // In development, also write to local file for persistence
     if (!isVercel) {
@@ -115,24 +127,98 @@ export function getDriveImageUrl(fileId: string): string {
     return `/api/drive/image/${fileId}`;
 }
 
+// Helper functions for parallel folder processing
+async function fetchSubtitle(
+    drive: ReturnType<typeof google.drive>,
+    folderId: string
+): Promise<string | undefined> {
+    const response = await drive.files.list({
+        q: `'${folderId}' in parents and name = 'subtitle.txt' and trashed = false`,
+        fields: "files(id)",
+    });
+    const file = response.data.files?.[0];
+    if (!file?.id) return undefined;
+
+    const content = await drive.files.get({ fileId: file.id, alt: "media" });
+    return (content.data as string).trim();
+}
+
+async function fetchImages(
+    drive: ReturnType<typeof google.drive>,
+    folderId: string
+) {
+    const response = await drive.files.list({
+        q: `'${folderId}' in parents and mimeType contains 'image/' and trashed = false`,
+        fields: "files(id, name)",
+        orderBy: "name",
+    });
+    return response.data.files || [];
+}
+
+async function fetchCaptions(
+    drive: ReturnType<typeof google.drive>,
+    sheets: ReturnType<typeof google.sheets>,
+    folderId: string
+): Promise<Record<string, string>> {
+    const sheetResponse = await drive.files.list({
+        q: `'${folderId}' in parents and name = 'captions' and mimeType = 'application/vnd.google-apps.spreadsheet' and trashed = false`,
+        fields: "files(id)",
+    });
+
+    const sheet = sheetResponse.data.files?.[0];
+    if (!sheet?.id) return {};
+
+    try {
+        const data = await sheets.spreadsheets.values.get({
+            spreadsheetId: sheet.id,
+            range: "B2:C",
+        });
+        const captionsMap: Record<string, string> = {};
+        for (const row of data.data.values || []) {
+            if (row[0] && row[1]) {
+                captionsMap[row[0].toString().toLowerCase()] = row[1].toString();
+            }
+        }
+        return captionsMap;
+    } catch {
+        return {};
+    }
+}
+
+function buildImageList(
+    driveImages: Array<{ id?: string | null; name?: string | null }>,
+    captionsMap: Record<string, string>
+): FolderImage[] {
+    const images: FolderImage[] = [];
+    for (const img of driveImages) {
+        if (!img.id) continue;
+        const originalName = img.name || "";
+        const lookupKey = originalName.toLowerCase();
+        const caption = captionsMap[lookupKey];
+
+        images.push({
+            id: img.id,
+            name: originalName,
+            url: getDriveImageUrl(img.id),
+            caption,
+        });
+    }
+    return images;
+}
+
 export async function syncFromDrive(): Promise<BonVoyageData> {
-    const serviceAccountKey = process.env.GOOGLE_SERVICE_ACCOUNT_KEY;
     const folderId = process.env.GOOGLE_DRIVE_FOLDER_ID;
 
-    if (!serviceAccountKey || !folderId) {
-        throw new Error("Missing Google Drive configuration");
+    if (!folderId) {
+        throw new Error("Missing GOOGLE_DRIVE_FOLDER_ID");
     }
 
     const existingData = await readDataFile();
 
-    const credentials = JSON.parse(serviceAccountKey);
-    const auth = new google.auth.GoogleAuth({
-        credentials,
-        scopes: [
-            "https://www.googleapis.com/auth/drive",
-            "https://www.googleapis.com/auth/spreadsheets",
-        ],
-    });
+    const auth = createDriveAuth([
+        "https://www.googleapis.com/auth/drive",
+        "https://www.googleapis.com/auth/spreadsheets",
+    ]);
 
     const drive = google.drive({ version: "v3", auth });
     const sheets = google.sheets({ version: "v4", auth });
@@ -149,7 +235,7 @@ export async function syncFromDrive(): Promise<BonVoyageData> {
         (f) => f.floppyImage,
     );
 
-    // Process each Drive folder
+    // Initialize new folders first (sequential to maintain floppy image assignment)
     for (const driveFolder of driveFolders) {
         if (!driveFolder.id || !driveFolder.name) continue;
 
@@ -172,81 +258,26 @@ export async function syncFromDrive(): Promise<BonVoyageData> {
                 );
             }
         }
+    }
+
+    // Process all folders in parallel (fetch subtitle, images, captions)
+    const folderPromises = driveFolders.map(async (driveFolder) => {
+        if (!driveFolder.id || !driveFolder.name) return;
 
         const folder = existingData.folders[driveFolder.id];
 
-        // Fetch subtitle.txt
-        const subtitleResponse = await drive.files.list({
-            q: `'${folder.id}' in parents and name = 'subtitle.txt' and trashed = false`,
-            fields: "files(id)",
-        });
+        // Fetch subtitle, images, and captions in parallel
+        const [subtitleResult, imagesResult, captionsResult] = await Promise.all([
+            fetchSubtitle(drive, folder.id),
+            fetchImages(drive, folder.id),
+            fetchCaptions(drive, sheets, folder.id),
+        ]);
 
-        const subtitleFile = subtitleResponse.data.files?.[0];
-        if (subtitleFile?.id) {
-            const content = await drive.files.get({
-                fileId: subtitleFile.id,
-                alt: "media",
-            });
-            folder.subtitle = (content.data as string).trim();
-        }
+        folder.subtitle = subtitleResult;
+        folder.images = buildImageList(imagesResult, captionsResult);
+    });
 
-        // Fetch all images from the folder
-        const imagesResponse = await drive.files.list({
-            q: `'${folder.id}' in parents and mimeType contains 'image/' and trashed = false`,
-            fields: "files(id, name)",
-            orderBy: "name",
-        });
-
-        const driveImages = imagesResponse.data.files || [];
-
-        // Fetch captions from Google Sheet named "captions"
-        const captionsSheetResponse = await drive.files.list({
-            q: `'${folder.id}' in parents and name = 'captions' and mimeType = 'application/vnd.google-apps.spreadsheet' and trashed = false`,
-            fields: "files(id)",
-        });
-
-        const captionsMap: Record<string, string> = {};
-        const captionsSheet = captionsSheetResponse.data.files?.[0];
-
-        if (captionsSheet?.id) {
-            try {
-                const sheetData = await sheets.spreadsheets.values.get({
-                    spreadsheetId: captionsSheet.id,
-                    range: "B2:C",
-                });
-
-                const rows = sheetData.data.values || [];
-
-                for (const row of rows) {
-                    if (row[0] && row[1]) {
-                        const filename = row[0].toString().toLowerCase();
-                        const caption = row[1].toString();
-                        captionsMap[filename] = caption;
-                    }
-                }
-            } catch {
-                // Ignore errors reading captions sheet
-            }
-        }
-
-        // Build image list - serve directly from Google Drive
-        const images: FolderImage[] = [];
-
-        for (const img of driveImages) {
-            const originalName = img.name || "";
-            const lookupKey = originalName.toLowerCase();
-            const caption = captionsMap[lookupKey];
-
-            images.push({
-                id: img.id!,
-                name: originalName,
-                url: getDriveImageUrl(img.id!),
-                caption,
-            });
-        }
-
-        folder.images = images;
-    }
+    await Promise.all(folderPromises);
 
     // Remove folders that no longer exist in Drive
     const driveFolderIds = new Set(driveFolders.map((df) => df.id));

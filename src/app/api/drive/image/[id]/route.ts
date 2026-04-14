@@ -2,6 +2,7 @@ export const dynamic = "force-dynamic";
 
 import { google } from "googleapis";
 import { NextRequest, NextResponse } from "next/server";
+import { createDriveAuth } from "@/lib/google-auth";
 
 export async function GET(
     request: NextRequest,
@@ -10,20 +11,7 @@ export async function GET(
     try {
         const { id } = await params;
 
-        const serviceAccountKey = process.env.GOOGLE_SERVICE_ACCOUNT_KEY;
-
-        if (!serviceAccountKey) {
-            return NextResponse.json(
-                { error: "Missing Google Drive configuration" },
-                { status: 500 },
-            );
-        }
-
-        const credentials = JSON.parse(serviceAccountKey);
-        const auth = new google.auth.GoogleAuth({
-            credentials,
-            scopes: ["https://www.googleapis.com/auth/drive.readonly"],
-        });
+        const auth = createDriveAuth(["https://www.googleapis.com/auth/drive.readonly"]);
 
         const drive = google.drive({ version: "v3", auth });
 

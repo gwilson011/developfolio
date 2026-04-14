@@ -16,6 +16,7 @@
         "@notionhq/client": "^5.1.0",
         "@react-three/drei": "^9.121.4",
         "@react-three/fiber": "^8.17.12",
+        "@upstash/redis": "^1.37.0",
         "cheerio": "^1.1.2",
         "framer-motion": "^11.12.0",
         "googleapis": "^171.4.0",

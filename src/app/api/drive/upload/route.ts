@@ -3,6 +3,7 @@ export const dynamic = "force-dynamic";
 import { google } from "googleapis";
 import { NextRequest, NextResponse } from "next/server";
 import { Readable } from "stream";
+import { createDriveAuth } from "@/lib/google-auth";
 
 interface UploadRequest {
     folderName?: string;
@@ -23,19 +24,10 @@ interface UploadResponse {
 }
 
 function getGoogleAuth() {
-    const serviceAccountKey = process.env.GOOGLE_SERVICE_ACCOUNT_KEY;
-    if (!serviceAccountKey) {
-        throw new Error("Missing GOOGLE_SERVICE_ACCOUNT_KEY");
-    }
-
-    const credentials = JSON.parse(serviceAccountKey);
-    return new google.auth.GoogleAuth({
-        credentials,
-        scopes: [
-            "https://www.googleapis.com/auth/drive",
-            "https://www.googleapis.com/auth/spreadsheets",
-        ],
-    });
+    return createDriveAuth([
+        "https://www.googleapis.com/auth/drive",
+        "https://www.googleapis.com/auth/spreadsheets",
+    ]);
 }
 
 async function createFolder(

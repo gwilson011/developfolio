@@ -21,7 +21,15 @@ const ENABLE_REVEAL_ANIMATION = false;
 
 // LocalStorage caching for instant load on return visits
 const CACHE_KEY = "bonvoyage-cache";
-const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
+const CACHE_TTL_MS = 30 * 60 * 1000; // 30 minutes (match backend)
+
+function Spinner({ className }: { className?: string }) {
+    return (
+        <span
+            className={`inline-block w-3 h-3 border-2 border-gray-400 border-t-transparent rounded-full animate-spin ${className ?? ""}`}
+        />
+    );
+}
 
 interface CachedData {
     current: BonVoyageFolder | null;
@@ -238,11 +246,24 @@ export default function BonVoyage() {
                 <button
                     onClick={handleRefresh}
                     disabled={syncing}
-                    className="p-3 pb-1 text-xs text-gray-500 font-pixel border-2 rounded bg-neutral-200 hover:bg-neutral-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    className="p-3 pb-1 text-xs text-gray-500 font-pixel border-2 rounded bg-neutral-200 hover:bg-neutral-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
                 >
-                    {syncing ? "..." : "REFRESH"}
+                    {syncing ? (
+                        <div>
+                            <Spinner />
+                        </div>
+                    ) : (
+                        "REFRESH"
+                    )}
                 </button>
             </div>
+
+            {/* Error display */}
+            {error && (
+                <div className="text-center text-red-500 font-pixel text-sm px-4">
+                    {error}
+                </div>
+            )}
 
             {/* Mobile Layout */}
             <div className="md:hidden flex flex-col items-center text-black">
@@ -325,7 +346,22 @@ export default function BonVoyage() {
                                 )}
                             </Link>
                         ) : (
-                            <div className="font-pixel text-sm">No folders</div>
+                            <div className="font-pixel text-center">
+                                <div className="text-sm">NO FOLDERS</div>
+                                {lastSynced && (
+                                    <div className="text-xs text-gray-400 mt-2">
+                                        Last synced:{" "}
+                                        {formatTimeSince(lastSynced)}
+                                    </div>
+                                )}
+                                <button
+                                    onClick={handleRefresh}
+                                    disabled={syncing}
+                                    className="mt-4 px-4 py-2 text-xs border-2 rounded bg-neutral-200 hover:bg-neutral-300 disabled:opacity-50"
+                                >
+                                    {syncing ? "SYNCING..." : "TRY AGAIN"}
+                                </button>
+                            </div>
                         )}
                     </div>
                 </div>
@@ -436,7 +472,22 @@ export default function BonVoyage() {
                                 </div>
                             </Link>
                         ) : (
-                            <div className="font-pixel">NO FOLDERS</div>
+                            <div className="font-pixel text-center">
+                                <div>NO FOLDERS</div>
+                                {lastSynced && (
+                                    <div className="text-xs text-gray-400 mt-2">
+                                        Last synced:{" "}
+                                        {formatTimeSince(lastSynced)}
+                                    </div>
+                                )}
+                                <button
+                                    onClick={handleRefresh}
+                                    disabled={syncing}
+                                    className="mt-4 px-4 py-2 text-xs border-2 rounded bg-neutral-200 hover:bg-neutral-300 disabled:opacity-50"
+                                >
+                                    {syncing ? "SYNCING..." : "TRY AGAIN"}
+                                </button>
+                            </div>
                         )}
 
                         {/* Other folders row - at bottom */}
