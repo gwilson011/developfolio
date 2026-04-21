@@ -15,9 +15,9 @@ import staticBonVoyageData from "@/data/bonvoyage-folders.json";
 // Initialize Upstash Redis client
 const redis = Redis.fromEnv();
 
-const CACHE_MAX_AGE_MS = 30 * 60 * 1000; // 30 minutes
+const CACHE_MAX_AGE_MS = 30 * 60 * 1000; // 30 minutes (sync interval)
 const CACHE_KEY = "bonvoyage-data";
-const CACHE_TTL_SECONDS = 30 * 60; // 30 minutes
+const CACHE_TTL_SECONDS = 7 * 24 * 60 * 60; // 7 days (outlives sync interval so color assignments survive)
 
 const FLOPPY_IMAGES = [
     "/bonvoyage/floppys/lightpink.png",
@@ -37,10 +37,12 @@ const FLOPPY_IMAGES = [
 const isVercel = process.env.VERCEL === "1";
 
 export async function readDataFile(): Promise<BonVoyageData> {
-    // Try Redis cache first
+    // Try Redis first — return even if stale so callers can use existing color
+    // assignments as the base for a re-sync instead of falling back to older
+    // static data (which would cause already-assigned colors to shift).
     try {
         const cached = await redis.get<BonVoyageData>(CACHE_KEY);
-        if (cached && !isCacheStale(cached.lastSynced)) {
+        if (cached) {
             return cached;
         }
     } catch (e) {

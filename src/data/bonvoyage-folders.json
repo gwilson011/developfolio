@@ -663,8 +663,382 @@
             "floppyImage": "/bonvoyage/floppys/lightpink.png",
             "createdTime": "2026-04-13T20:08:05.617Z",
             "subtitle": "Croatia",
+            "images": [
+                {
+                    "id": "1AG_N2oN7HXS9PPhS7hXQx-3VkTN4r3Rp",
+                    "name": "IMG_1776276634252_0.jpg",
+                    "url": "/api/drive/image/1AG_N2oN7HXS9PPhS7hXQx-3VkTN4r3Rp",
+                    "caption": "Croatia in the \"off season\" is a ghost town its kinda creepy"
+                },
+                {
+                    "id": "1HJOdMbGnWG7W8iyZi3ziLrwjwAnlqHY8",
+                    "name": "IMG_1776276640105_1.jpg",
+                    "url": "/api/drive/image/1HJOdMbGnWG7W8iyZi3ziLrwjwAnlqHY8",
+                    "caption": "BAD HAMBORGER"
+                },
+                {
+                    "id": "1K5NUTQzzLJvkBR7ElJAh4xsfepH_rcMv",
+                    "name": "IMG_1776276646550_2.jpg",
+                    "url": "/api/drive/image/1K5NUTQzzLJvkBR7ElJAh4xsfepH_rcMv",
+                    "caption": "I accidentally bought a 5 lbs bag of mini tootsie pops earlier this year and do not fret I have no let my travels interfere with my addiction"
+                },
+                {
+                    "id": "1-h-k1JYGiRszpFUOqi9a9Q6J9qWet9JH",
+                    "name": "IMG_1776276651860_3.jpg",
+                    "url": "/api/drive/image/1-h-k1JYGiRszpFUOqi9a9Q6J9qWet9JH",
+                    "caption": "Look at this randomly really cool bridge"
+                },
+                {
+                    "id": "1-wVMmF6gDV0HF3C8qdA4zpbNAE7_7-AH",
+                    "name": "IMG_1776276656571_4.jpg",
+                    "url": "/api/drive/image/1-wVMmF6gDV0HF3C8qdA4zpbNAE7_7-AH",
+                    "caption": "Croatian delicacies. Grilled white fish and cuttlefish rosotto. I guess the black color comes from the ink in the cuttlefish."
+                },
+                {
+                    "id": "1NRTXgE8a-Y5q_IGH99YfzbtiDlgiMjjF",
+                    "name": "IMG_1776276661652_5.jpg",
+                    "url": "/api/drive/image/1NRTXgE8a-Y5q_IGH99YfzbtiDlgiMjjF",
+                    "caption": "I know your next question is if the ink stains and the answer is kinda yes."
+                },
+                {
+                    "id": "1l-JYi0n5bGROfr0avtJgNbcWvF61wP5n",
+                    "name": "IMG_1776276666610_6.jpg",
+                    "url": "/api/drive/image/1l-JYi0n5bGROfr0avtJgNbcWvF61wP5n",
+                    "caption": "Look how lovely and peaceful. I believe at this moment I was forcing miral to listen to \"I am a girl like you\" from barbie princess and the pauper. I feel like it really completes the vibe yk"
+                },
+                {
+                    "id": "1BEx0ImZ5-qm3bRQvaVIZInFQ5EnYwMkp",
+                    "name": "IMG_1776276671876_7.jpg",
+                    "url": "/api/drive/image/1BEx0ImZ5-qm3bRQvaVIZInFQ5EnYwMkp",
+                    "caption": "We forgot to pay for parking:( luckily it was only 10 euro"
+                },
+                {
+                    "id": "1oezgcKIbxvRgsl_srJ-WL25b0q6_nCmV",
+                    "name": "IMG_1776276676675_8.jpg",
+                    "url": "/api/drive/image/1oezgcKIbxvRgsl_srJ-WL25b0q6_nCmV",
+                    "caption": "Doesn't it kinda look like big sur???"
+                },
+                {
+                    "id": "1TKI-BA82k-0x9bw0r1x5dj8ur3gYSa1-",
+                    "name": "IMG_1776276681677_9.jpg",
+                    "url": "/api/drive/image/1TKI-BA82k-0x9bw0r1x5dj8ur3gYSa1-",
+                    "caption": "Miral aptly likened this to a toilet paper roll holder"
+                },
+                {
+                    "id": "1EcjuarPgdMVg_o-sYJNo-pKWnwZW6YKJ",
+                    "name": "IMG_1776276687228_10.jpg",
+                    "url": "/api/drive/image/1EcjuarPgdMVg_o-sYJNo-pKWnwZW6YKJ",
+                    "caption": "This right here is the money shot"
+                },
+                {
+                    "id": "172-A2s9ULsjy_s7dzJ8HNZwTXtHO7zGn",
+                    "name": "IMG_1776276692320_11.jpg",
+                    "url": "/api/drive/image/172-A2s9ULsjy_s7dzJ8HNZwTXtHO7zGn",
+                    "caption": "And this is miral and me in front of the money shot"
+                },
+                {
+                    "id": "1FLW2ylOsP5GP1gKwY2JwteqyQ49dv4PC",
+                    "name": "IMG_1776276697074_12.jpg",
+                    "url": "/api/drive/image/1FLW2ylOsP5GP1gKwY2JwteqyQ49dv4PC",
+                    "caption": "This was the pathway to the fortica (where the money shot was taken). The winds were insane this day. I also edited out all the people with my iphone ai magic eraser, can you tell?"
+                },
+                {
+                    "id": "1ud4LVk_evBTvw589kMUzxxkBm-NePUtg",
+                    "name": "IMG_1776276702067_13.jpg",
+                    "url": "/api/drive/image/1ud4LVk_evBTvw589kMUzxxkBm-NePUtg",
+                    "caption": "Atop the walls of dubrovnik"
+                },
+                {
+                    "id": "12wdlmoRuA0raZAKAbeNc5hgDlvvBFqYp",
+                    "name": "IMG_1776276707511_14.jpg",
+                    "url": "/api/drive/image/12wdlmoRuA0raZAKAbeNc5hgDlvvBFqYp",
+                    "caption": "Seth I took this one for you. Imagine playing up here"
+                },
+                {
+                    "id": "1LhDUGEWEhpFjr0KshiAcuI_Wj-D-Y7yz",
+                    "name": "IMG_1776276712633_15.jpg",
+                    "url": "/api/drive/image/1LhDUGEWEhpFjr0KshiAcuI_Wj-D-Y7yz",
+                    "caption": "Me and bae one day except hopefully he will be significantly taller than me"
+                },
+                {
+                    "id": "1CVIFC5y7EhHtDekWmXiw7DBJ4767egd0",
+                    "name": "IMG_1776751425889_0.jpg",
+                    "url": "/api/drive/image/1CVIFC5y7EhHtDekWmXiw7DBJ4767egd0"
+                },
+                {
+                    "id": "1kjBgzHJDARG4NnaXEq2_T6Kc7DcgB0Gx",
+                    "name": "IMG_1776751433869_1.jpg",
+                    "url": "/api/drive/image/1kjBgzHJDARG4NnaXEq2_T6Kc7DcgB0Gx"
+                }
+            ]
+        },
+        "1rdpIUIhZbJ9eZXtF4ifpaTO6LQIgn-lk": {
+            "id": "1rdpIUIhZbJ9eZXtF4ifpaTO6LQIgn-lk",
+            "name": "Athens",
+            "slug": "athens",
+            "floppyImage": "/bonvoyage/floppys/pink.png",
+            "createdTime": "2026-04-21T06:10:12.936Z",
+            "subtitle": "Greece",
             "images": []
+        },
+        "1ev9RLb6t3dk4ONGsSv-L97ib6fSAM_w3": {
+            "id": "1ev9RLb6t3dk4ONGsSv-L97ib6fSAM_w3",
+            "name": "Thessaloniki",
+            "slug": "thessaloniki",
+            "floppyImage": "/bonvoyage/floppys/yellow.png",
+            "createdTime": "2026-04-18T14:52:33.796Z",
+            "subtitle": "Greece",
+            "images": [
+                {
+                    "id": "1uB5hB6m2zM6UTPVBRXdPgArE_8XEkfmE",
+                    "name": "IMG_1776751617090_0.jpg",
+                    "url": "/api/drive/image/1uB5hB6m2zM6UTPVBRXdPgArE_8XEkfmE",
+                    "caption": "Our 1.5 hour layover in turkey🤤"
+                },
+                {
+                    "id": "1fzSP81fvh9Nj_CVQ20eJRv0zjyDhPHuK",
+                    "name": "IMG_1776751621876_1.jpg",
+                    "url": "/api/drive/image/1fzSP81fvh9Nj_CVQ20eJRv0zjyDhPHuK",
+                    "caption": "We got not one but two suprise meals in our"
+                },
+                {
+                    "id": "1v4XL9GDsCKL2mUR9UIP2QB9KQUc_D_yq",
+                    "name": "IMG_1776751626451_2.jpg",
+                    "url": "/api/drive/image/1v4XL9GDsCKL2mUR9UIP2QB9KQUc_D_yq",
+                    "caption": "We have entered into the land of orthodox christianity"
+                },
+                {
+                    "id": "1eFudUAJMsnfU9aNKQqCvg8TM_WzxDKbu",
+                    "name": "IMG_1776751633141_3.jpg",
+                    "url": "/api/drive/image/1eFudUAJMsnfU9aNKQqCvg8TM_WzxDKbu",
+                    "caption": "We accidentally found ourselves chasing more waterfalls, what can we say"
+                },
+                {
+                    "id": "1hSuwfKAAxv8JcXYztKF2zyzxh31cLe_Q",
+                    "name": "IMG_1776751638640_4.jpg",
+                    "url": "/api/drive/image/1hSuwfKAAxv8JcXYztKF2zyzxh31cLe_Q",
+                    "caption": "The hike we had planned to do apparently was closed due to a collapsed bridge or something"
+                },
+                {
+                    "id": "16SsDtA2r4_U8P5XANLLom8lN_-WEdH10",
+                    "name": "IMG_1776751644139_5.jpg",
+                    "url": "/api/drive/image/16SsDtA2r4_U8P5XANLLom8lN_-WEdH10",
+                    "caption": "But dont worry we pivoted, we drove to the top and the hike down so ha they tried to stop me from seeing a monastery but they couldnt"
+                },
+                {
+                    "id": "1xPz4NcRW9UK28gWGfV6TcLV90aYYm9ya",
+                    "name": "IMG_1776751650991_6.jpg",
+                    "url": "/api/drive/image/1xPz4NcRW9UK28gWGfV6TcLV90aYYm9ya",
+                    "caption": "I mean look at this one! A monestary in a cave"
+                },
+                {
+                    "id": "1VSZTr9O5J6-1udLAVTrQu9NAodi4KlA1",
+                    "name": "IMG_1776751657002_7.jpg",
+                    "url": "/api/drive/image/1VSZTr9O5J6-1udLAVTrQu9NAodi4KlA1",
+                    "caption": "We made a new friend. Look at his little legs"
+                },
+                {
+                    "id": "1S1x3DXiZPRb3faOz2Aezr9hN74OKffgX",
+                    "name": "IMG_1776751661495_8.jpg",
+                    "url": "/api/drive/image/1S1x3DXiZPRb3faOz2Aezr9hN74OKffgX",
+                    "caption": "They of course had a cafe at the top soooo we stopped for a lil cocoa post hike"
+                },
+                {
+                    "id": "1_ithi3X6v65IUF0REZmAK00hec3e-XeF",
+                    "name": "IMG_1776751666326_9.jpg",
+                    "url": "/api/drive/image/1_ithi3X6v65IUF0REZmAK00hec3e-XeF",
+                    "caption": "let the mediterranean feasting begin, ugh"
+                },
+                {
+                    "id": "10GtYoGdT0Zg9FNuPs6dv8sHpUV0hcRHn",
+                    "name": "IMG_1776751672255_10.jpg",
+                    "url": "/api/drive/image/10GtYoGdT0Zg9FNuPs6dv8sHpUV0hcRHn",
+                    "caption": "I am actually obsessed with this show I have watched so many episodes. Ironically, it's not available in europe? or this part of europe? so i have to use my UCLA vpn to access it🤭"
+                }
+            ]
+        },
+        "1XxTFypr9xep456S5etJ3Qng9NzZJlsGq": {
+            "id": "1XxTFypr9xep456S5etJ3Qng9NzZJlsGq",
+            "name": "Sarajevo",
+            "slug": "sarajevo",
+            "floppyImage": "/bonvoyage/floppys/orange.png",
+            "createdTime": "2026-04-15T18:12:24.080Z",
+            "subtitle": "Bosnia",
+            "images": [
+                {
+                    "id": "1xemsSSva2ZM1gra08tvESmOLp6tyLBfS",
+                    "name": "IMG_1776523787988_0.jpg",
+                    "url": "/api/drive/image/1xemsSSva2ZM1gra08tvESmOLp6tyLBfS",
+                    "caption": "So bosnia is actually gorgeous? like hello?"
+                },
+                {
+                    "id": "1P7OKkD1X1tAuQfHKOnZFDoOilQZ4TI6T",
+                    "name": "IMG_1776523794071_1.jpg",
+                    "url": "/api/drive/image/1P7OKkD1X1tAuQfHKOnZFDoOilQZ4TI6T",
+                    "caption": "This was one of the random stop we made on our bus trip? Smoke break with some quick smoked pork?"
+                },
+                {
+                    "id": "1eWMdedP1Jr83bLXd401W3VcYYelTmLUu",
+                    "name": "IMG_1776523799417_2.jpg",
+                    "url": "/api/drive/image/1eWMdedP1Jr83bLXd401W3VcYYelTmLUu",
+                    "caption": "What a beauty. We were quite tight with our travel companions after two breaks and a considerable wait to get through the border"
+                },
+                {
+                    "id": "12VQCOxlKa6Ym7By0ooxAkk4eXOXtI33Q",
+                    "name": "IMG_1776523804317_3.jpg",
+                    "url": "/api/drive/image/12VQCOxlKa6Ym7By0ooxAkk4eXOXtI33Q",
+                    "caption": "Arrived and it was raining"
+                },
+                {
+                    "id": "1BDkYrVaV8R1jejI61REfx-XaobvnI6dd",
+                    "name": "IMG_1776523808598_4.jpg",
+                    "url": "/api/drive/image/1BDkYrVaV8R1jejI61REfx-XaobvnI6dd",
+                    "caption": "love🥰🥰🥰"
+                },
+                {
+                    "id": "1p7bOAo25SXtKfdHQJmDd8EorHbWUBCEn",
+                    "name": "IMG_1776523813484_5.jpg",
+                    "url": "/api/drive/image/1p7bOAo25SXtKfdHQJmDd8EorHbWUBCEn",
+                    "caption": "Chocolate pistachio baklava. We decided it was eh. I thought it mostly tasted like a brownie"
+                },
+                {
+                    "id": "1Ui615UylPg0d_KAKFznVnE-c0mV67dVk",
+                    "name": "IMG_1776523818864_6.jpg",
+                    "url": "/api/drive/image/1Ui615UylPg0d_KAKFznVnE-c0mV67dVk",
+                    "caption": "The outside of the Liberation War Heroes Museum, which is dedicated to heroes who selflessly sacrificed their lives to defend their homeland"
+                },
+                {
+                    "id": "11aOlA_TcpMHtDf_O3QVEPHMQjW0OXYpe",
+                    "name": "IMG_1776523824233_7.jpg",
+                    "url": "/api/drive/image/11aOlA_TcpMHtDf_O3QVEPHMQjW0OXYpe",
+                    "caption": "Spot the sarajevo"
+                },
+                {
+                    "id": "111J5xweIUte89Y_qR0d4Yf2t75y2epTU",
+                    "name": "IMG_1776523828948_8.jpg",
+                    "url": "/api/drive/image/111J5xweIUte89Y_qR0d4Yf2t75y2epTU",
+                    "caption": "so i accidentally put a filter on this photo when I like dropped my phone or it was in my bag or something. I thought it added to the drama of the picture, enjoy"
+                },
+                {
+                    "id": "1yECkhzD6BDmgh58AMh_8E6RS1uh7eCIk",
+                    "name": "IMG_1776523833383_9.jpg",
+                    "url": "/api/drive/image/1yECkhzD6BDmgh58AMh_8E6RS1uh7eCIk",
+                    "caption": "I wanted to document my first use of an eastern toilet. Years of squatting in the woods prepped me for this i was so ready"
+                },
+                {
+                    "id": "1hZ1-k08_yVFz8K8RstswN9SShF3EjI_i",
+                    "name": "IMG_1776523837849_10.jpg",
+                    "url": "/api/drive/image/1hZ1-k08_yVFz8K8RstswN9SShF3EjI_i",
+                    "caption": "More sweets🤭 turkish delight and \"Sultan Sarması\" which i guess is also called turkish delight roll. In case you were wondering the red one is coated in saffron and it was hands down the best"
+                },
+                {
+                    "id": "1hjojWgthubFfdUVg-wIiROUX5b9M0JQn",
+                    "name": "IMG_1776523842789_11.jpg",
+                    "url": "/api/drive/image/1hjojWgthubFfdUVg-wIiROUX5b9M0JQn",
+                    "caption": "Another run that kicked my little booty ft. goat bridge which actually looked very similiar to latin bridge both of which I dont really have pictures of 🤪 so just take my word for it"
+                },
+                {
+                    "id": "1xZa37PlSV8jHgF0ngml5pnePw1kh4E18",
+                    "name": "IMG_1776523847879_12.jpg",
+                    "url": "/api/drive/image/1xZa37PlSV8jHgF0ngml5pnePw1kh4E18",
+                    "caption": "Bosnian coffee!!!!! It was extremely bitter but part of the process is to basically put a cube of sugar under your tongue and then drink it and that makes it more chill. Alledgely."
+                },
+                {
+                    "id": "18TQBBMRibuyY82MDklNpHNZrkxuf8VX9",
+                    "name": "IMG_1776523853441_13.jpg",
+                    "url": "/api/drive/image/18TQBBMRibuyY82MDklNpHNZrkxuf8VX9",
+                    "caption": "Spot the sarajevo"
+                },
+                {
+                    "id": "1I3eo3KMr-LKt7RuxJAZrC6bIPM3VizY5",
+                    "name": "IMG_1776523859558_14.jpg",
+                    "url": "/api/drive/image/1I3eo3KMr-LKt7RuxJAZrC6bIPM3VizY5",
+                    "caption": "On a much more serious note, 30 years ago this country was in midst of a war and witness so much death and genocide. It was heavy to think about some of the current residents who not only lived through this time period but lost loved ones and friends"
+                },
+                {
+                    "id": "1GdjlBqQ4Q5cHk2OOZiIyALjZJzUcBVHo",
+                    "name": "IMG_1776523864614_15.jpg",
+                    "url": "/api/drive/image/1GdjlBqQ4Q5cHk2OOZiIyALjZJzUcBVHo",
+                    "caption": "There were remnants augmented artistically to remind the city and its inhabitants of what it's been through and what it has overcome. These were mortar blasts filled with resin that represented blasts the killed 2 or more people. They speckled the whole city."
+                },
+                {
+                    "id": "1deyff6FJzgi2-CkMax8Slh0AZ8D_9rn-",
+                    "name": "IMG_1776523869388_16.jpg",
+                    "url": "/api/drive/image/1deyff6FJzgi2-CkMax8Slh0AZ8D_9rn-",
+                    "caption": "Queen Miral"
+                },
+                {
+                    "id": "1bxId4TUhCQmO1D78Gh2K51tb1qBNjwNx",
+                    "name": "IMG_1776523874403_17.jpg",
+                    "url": "/api/drive/image/1bxId4TUhCQmO1D78Gh2K51tb1qBNjwNx",
+                    "caption": "Some bosnia cuisine. Some slovik influence of course but a lot more eastern flavors, I was so freaking into it"
+                },
+                {
+                    "id": "13e7msPlSX6Yk9Dm4g-KjIbBx-lfI00wZ",
+                    "name": "IMG_1776523880509_18.jpg",
+                    "url": "/api/drive/image/13e7msPlSX6Yk9Dm4g-KjIbBx-lfI00wZ",
+                    "caption": "Laughed aloud at this scenery"
+                },
+                {
+                    "id": "1Yu0pXNd5fkmjOvTSIlJTV9qFk1dHx0dS",
+                    "name": "IMG_1776523885711_19.jpg",
+                    "url": "/api/drive/image/1Yu0pXNd5fkmjOvTSIlJTV9qFk1dHx0dS",
+                    "caption": "Bosnia hosted the olympics in 1984. Now you can hike around the abandoned bobsled track. And also graffiti"
+                },
+                {
+                    "id": "1oLXjTNzE8N0aj7QfvpOco3whU_53NGv2",
+                    "name": "IMG_1776523890932_20.jpg",
+                    "url": "/api/drive/image/1oLXjTNzE8N0aj7QfvpOco3whU_53NGv2",
+                    "caption": "So ofc we bought some spray paint. Look at this dragon I made are you impressed"
+                },
+                {
+                    "id": "1vAwS8-fbwgjFDseKNn6wMeDLJkH0jMMp",
+                    "name": "IMG_1776523896825_21.jpg",
+                    "url": "/api/drive/image/1vAwS8-fbwgjFDseKNn6wMeDLJkH0jMMp",
+                    "caption": "Miral hard at work"
+                },
+                {
+                    "id": "1B6WOwxPzOoHuu3jxQDnllbUN4MLuV0JI",
+                    "name": "IMG_1776523901951_22.jpg",
+                    "url": "/api/drive/image/1B6WOwxPzOoHuu3jxQDnllbUN4MLuV0JI",
+                    "caption": "Look at her masterpiece do u get it? (it says silly goose obviously)"
+                },
+                {
+                    "id": "1iKXR0wUCWHWRzwHnHLDGJU8Je3HhLK8m",
+                    "name": "IMG_1776523907112_23.jpg",
+                    "url": "/api/drive/image/1iKXR0wUCWHWRzwHnHLDGJU8Je3HhLK8m",
+                    "caption": "Popcorn popping on the apricot tree. Have we ever thought how weird that song is it doesn't make any sense"
+                },
+                {
+                    "id": "1Shc7WcjnXdSk619RTiizGXRcXNMQvqlh",
+                    "name": "IMG_1776523912865_24.jpg",
+                    "url": "/api/drive/image/1Shc7WcjnXdSk619RTiizGXRcXNMQvqlh",
+                    "caption": "Spot the Sarajevo"
+                },
+                {
+                    "id": "1D07ONI1Ngb9jPT-O-yN4gxxFFzM7w1Hk",
+                    "name": "IMG_1776523918673_25.jpg",
+                    "url": "/api/drive/image/1D07ONI1Ngb9jPT-O-yN4gxxFFzM7w1Hk",
+                    "caption": "I think miral wanted to climb the mountain but I wanted to taxi and to compromise we taxied up and walked down. Our journey down was accompanied by quite the view"
+                },
+                {
+                    "id": "1f4g5FHqg6pIPe-4Pi38-pUiQqhYBkcx6",
+                    "name": "IMG_1776523923362_26.jpg",
+                    "url": "/api/drive/image/1f4g5FHqg6pIPe-4Pi38-pUiQqhYBkcx6",
+                    "caption": "Sarajevo❤️ super random but I found my time here quite pleasant "
+                },
+                {
+                    "id": "10aS94OJFW2UbM0f8TJ47Pv_z6xWrdos1",
+                    "name": "IMG_1776751481913_0.jpg",
+                    "url": "/api/drive/image/10aS94OJFW2UbM0f8TJ47Pv_z6xWrdos1"
+                },
+                {
+                    "id": "15_6ogjQMBwo9d__FL33SjS5cRnla5G3R",
+                    "name": "IMG_1776751488427_1.jpg",
+                    "url": "/api/drive/image/15_6ogjQMBwo9d__FL33SjS5cRnla5G3R"
+                }
+            ]
         }
     },
-    "lastSynced": "2026-04-14T19:57:07.093Z"
+    "lastSynced": "2026-04-21T16:14:30.802Z"
 }
