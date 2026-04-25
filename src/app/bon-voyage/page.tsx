@@ -75,10 +75,10 @@ function isCacheStale(cachedAt: number): boolean {
 
 // Location dot position on the Mac map (percentage-based)
 // Adjust these values to move the dot on the map
-const LOCATION_DOT_X = 57; // % from left edge
-const LOCATION_DOT_Y = 50; // % from top edge
-const MOBILE_LOCATION_DOT_X = 57; // % from left edge
-const MOBILE_LOCATION_DOT_Y = 43; // % from top edge
+const LOCATION_DOT_X = 49; // % from left edge
+const LOCATION_DOT_Y = 46; // % from top edge
+const MOBILE_LOCATION_DOT_X = 49; // % from left edge
+const MOBILE_LOCATION_DOT_Y = 40; // % from top edge
 
 function FitText({
     text,
@@ -431,7 +431,7 @@ export default function BonVoyage() {
                                                 width={140}
                                                 height={140}
                                                 alt="LOADING..."
-                                                className="absolute inset-0 opacity-30"
+                                                className="absolute inset-0 w-[140px] h-[140px] object-contain opacity-30"
                                                 style={{ cursor: "pointer" }}
                                             />
                                             <Image
@@ -439,7 +439,7 @@ export default function BonVoyage() {
                                                 width={140}
                                                 height={140}
                                                 alt={currentFolder.name}
-                                                className="absolute inset-0"
+                                                className="absolute inset-0 w-[140px] h-[140px] object-contain"
                                                 style={{
                                                     cursor: "pointer",
                                                     clipPath: `inset(${((IMAGE_HEIGHT - revealPixels) / IMAGE_HEIGHT) * 100}% 0 0 0)`,
@@ -452,6 +452,7 @@ export default function BonVoyage() {
                                             width={140}
                                             height={140}
                                             alt={currentFolder.name}
+                                            className="w-[140px] h-[140px] object-contain"
                                             style={{ cursor: "pointer" }}
                                         />
                                     )}
@@ -491,21 +492,22 @@ export default function BonVoyage() {
                         )}
 
                         {/* Other folders row - at bottom */}
-                        <div className="flex gap-6">
+                        <div className="flex gap-6 overflow-x-auto py-2 px-1 max-w-[600px]">
                             {allFolders.slice(1).map((folder) => (
                                 <Link
                                     key={folder.id}
                                     href={`/bon-voyage/${folder.slug}`}
-                                    className="flex flex-col items-center cursor-pointer hover:opacity-80 gap-2 transition-opacity"
+                                    className="flex flex-col items-center cursor-pointer hover:opacity-80 gap-2 transition-opacity w-[90px] flex-shrink-0"
                                 >
                                     <Image
                                         src={folder.floppyImage}
                                         width={90}
                                         height={90}
                                         alt={folder.name}
+                                        className="w-[90px] h-[90px] object-contain"
                                         style={{ cursor: "pointer" }}
                                     />
-                                    <span className="text-sm font-pixel pt-1 text-center">
+                                    <span className="text-sm font-pixel pt-1 text-center w-[90px] truncate">
                                         {folder.name.toUpperCase()}
                                     </span>
                                 </Link>
