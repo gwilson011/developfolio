@@ -16,7 +16,7 @@ import type {
 const PIXELS_PER_TICK = 20;
 const TICK_INTERVAL_MS = 500;
 const IMAGE_HEIGHT = 350;
-const MAC_IMAGE = "/bonvoyage/mac_europe.png";
+const MAC_IMAGE = "/bonvoyage/mac_asia.png";
 const ENABLE_REVEAL_ANIMATION = false;
 
 // LocalStorage caching for instant load on return visits
@@ -75,10 +75,10 @@ function isCacheStale(cachedAt: number): boolean {
 
 // Location dot position on the Mac map (percentage-based)
 // Adjust these values to move the dot on the map
-const LOCATION_DOT_X = 36; // % from left edge
-const LOCATION_DOT_Y = 50; // % from top edge
-const MOBILE_LOCATION_DOT_X = 35; // % from left edge
-const MOBILE_LOCATION_DOT_Y = 43; // % from top edge
+const LOCATION_DOT_X = 61; // % from left edge
+const LOCATION_DOT_Y = 32; // % from top edge
+const MOBILE_LOCATION_DOT_X = 60; // % from left edge
+const MOBILE_LOCATION_DOT_Y = 28; // % from top edge
 
 function FitText({
     text,
