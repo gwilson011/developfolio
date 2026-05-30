@@ -2027,10 +2027,143 @@
             "id": "1skw5UZyhMw24zHKDDZ3TK3Em_LSxhMxE",
             "name": "Lagos",
             "slug": "lagos",
-            "floppyImage": "/bonvoyage/floppys/cyan.png",
+            "floppyImage": "/bonvoyage/floppys/pink.png",
             "createdTime": "2026-05-13T13:01:50.896Z",
             "subtitle": "Portugal",
-            "images": []
+            "images": [
+                {
+                    "id": "19hTGqzOUy-79x_QJP32CYoScGRxO1Asv",
+                    "name": "IMG_1779457571464_0.jpg",
+                    "url": "/api/drive/image/19hTGqzOUy-79x_QJP32CYoScGRxO1Asv",
+                    "caption": "I fall asleep at night thinking about the configuration of this bag"
+                },
+                {
+                    "id": "1a8iRXzE8zKxbIcfz-e4tRxXzrAtlnYAa",
+                    "name": "IMG_1779457579627_1.jpg",
+                    "url": "/api/drive/image/1a8iRXzE8zKxbIcfz-e4tRxXzrAtlnYAa",
+                    "caption": "They somehow let us into the fancy lounge, little snacks were had"
+                },
+                {
+                    "id": "15DTAgeiK_xeHdKk3JbC597JdkLpEuuMY",
+                    "name": "IMG_1779457588474_2.jpg",
+                    "url": "/api/drive/image/15DTAgeiK_xeHdKk3JbC597JdkLpEuuMY",
+                    "caption": "If youll notice libby is without her backpack... ryanair strikes again with a particularly cantankerous gate attendant"
+                },
+                {
+                    "id": "1g03c0euMJbU75_AO9ngm0VV4faSizR7O",
+                    "name": "IMG_1779457593415_3.jpg",
+                    "url": "/api/drive/image/1g03c0euMJbU75_AO9ngm0VV4faSizR7O",
+                    "caption": "Hannah's little jar of honey exploded all over her bag! The joys!"
+                },
+                {
+                    "id": "19HtVm27AnTuXxaCFej41JKwBMIf43KlU",
+                    "name": "IMG_1779457598559_4.jpg",
+                    "url": "/api/drive/image/19HtVm27AnTuXxaCFej41JKwBMIf43KlU",
+                    "caption": "San Diego? Oxnard? Dana Point? Lagos? You choose."
+                },
+                {
+                    "id": "1X7eABtaByPE0IIN-rQYdF4iLSk1bUsbT",
+                    "name": "IMG_1779457604214_5.jpg",
+                    "url": "/api/drive/image/1X7eABtaByPE0IIN-rQYdF4iLSk1bUsbT",
+                    "caption": "Another beautiful run, one of my favorites i think. Boy it was hot"
+                },
+                {
+                    "id": "1LHDlra4Ts2Ir6GA1lPUR4Pne-KFlSrG7",
+                    "name": "IMG_1779457609438_6.jpg",
+                    "url": "/api/drive/image/1LHDlra4Ts2Ir6GA1lPUR4Pne-KFlSrG7",
+                    "caption": "LOOK how freaking pretty. The bird even posed for my pic"
+                },
+                {
+                    "id": "1-Ak_uSx5AY5Ri_UfJckZQrtw9aZxovPS",
+                    "name": "IMG_1779457615809_7.jpg",
+                    "url": "/api/drive/image/1-Ak_uSx5AY5Ri_UfJckZQrtw9aZxovPS",
+                    "caption": "No one is as hardcore as we are--showing up and staying at the beach in the formidable winds while laying on our belonging so they did not fly away"
+                },
+                {
+                    "id": "1mQUmfMDy-KA339dPVs9cO8kg8hE7sRCJ",
+                    "name": "IMG_1779457621145_8.jpg",
+                    "url": "/api/drive/image/1mQUmfMDy-KA339dPVs9cO8kg8hE7sRCJ",
+                    "caption": "Libby is a on a quest to find a respectable chocolate shake in Europe"
+                },
+                {
+                    "id": "1olxCsGdxP5pcG4tsTLoNcJFF0lL8ix1R",
+                    "name": "IMG_1779457630044_9.jpg",
+                    "url": "/api/drive/image/1olxCsGdxP5pcG4tsTLoNcJFF0lL8ix1R",
+                    "caption": "The quest continues.."
+                },
+                {
+                    "id": "1wljJXxXjEOFxhM3VjSW2FMHRTiED3jsk",
+                    "name": "IMG_1779457636497_10.jpg",
+                    "url": "/api/drive/image/1wljJXxXjEOFxhM3VjSW2FMHRTiED3jsk",
+                    "caption": "When we couldn't find the drying rack so we had to improvise🤩 and then finally found it seconds after we finished hanging our belongings"
+                },
+                {
+                    "id": "1p8VBixdo80krGBci-3fYJp9nnhAxte3R",
+                    "name": "IMG_1779457645183_11.jpg",
+                    "url": "/api/drive/image/1p8VBixdo80krGBci-3fYJp9nnhAxte3R",
+                    "caption": "Despite the wind and the clouds, Hannah's left leg fell victim to the deceptively high UV. And yes it was only her left leg"
+                },
+                {
+                    "id": "13EopiEN7hUKN5Acyt-4v8dTbIh869f4j",
+                    "name": "IMG_1779457651039_12.jpg",
+                    "url": "/api/drive/image/13EopiEN7hUKN5Acyt-4v8dTbIh869f4j",
+                    "caption": "We found the study abroad bar"
+                },
+                {
+                    "id": "1524pOqMl_gzbgSved-G7t2UcoVooI9A6",
+                    "name": "IMG_1779457657677_13.jpg",
+                    "url": "/api/drive/image/1524pOqMl_gzbgSved-G7t2UcoVooI9A6",
+                    "caption": "And we obviously made the best of it"
+                },
+                {
+                    "id": "1P2OHoybtPcIhn3AIFKRHrvg-ZngDBUG4",
+                    "name": "IMG_1779457662605_14.jpg",
+                    "url": "/api/drive/image/1P2OHoybtPcIhn3AIFKRHrvg-ZngDBUG4",
+                    "caption": "And then we left and were given 1000 dollar bills. Turn out the were fake"
+                },
+                {
+                    "id": "15DQErBhZHMe5sQmdfCsI8Yz1A9HsKdPV",
+                    "name": "IMG_1779457668481_15.jpg",
+                    "url": "/api/drive/image/15DQErBhZHMe5sQmdfCsI8Yz1A9HsKdPV",
+                    "caption": "A cute alley. Guess who took this pic?"
+                },
+                {
+                    "id": "1o1PTMEk1u0ZiYiPFrEjJiSKohCtn4GXq",
+                    "name": "IMG_1779457675093_16.jpg",
+                    "url": "/api/drive/image/1o1PTMEk1u0ZiYiPFrEjJiSKohCtn4GXq",
+                    "caption": "Libby's view from the last photo. All answers are correct."
+                },
+                {
+                    "id": "1MzGo-zsy7EErxLGJJggJKbBphiGrO_v_",
+                    "name": "IMG_1779457680234_17.jpg",
+                    "url": "/api/drive/image/1MzGo-zsy7EErxLGJJggJKbBphiGrO_v_",
+                    "caption": "Finally. A proper beach day. Gold sand and blue waters. The water was freaking freezing though do not be fooled. It was perfect"
+                },
+                {
+                    "id": "1r5j07pA2jKtO4xDCshzGmtT2v_n5_ISC",
+                    "name": "IMG_1779457686172_18.jpg",
+                    "url": "/api/drive/image/1r5j07pA2jKtO4xDCshzGmtT2v_n5_ISC",
+                    "caption": "Look at all these weird rock formations. I guess depending on tide, cave passages open up in between beach coves. Unfortunately the lowest tides of the day were at extremely inconvenient times (6am, 8pm, etc)"
+                },
+                {
+                    "id": "1XunQSZK2VEi85ZT16O6KuR76ekY342wF",
+                    "name": "IMG_1779457691090_19.jpg",
+                    "url": "/api/drive/image/1XunQSZK2VEi85ZT16O6KuR76ekY342wF",
+                    "caption": "Is sumana screaming at me or is she just dancing and singing? Who knows"
+                },
+                {
+                    "id": "1mZiCLrQ7CPV0x3WMniyr-q9aX3i8Tu_o",
+                    "name": "IMG_1779457696658_20.jpg",
+                    "url": "/api/drive/image/1mZiCLrQ7CPV0x3WMniyr-q9aX3i8Tu_o",
+                    "caption": "Jump scare!"
+                },
+                {
+                    "id": "1seBPeW0_SOBa6QrQsIbOFluOOhnWWCsw",
+                    "name": "IMG_1779457702425_21.jpg",
+                    "url": "/api/drive/image/1seBPeW0_SOBa6QrQsIbOFluOOhnWWCsw",
+                    "caption": "Sumana never quite figured out how to unlock the door... I don't know why we kept giving her the key"
+                }
+            ]
         },
         "1-WDlnUzJobsr0cBwhthRTLDInePeoqky": {
             "id": "1-WDlnUzJobsr0cBwhthRTLDInePeoqky",
@@ -2242,7 +2375,518 @@
                     "url": "/api/drive/image/1CbQRXiWluqWNF7yjH9vKGSH4ZXhmgQ9O"
                 }
             ]
+        },
+        "1iY4W2XILav65Wej5cDIb_G-OwdASC85b": {
+            "id": "1iY4W2XILav65Wej5cDIb_G-OwdASC85b",
+            "name": "Tokyo",
+            "slug": "tokyo",
+            "floppyImage": "/bonvoyage/floppys/purple.png",
+            "createdTime": "2026-05-22T13:54:47.849Z",
+            "subtitle": "Japan",
+            "images": [
+                {
+                    "id": "1qgQ4kbyJjcpR8DXKLYYBejoTJMbuEAnT",
+                    "name": "IMG_1779976743700_0.jpg",
+                    "url": "/api/drive/image/1qgQ4kbyJjcpR8DXKLYYBejoTJMbuEAnT"
+                },
+                {
+                    "id": "1Cip20O2BFdiI6eSYeDb4B5TCiHRHxcV5",
+                    "name": "IMG_1779976750466_1.jpg",
+                    "url": "/api/drive/image/1Cip20O2BFdiI6eSYeDb4B5TCiHRHxcV5"
+                },
+                {
+                    "id": "1rCkmPkZGjffrQ6iDrZbyJqOB_32XmZum",
+                    "name": "IMG_1779976755858_2.jpg",
+                    "url": "/api/drive/image/1rCkmPkZGjffrQ6iDrZbyJqOB_32XmZum"
+                },
+                {
+                    "id": "1myRfRO5XS3xFPrecPd-FmFMKCBLIFkdO",
+                    "name": "IMG_1779976760569_3.jpg",
+                    "url": "/api/drive/image/1myRfRO5XS3xFPrecPd-FmFMKCBLIFkdO"
+                },
+                {
+                    "id": "1cqacMoOIQf-ih7SeJpphOnG-s4TJZiOb",
+                    "name": "IMG_1779976765573_4.jpg",
+                    "url": "/api/drive/image/1cqacMoOIQf-ih7SeJpphOnG-s4TJZiOb"
+                },
+                {
+                    "id": "1jHYO036dd4uFSDcBdYBuA42oGyHuTUPD",
+                    "name": "IMG_1779976771986_5.jpg",
+                    "url": "/api/drive/image/1jHYO036dd4uFSDcBdYBuA42oGyHuTUPD"
+                },
+                {
+                    "id": "1QvbXGQRCbr298UwfBUBqNVVaM9aDVEMw",
+                    "name": "IMG_1779976777824_6.jpg",
+                    "url": "/api/drive/image/1QvbXGQRCbr298UwfBUBqNVVaM9aDVEMw"
+                },
+                {
+                    "id": "1JPfhqDEugjOHdhNcvKwDws-679ZGYmYD",
+                    "name": "IMG_1779976783814_7.jpg",
+                    "url": "/api/drive/image/1JPfhqDEugjOHdhNcvKwDws-679ZGYmYD"
+                },
+                {
+                    "id": "1Z9C_wB263MFjeFkK6CEc8CmGOD8IR3Nr",
+                    "name": "IMG_1779976790823_8.jpg",
+                    "url": "/api/drive/image/1Z9C_wB263MFjeFkK6CEc8CmGOD8IR3Nr"
+                },
+                {
+                    "id": "19BR0RLpbNs96pjxTHJPBumSky9_HwhQM",
+                    "name": "IMG_1779976795731_9.jpg",
+                    "url": "/api/drive/image/19BR0RLpbNs96pjxTHJPBumSky9_HwhQM"
+                },
+                {
+                    "id": "1x7NMkRQDThjicAr2erhRupGBHwAxpz7q",
+                    "name": "IMG_1779976801090_10.jpg",
+                    "url": "/api/drive/image/1x7NMkRQDThjicAr2erhRupGBHwAxpz7q"
+                },
+                {
+                    "id": "1Q2wOmT0nVw1osEjia00MeNOqCGAVLOIG",
+                    "name": "IMG_1779976805992_11.jpg",
+                    "url": "/api/drive/image/1Q2wOmT0nVw1osEjia00MeNOqCGAVLOIG"
+                },
+                {
+                    "id": "1iU63PJRM9YoueYHdDlYwtzreVFJVaMtt",
+                    "name": "IMG_1779976810991_12.jpg",
+                    "url": "/api/drive/image/1iU63PJRM9YoueYHdDlYwtzreVFJVaMtt"
+                },
+                {
+                    "id": "1Fr2bpTcFpkCQUQmPf7w3uk37l88Vojag",
+                    "name": "IMG_1779976816150_13.jpg",
+                    "url": "/api/drive/image/1Fr2bpTcFpkCQUQmPf7w3uk37l88Vojag"
+                },
+                {
+                    "id": "1ANep3CYxJ-13uYi2VUYlu-dAvPwbZqhC",
+                    "name": "IMG_1779976822698_14.jpg",
+                    "url": "/api/drive/image/1ANep3CYxJ-13uYi2VUYlu-dAvPwbZqhC"
+                },
+                {
+                    "id": "1HegVFCrdb-HE4JQtQJXJzF08QrdwO_iG",
+                    "name": "IMG_1779976827493_15.jpg",
+                    "url": "/api/drive/image/1HegVFCrdb-HE4JQtQJXJzF08QrdwO_iG"
+                },
+                {
+                    "id": "16Kq0FZWR8UAL998LxOzov25NSu2HYgqu",
+                    "name": "IMG_1779976832558_16.jpg",
+                    "url": "/api/drive/image/16Kq0FZWR8UAL998LxOzov25NSu2HYgqu"
+                },
+                {
+                    "id": "1TTCkE1YiLq2XNCzaRi78sjke9zHoLXWI",
+                    "name": "IMG_1779976837381_17.jpg",
+                    "url": "/api/drive/image/1TTCkE1YiLq2XNCzaRi78sjke9zHoLXWI"
+                },
+                {
+                    "id": "1qN0KwjeUOKrkqg3ZCu71YGol_hs_UV7l",
+                    "name": "IMG_1779976842125_18.jpg",
+                    "url": "/api/drive/image/1qN0KwjeUOKrkqg3ZCu71YGol_hs_UV7l"
+                },
+                {
+                    "id": "1B0xRJHhrBRuAWj_pSIvig8jo0cUVDA7h",
+                    "name": "IMG_1779976846933_19.jpg",
+                    "url": "/api/drive/image/1B0xRJHhrBRuAWj_pSIvig8jo0cUVDA7h"
+                },
+                {
+                    "id": "1piibowQavkpZIYKMWvifeSRaP1u7_2e9",
+                    "name": "IMG_1779976851990_20.jpg",
+                    "url": "/api/drive/image/1piibowQavkpZIYKMWvifeSRaP1u7_2e9"
+                },
+                {
+                    "id": "1_p8-CTH5lUpGdZ3WBTllSereWy4OdO7I",
+                    "name": "IMG_1779976861491_21.jpg",
+                    "url": "/api/drive/image/1_p8-CTH5lUpGdZ3WBTllSereWy4OdO7I"
+                },
+                {
+                    "id": "1b-DVbuLrKq4wnPTKwzCb9R0mKP-rQjYD",
+                    "name": "IMG_1779976866175_22.jpg",
+                    "url": "/api/drive/image/1b-DVbuLrKq4wnPTKwzCb9R0mKP-rQjYD"
+                },
+                {
+                    "id": "1_jrJ9mletLBqSbftQkMxbM2f1UXjPcPA",
+                    "name": "IMG_1779976870742_23.jpg",
+                    "url": "/api/drive/image/1_jrJ9mletLBqSbftQkMxbM2f1UXjPcPA"
+                },
+                {
+                    "id": "1ML2bQoodJ_5qxCcOm-ThGIoyxq59CTCs",
+                    "name": "IMG_1779976875508_24.jpg",
+                    "url": "/api/drive/image/1ML2bQoodJ_5qxCcOm-ThGIoyxq59CTCs"
+                },
+                {
+                    "id": "1mSDAbApvxW1KXucRhjQkgL_oSuGkt2YO",
+                    "name": "IMG_1779976880226_25.jpg",
+                    "url": "/api/drive/image/1mSDAbApvxW1KXucRhjQkgL_oSuGkt2YO"
+                },
+                {
+                    "id": "1QajaYI-J-9emh6QPslD7LyQu1QjB2kfm",
+                    "name": "IMG_1779976885223_26.jpg",
+                    "url": "/api/drive/image/1QajaYI-J-9emh6QPslD7LyQu1QjB2kfm"
+                },
+                {
+                    "id": "1H27e5v8_HhYsaf2oqQ_DuPzwWVKLxzjf",
+                    "name": "IMG_1779976890162_27.jpg",
+                    "url": "/api/drive/image/1H27e5v8_HhYsaf2oqQ_DuPzwWVKLxzjf"
+                },
+                {
+                    "id": "1Ty856hFoNH51z8PnfbIJjFEcm8JuyiLg",
+                    "name": "IMG_1779976894565_28.jpg",
+                    "url": "/api/drive/image/1Ty856hFoNH51z8PnfbIJjFEcm8JuyiLg"
+                },
+                {
+                    "id": "1MZnX1-no0iqkLDXzMBpm64gUosxkpgku",
+                    "name": "IMG_1779976899270_29.jpg",
+                    "url": "/api/drive/image/1MZnX1-no0iqkLDXzMBpm64gUosxkpgku"
+                },
+                {
+                    "id": "1lS_ockbi1dBts9rVPHTxz4aooiCHYSX2",
+                    "name": "IMG_1779976903660_30.jpg",
+                    "url": "/api/drive/image/1lS_ockbi1dBts9rVPHTxz4aooiCHYSX2"
+                },
+                {
+                    "id": "1j17qvtRr2cQCC09-pKAVNjJ0QvQcHoF0",
+                    "name": "IMG_1779976907813_31.jpg",
+                    "url": "/api/drive/image/1j17qvtRr2cQCC09-pKAVNjJ0QvQcHoF0"
+                },
+                {
+                    "id": "1k1QO1cUphGZKw32PHkur-c9C9gvgr4fN",
+                    "name": "IMG_1779976912717_32.jpg",
+                    "url": "/api/drive/image/1k1QO1cUphGZKw32PHkur-c9C9gvgr4fN"
+                },
+                {
+                    "id": "1iTYru04RsrlVxeEJ--2lEwqldbEsCttE",
+                    "name": "IMG_1779976917589_33.jpg",
+                    "url": "/api/drive/image/1iTYru04RsrlVxeEJ--2lEwqldbEsCttE"
+                },
+                {
+                    "id": "1Ref7r9TEuh_3Zwn37JaHdayMrnJajaEr",
+                    "name": "IMG_1779976922122_34.jpg",
+                    "url": "/api/drive/image/1Ref7r9TEuh_3Zwn37JaHdayMrnJajaEr"
+                },
+                {
+                    "id": "1JNNOozlp_qj7rM5dzqSADVwtyLstzOkK",
+                    "name": "IMG_1779976927225_35.jpg",
+                    "url": "/api/drive/image/1JNNOozlp_qj7rM5dzqSADVwtyLstzOkK"
+                },
+                {
+                    "id": "1O94qe4-MAEqdyLhLMFj_jBTsjAtDWVkM",
+                    "name": "IMG_1779976932604_36.jpg",
+                    "url": "/api/drive/image/1O94qe4-MAEqdyLhLMFj_jBTsjAtDWVkM"
+                },
+                {
+                    "id": "1kBWBtziQE6kbVWkwI3kYxwtVq1ydMjIw",
+                    "name": "IMG_1779976937262_37.jpg",
+                    "url": "/api/drive/image/1kBWBtziQE6kbVWkwI3kYxwtVq1ydMjIw"
+                },
+                {
+                    "id": "1CV7rSkE4C-Rj6gwoIIXs9w7Q7OFaJmvy",
+                    "name": "IMG_1779976942076_38.jpg",
+                    "url": "/api/drive/image/1CV7rSkE4C-Rj6gwoIIXs9w7Q7OFaJmvy"
+                },
+                {
+                    "id": "1O6gH3FefpBek9dNcQ97pfHAvF4iNRKnH",
+                    "name": "IMG_1779976946584_39.jpg",
+                    "url": "/api/drive/image/1O6gH3FefpBek9dNcQ97pfHAvF4iNRKnH"
+                },
+                {
+                    "id": "1N2RjGJRiNy-_BSZgSRqrKFE3hgcRdojo",
+                    "name": "IMG_1779976950876_40.jpg",
+                    "url": "/api/drive/image/1N2RjGJRiNy-_BSZgSRqrKFE3hgcRdojo"
+                },
+                {
+                    "id": "1TqTTwITyAWwaStD4fWHAGbIr9d_i85j2",
+                    "name": "IMG_1779976955751_41.jpg",
+                    "url": "/api/drive/image/1TqTTwITyAWwaStD4fWHAGbIr9d_i85j2"
+                },
+                {
+                    "id": "1Rq2ubbVmbI33sUf0fUw1kcKyI_f-PVHk",
+                    "name": "IMG_1779976960942_42.jpg",
+                    "url": "/api/drive/image/1Rq2ubbVmbI33sUf0fUw1kcKyI_f-PVHk"
+                },
+                {
+                    "id": "14nfv5j2A1NcL-d0RKoHfVA5MCxUUxRcF",
+                    "name": "IMG_1779976965454_43.jpg",
+                    "url": "/api/drive/image/14nfv5j2A1NcL-d0RKoHfVA5MCxUUxRcF"
+                },
+                {
+                    "id": "1T-q7CQOmcsP70hmGXMAWLe_QR8HD9g-I",
+                    "name": "IMG_1779976969648_44.jpg",
+                    "url": "/api/drive/image/1T-q7CQOmcsP70hmGXMAWLe_QR8HD9g-I"
+                }
+            ]
+        },
+        "11YTDysH_iaMUNuR-C1yLzN16nuJV6eW0": {
+            "id": "11YTDysH_iaMUNuR-C1yLzN16nuJV6eW0",
+            "name": "Madrid",
+            "slug": "madrid",
+            "floppyImage": "/bonvoyage/floppys/yellow.png",
+            "createdTime": "2026-05-22T13:51:05.787Z",
+            "subtitle": "Spain",
+            "images": [
+                {
+                    "id": "13dT5qboh46gdrIoJ90POVZJVFgz8gY7c",
+                    "name": "IMG_1779457871631_0.jpg",
+                    "url": "/api/drive/image/13dT5qboh46gdrIoJ90POVZJVFgz8gY7c",
+                    "caption": "Bullfighting!! Is actually really horrible to watch and quite questionable ethically which is a lot coming from me the animal hater but lets just say Julie and Libby were unpleasantly suprised with how this events end..."
+                },
+                {
+                    "id": "1TTVjUHLgSRBr3H9XOORvGMR8wsTmhalO",
+                    "name": "IMG_1779457877839_1.jpg",
+                    "url": "/api/drive/image/1TTVjUHLgSRBr3H9XOORvGMR8wsTmhalO",
+                    "caption": "The pokemon felt so real here in Spain"
+                },
+                {
+                    "id": "12wLrAEt3CQ0cJnfPFny8wCzGRXSZ-i6M",
+                    "name": "IMG_1779457883743_2.jpg",
+                    "url": "/api/drive/image/12wLrAEt3CQ0cJnfPFny8wCzGRXSZ-i6M",
+                    "caption": "Mom literally shutting the Zara down...... last customer fr"
+                },
+                {
+                    "id": "1sMDP-JDFPCjLoCeaNfMB2ghO7_-QyvJ0",
+                    "name": "IMG_1779457889742_3.jpg",
+                    "url": "/api/drive/image/1sMDP-JDFPCjLoCeaNfMB2ghO7_-QyvJ0",
+                    "caption": "Platha mayor filled with hellllllaaaa heads. Our piso has a spectacular view of it all"
+                },
+                {
+                    "id": "1FzLxm34saUBHR1lgZxlCkX6XDngP_EyG",
+                    "name": "IMG_1779457896296_4.jpg",
+                    "url": "/api/drive/image/1FzLxm34saUBHR1lgZxlCkX6XDngP_EyG",
+                    "caption": "Matt + Julie the ones who make it all happen"
+                },
+                {
+                    "id": "12eIBRt4p-JGlyFNuQJNCRQ3lzHQkZJc6",
+                    "name": "IMG_1779457901729_5.jpg",
+                    "url": "/api/drive/image/12eIBRt4p-JGlyFNuQJNCRQ3lzHQkZJc6",
+                    "caption": "Libby in the sweat splashzone at the flamenco show"
+                },
+                {
+                    "id": "1sznlyjviVMP6lL-XrK4xP23VyIGx-A-y",
+                    "name": "IMG_1779457906943_6.jpg",
+                    "url": "/api/drive/image/1sznlyjviVMP6lL-XrK4xP23VyIGx-A-y",
+                    "caption": "I'm fairly certain they were all talking about Matt's butt in this picture. Julie thought it was pretty funny I guess"
+                },
+                {
+                    "id": "1YhBNKQZkyz4sQXC_jPBTBUwJKjwJUCwS",
+                    "name": "IMG_1779457913498_7.jpg",
+                    "url": "/api/drive/image/1YhBNKQZkyz4sQXC_jPBTBUwJKjwJUCwS",
+                    "caption": "There are lot of haters out there of the Spanish chocolate con churros but it's a must"
+                },
+                {
+                    "id": "1sTL00gL9bZhM933ixTqG4n6RrOw9f69x",
+                    "name": "IMG_1779457919179_8.jpg",
+                    "url": "/api/drive/image/1sTL00gL9bZhM933ixTqG4n6RrOw9f69x",
+                    "caption": "They really are pretty good, you just can't compare them to like disneyland churros. They like shouldn't even be called the same thing they are different. But still good."
+                },
+                {
+                    "id": "1zbnujdFhIcVogvccWXTYO8GHOuHLOvG6",
+                    "name": "IMG_1779457924930_9.jpg",
+                    "url": "/api/drive/image/1zbnujdFhIcVogvccWXTYO8GHOuHLOvG6",
+                    "caption": "Guitara"
+                },
+                {
+                    "id": "1JLbFnuN7pVxEOLIwxppRcR5xbByBQYpu",
+                    "name": "IMG_1779457931513_10.jpg",
+                    "url": "/api/drive/image/1JLbFnuN7pVxEOLIwxppRcR5xbByBQYpu",
+                    "caption": "This was my attempt at taking a picture of bosche's Garden of Earthly Delight's. While unsuccessful in product, I am pleased to report I was not caught. So that's something."
+                },
+                {
+                    "id": "1JhrUNcn0TQubxjN2B6fKwtu1czDQ9FTt",
+                    "name": "IMG_1779457938508_11.jpg",
+                    "url": "/api/drive/image/1JhrUNcn0TQubxjN2B6fKwtu1czDQ9FTt",
+                    "caption": "Pouring over the maps and the audioguides of the world's best art museum (I am unbiased of course)"
+                },
+                {
+                    "id": "1j_nc7I1Q62EDYByq3oKNipOiAXPHeEVq",
+                    "name": "IMG_1779457943686_12.jpg",
+                    "url": "/api/drive/image/1j_nc7I1Q62EDYByq3oKNipOiAXPHeEVq",
+                    "caption": "Okay actually I had never seen this guy before. By the Prado there is this clock tower where all these little guys come out and emote and look at each other with a little jingle. So cute and fun... but it literally lasted 5 mins. Like 5 whole minutes of ringing bells and mechanical whirring. And apparently this happens like several times a day. I think i would die if i lived anywhere near this. Super cute and cool though"
+                },
+                {
+                    "id": "1GgoY_Jt9Om5LnA72HP7AA5eGCOBQPHNp",
+                    "name": "IMG_1779457949554_13.jpg",
+                    "url": "/api/drive/image/1GgoY_Jt9Om5LnA72HP7AA5eGCOBQPHNp",
+                    "caption": "Shenanigans"
+                },
+                {
+                    "id": "1jGBjBAVTsk3UMBUBtGKriimS3S3yXi7-",
+                    "name": "IMG_1779457955807_14.jpg",
+                    "url": "/api/drive/image/1jGBjBAVTsk3UMBUBtGKriimS3S3yXi7-",
+                    "caption": "The lovely lovely rose garden in Retiro. Ugh spain is the best you guys"
+                },
+                {
+                    "id": "1_cysRH6AHKZ0Gh5qI_qkbF1D7GmLTRwT",
+                    "name": "IMG_1779457961737_15.jpg",
+                    "url": "/api/drive/image/1_cysRH6AHKZ0Gh5qI_qkbF1D7GmLTRwT",
+                    "caption": "More shenanigans"
+                },
+                {
+                    "id": "1sEpJv7aqF5TC6CBStNrm1xsvjs9FDtky",
+                    "name": "IMG_1779457966358_16.jpg",
+                    "url": "/api/drive/image/1sEpJv7aqF5TC6CBStNrm1xsvjs9FDtky",
+                    "caption": "Oh look even more shenanigans"
+                },
+                {
+                    "id": "1s2SB4EV4YWpMBByo9pU0DsGCPmf1E01K",
+                    "name": "IMG_1779457971076_17.jpg",
+                    "url": "/api/drive/image/1s2SB4EV4YWpMBByo9pU0DsGCPmf1E01K",
+                    "caption": "This is so my plaza"
+                },
+                {
+                    "id": "1-0ifnYQJVnp1nDrHsX7GQiRK2yYrKl8k",
+                    "name": "IMG_1779457977719_18.jpg",
+                    "url": "/api/drive/image/1-0ifnYQJVnp1nDrHsX7GQiRK2yYrKl8k",
+                    "caption": "Found a super cool and cute statue!!"
+                },
+                {
+                    "id": "1gEwVdpCoaV3r8H5uok05WQx4zMnqIEtu",
+                    "name": "IMG_1779457982870_19.jpg",
+                    "url": "/api/drive/image/1gEwVdpCoaV3r8H5uok05WQx4zMnqIEtu",
+                    "caption": "And also this weird man whispering into the wall (dw this is just charlie btw)"
+                },
+                {
+                    "id": "1gOJJKRlob_KDYdkLVXyVvgetztVyg8By",
+                    "name": "IMG_1779457988098_20.jpg",
+                    "url": "/api/drive/image/1gOJJKRlob_KDYdkLVXyVvgetztVyg8By",
+                    "caption": "So much awe! And wonder!!"
+                },
+                {
+                    "id": "1txg2JqG7BorfFoNanp02psVHicjrSAcD",
+                    "name": "IMG_1779457992874_21.jpg",
+                    "url": "/api/drive/image/1txg2JqG7BorfFoNanp02psVHicjrSAcD",
+                    "caption": "Libby said that before photography was invented, no one actually new what horses looked like in action because it happened too quickly for the human eye so the war paintings always looked a little derpy. So interesting"
+                },
+                {
+                    "id": "1I9DI-fAMivayuwJoQQSp6YEJeIz9R0_n",
+                    "name": "IMG_1779457998346_22.jpg",
+                    "url": "/api/drive/image/1I9DI-fAMivayuwJoQQSp6YEJeIz9R0_n",
+                    "caption": "VALLE DE LOS CAIDOS speedrun edition. We had like 15 mins to see it before we had to book it back to our train."
+                },
+                {
+                    "id": "1HmU7vaKz8K9reLNWzDIGY9CrVDt6fp5a",
+                    "name": "IMG_1779458003819_23.jpg",
+                    "url": "/api/drive/image/1HmU7vaKz8K9reLNWzDIGY9CrVDt6fp5a",
+                    "caption": "What a freaking crew (I think i forgot to mention the crew: the wilson fam + charlie's 3 roommates)"
+                },
+                {
+                    "id": "1kcO6o6pZVvsXKK5AF0IARF1-yzwbdIPE",
+                    "name": "IMG_1779458009025_24.jpg",
+                    "url": "/api/drive/image/1kcO6o6pZVvsXKK5AF0IARF1-yzwbdIPE",
+                    "caption": "Smiles before experiencing the bullfight!"
+                },
+                {
+                    "id": "1poFlNTxOpHE8TZFd2zEXskpOEt2bEo36",
+                    "name": "IMG_1779458014697_25.jpg",
+                    "url": "/api/drive/image/1poFlNTxOpHE8TZFd2zEXskpOEt2bEo36",
+                    "caption": "Bike tour. With E-bikes obviously, do you even know julie?"
+                },
+                {
+                    "id": "1k0bfg4GsJxLxHDkXbYQOFZcHXViQJAwS",
+                    "name": "IMG_1779458020100_26.jpg",
+                    "url": "/api/drive/image/1k0bfg4GsJxLxHDkXbYQOFZcHXViQJAwS",
+                    "caption": "Your postcard from Madrid. With love, The Wilson's"
+                }
+            ]
+        },
+        "1n70MXIDL55tNBeTDhEOPRtKQVQGSsK13": {
+            "id": "1n70MXIDL55tNBeTDhEOPRtKQVQGSsK13",
+            "name": "Kyoto",
+            "slug": "kyoto",
+            "floppyImage": "/bonvoyage/floppys/navy.png",
+            "createdTime": "2026-05-28T14:09:04.255Z",
+            "subtitle": "Japan",
+            "images": []
+        },
+        "1gFvoUPJw2j_-lSALjhaD9LluYgc6I9-L": {
+            "id": "1gFvoUPJw2j_-lSALjhaD9LluYgc6I9-L",
+            "name": "Hakone",
+            "slug": "hakone",
+            "floppyImage": "/bonvoyage/floppys/black.png",
+            "createdTime": "2026-05-28T14:05:23.835Z",
+            "subtitle": "Japan",
+            "images": [
+                {
+                    "id": "1ryAufS3MP8NS4xZqdNqXrddqUbk3wtwK",
+                    "name": "IMG_1779977127184_0.jpg",
+                    "url": "/api/drive/image/1ryAufS3MP8NS4xZqdNqXrddqUbk3wtwK"
+                },
+                {
+                    "id": "1bgT0R5CPMmLJrkcDNqchKXWODV2gerBR",
+                    "name": "IMG_1779977132653_1.jpg",
+                    "url": "/api/drive/image/1bgT0R5CPMmLJrkcDNqchKXWODV2gerBR"
+                },
+                {
+                    "id": "1p_vGqgTfjv7TzTg2x83FYHcQHZUmeCya",
+                    "name": "IMG_1779977137788_2.jpg",
+                    "url": "/api/drive/image/1p_vGqgTfjv7TzTg2x83FYHcQHZUmeCya"
+                },
+                {
+                    "id": "10-o5k5X6ZCGRxNpxP7ZBtoK5aAA2hZkb",
+                    "name": "IMG_1779977142411_3.jpg",
+                    "url": "/api/drive/image/10-o5k5X6ZCGRxNpxP7ZBtoK5aAA2hZkb"
+                },
+                {
+                    "id": "1WzMYgM9Nkafy1qpkZ59hHhiIoZh7Xt_i",
+                    "name": "IMG_1779977146764_4.jpg",
+                    "url": "/api/drive/image/1WzMYgM9Nkafy1qpkZ59hHhiIoZh7Xt_i"
+                },
+                {
+                    "id": "1INE8OKk8qkiG_0gJuo-k09kumz1wnZoS",
+                    "name": "IMG_1779977151734_5.jpg",
+                    "url": "/api/drive/image/1INE8OKk8qkiG_0gJuo-k09kumz1wnZoS"
+                },
+                {
+                    "id": "1fiBHfVJLmLtnBXE84TCUMZ9HijfdXkV9",
+                    "name": "IMG_1779977156095_6.jpg",
+                    "url": "/api/drive/image/1fiBHfVJLmLtnBXE84TCUMZ9HijfdXkV9"
+                },
+                {
+                    "id": "1R65yXElx4nGSL54dxwTzEX_QACAXPcFi",
+                    "name": "IMG_1779977160933_7.jpg",
+                    "url": "/api/drive/image/1R65yXElx4nGSL54dxwTzEX_QACAXPcFi"
+                },
+                {
+                    "id": "1YZEcezfLeU2fPCEPqdaOyaoJEe1mckRj",
+                    "name": "IMG_1779977165252_8.jpg",
+                    "url": "/api/drive/image/1YZEcezfLeU2fPCEPqdaOyaoJEe1mckRj"
+                },
+                {
+                    "id": "16iANQau7Luz4PXrgE3oO-yGLFk5xfn6N",
+                    "name": "IMG_1779977169642_9.jpg",
+                    "url": "/api/drive/image/16iANQau7Luz4PXrgE3oO-yGLFk5xfn6N"
+                },
+                {
+                    "id": "1qDESu08f5DrkjcTtQEYHTf9vfNAy5pKs",
+                    "name": "IMG_1779977220630_0.jpg",
+                    "url": "/api/drive/image/1qDESu08f5DrkjcTtQEYHTf9vfNAy5pKs"
+                },
+                {
+                    "id": "1Kra9V8_ckSJBo5MxU-spTcAmlewI4oss",
+                    "name": "IMG_1779977225994_1.jpg",
+                    "url": "/api/drive/image/1Kra9V8_ckSJBo5MxU-spTcAmlewI4oss"
+                },
+                {
+                    "id": "1kNoXQGc-kA8igFO1zXJ7QQ8soFRszjBh",
+                    "name": "IMG_1779977230331_2.jpg",
+                    "url": "/api/drive/image/1kNoXQGc-kA8igFO1zXJ7QQ8soFRszjBh"
+                },
+                {
+                    "id": "1PvzB7_wNOEfLoB8_F329iftfEMnT2uR2",
+                    "name": "IMG_1779977235368_3.jpg",
+                    "url": "/api/drive/image/1PvzB7_wNOEfLoB8_F329iftfEMnT2uR2"
+                },
+                {
+                    "id": "1TaKFc7-_vmV7OOfqzyySGaXt4J3o3W1x",
+                    "name": "IMG_1779977240018_4.jpg",
+                    "url": "/api/drive/image/1TaKFc7-_vmV7OOfqzyySGaXt4J3o3W1x"
+                },
+                {
+                    "id": "1j3z2p6FURACSx1W5jH4FO_OXGXz_bZ0q",
+                    "name": "IMG_1779977244426_5.jpg",
+                    "url": "/api/drive/image/1j3z2p6FURACSx1W5jH4FO_OXGXz_bZ0q"
+                },
+                {
+                    "id": "1sS_J5qpc6RRgLR8uoUluPgKiKbe9pnzQ",
+                    "name": "IMG_1779977248926_6.jpg",
+                    "url": "/api/drive/image/1sS_J5qpc6RRgLR8uoUluPgKiKbe9pnzQ"
+                }
+            ]
         }
     },
-    "lastSynced": "2026-05-15T22:23:14.098Z"
+    "lastSynced": "2026-05-30T12:23:43.188Z"
 }
