@@ -278,6 +278,7 @@ export default function BonVoyage() {
                             alt="Computer"
                             className="w-full h-auto"
                         />
+                        {/* 
                         <div
                             className="absolute w-1 h-1 bg-red-500 animate-pulse shadow-[0_0_6px_2px_rgba(239,68,68,0.6)]"
                             style={{
@@ -285,6 +286,7 @@ export default function BonVoyage() {
                                 top: `${MOBILE_LOCATION_DOT_Y}%`,
                             }}
                         />
+                        */}
                     </div>
 
                     {/* Featured folder floppy + text */}
@@ -404,6 +406,7 @@ export default function BonVoyage() {
                             height={384}
                             alt="Computer"
                         />
+                        {/* 
                         <div
                             className="absolute w-1 h-1 bg-red-500 animate-pulse shadow-[0_0_8px_3px_rgba(239,68,68,0.6)]"
                             style={{
@@ -411,6 +414,7 @@ export default function BonVoyage() {
                                 top: `${LOCATION_DOT_Y}%`,
                             }}
                         />
+                        */}
                     </div>
 
                     {/* Right: Featured floppy + text on top, smaller floppies below */}
