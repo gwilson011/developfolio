@@ -16,7 +16,7 @@ import type {
 const PIXELS_PER_TICK = 20;
 const TICK_INTERVAL_MS = 500;
 const IMAGE_HEIGHT = 350;
-const MAC_IMAGE = "/bonvoyage/mac_asia.png";
+const MAC_IMAGE = "/bonvoyage/mac_complete.png";
 const ENABLE_REVEAL_ANIMATION = false;
 
 // LocalStorage caching for instant load on return visits
