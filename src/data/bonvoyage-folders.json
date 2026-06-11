@@ -276,7 +276,7 @@
             "id": "1AiNk7d8U6NRDkd2GUuWYFvZHWQfEDcO_",
             "name": "Ljubljana",
             "slug": "ljubljana",
-            "floppyImage": "/bonvoyage/floppys/purple.png",
+            "floppyImage": "/bonvoyage/floppys/red.png",
             "createdTime": "2026-04-07T19:18:26.240Z",
             "subtitle": "Slovenia",
             "images": [
@@ -406,7 +406,7 @@
             "id": "1mBOXftIR76QlNbhGgsNcGRM1Kqyn0O5A",
             "name": "Kloster",
             "slug": "kloster",
-            "floppyImage": "/bonvoyage/floppys/red.png",
+            "floppyImage": "/bonvoyage/floppys/purple.png",
             "createdTime": "2026-04-07T19:16:12.890Z",
             "subtitle": "Wernberg, Austria",
             "images": [
@@ -777,7 +777,7 @@
             "id": "1rdpIUIhZbJ9eZXtF4ifpaTO6LQIgn-lk",
             "name": "Athens",
             "slug": "athens",
-            "floppyImage": "/bonvoyage/floppys/pink.png",
+            "floppyImage": "/bonvoyage/floppys/orange.png",
             "createdTime": "2026-04-21T06:10:12.936Z",
             "subtitle": "Greece",
             "images": [
@@ -1019,7 +1019,7 @@
             "id": "1XxTFypr9xep456S5etJ3Qng9NzZJlsGq",
             "name": "Sarajevo",
             "slug": "sarajevo",
-            "floppyImage": "/bonvoyage/floppys/orange.png",
+            "floppyImage": "/bonvoyage/floppys/pink.png",
             "createdTime": "2026-04-15T18:12:24.080Z",
             "subtitle": "Bosnia",
             "images": [
@@ -1648,7 +1648,7 @@
             "id": "1M7XBaoKrSOL8sn4AuhqZj0qTzGO3K5nn",
             "name": "Naples",
             "slug": "naples",
-            "floppyImage": "/bonvoyage/floppys/purple.png",
+            "floppyImage": "/bonvoyage/floppys/cyan.png",
             "createdTime": "2026-05-03T21:28:52.984Z",
             "subtitle": "Italy",
             "images": [
@@ -2027,7 +2027,7 @@
             "id": "1skw5UZyhMw24zHKDDZ3TK3Em_LSxhMxE",
             "name": "Lagos",
             "slug": "lagos",
-            "floppyImage": "/bonvoyage/floppys/pink.png",
+            "floppyImage": "/bonvoyage/floppys/red.png",
             "createdTime": "2026-05-13T13:01:50.896Z",
             "subtitle": "Portugal",
             "images": [
@@ -2169,7 +2169,7 @@
             "id": "1-WDlnUzJobsr0cBwhthRTLDInePeoqky",
             "name": "Porto",
             "slug": "porto",
-            "floppyImage": "/bonvoyage/floppys/red.png",
+            "floppyImage": "/bonvoyage/floppys/purple.png",
             "createdTime": "2026-05-13T12:51:25.330Z",
             "subtitle": "Portugal",
             "images": [
@@ -2380,7 +2380,7 @@
             "id": "1iY4W2XILav65Wej5cDIb_G-OwdASC85b",
             "name": "Tokyo",
             "slug": "tokyo",
-            "floppyImage": "/bonvoyage/floppys/purple.png",
+            "floppyImage": "/bonvoyage/floppys/lightpink.png",
             "createdTime": "2026-05-22T13:54:47.849Z",
             "subtitle": "Japan",
             "images": [
@@ -2615,7 +2615,7 @@
             "id": "11YTDysH_iaMUNuR-C1yLzN16nuJV6eW0",
             "name": "Madrid",
             "slug": "madrid",
-            "floppyImage": "/bonvoyage/floppys/yellow.png",
+            "floppyImage": "/bonvoyage/floppys/navy.png",
             "createdTime": "2026-05-22T13:51:05.787Z",
             "subtitle": "Spain",
             "images": [
@@ -2787,7 +2787,7 @@
             "id": "1n70MXIDL55tNBeTDhEOPRtKQVQGSsK13",
             "name": "Kyoto",
             "slug": "kyoto",
-            "floppyImage": "/bonvoyage/floppys/navy.png",
+            "floppyImage": "/bonvoyage/floppys/yellow.png",
             "createdTime": "2026-05-28T14:09:04.255Z",
             "subtitle": "Japan",
             "images": []
@@ -2796,7 +2796,7 @@
             "id": "1gFvoUPJw2j_-lSALjhaD9LluYgc6I9-L",
             "name": "Hakone",
             "slug": "hakone",
-            "floppyImage": "/bonvoyage/floppys/black.png",
+            "floppyImage": "/bonvoyage/floppys/pink.png",
             "createdTime": "2026-05-28T14:05:23.835Z",
             "subtitle": "Japan",
             "images": [

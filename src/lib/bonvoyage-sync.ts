@@ -20,17 +20,17 @@ const CACHE_KEY = "bonvoyage-data";
 const CACHE_TTL_SECONDS = 7 * 24 * 60 * 60; // 7 days (outlives sync interval so color assignments survive)
 
 const FLOPPY_IMAGES = [
-    "/bonvoyage/floppys/lightpink.png",
-    "/bonvoyage/floppys/black.png",
-    "/bonvoyage/floppys/orange.png",
-    "/bonvoyage/floppys/pink.png",
-    "/bonvoyage/floppys/darkgreen.png",
-    "/bonvoyage/floppys/green.png",
-    "/bonvoyage/floppys/navy.png",
     "/bonvoyage/floppys/cyan.png",
-    "/bonvoyage/floppys/yellow.png",
+    "/bonvoyage/floppys/green.png",
     "/bonvoyage/floppys/purple.png",
     "/bonvoyage/floppys/red.png",
+    "/bonvoyage/floppys/navy.png",
+    "/bonvoyage/floppys/lightpink.png",
+    "/bonvoyage/floppys/pink.png",
+    "/bonvoyage/floppys/yellow.png",
+    "/bonvoyage/floppys/orange.png",
+    "/bonvoyage/floppys/darkgreen.png",
+    "/bonvoyage/floppys/black.png",
 ];
 
 // Check if running on Vercel (serverless)
@@ -94,21 +94,9 @@ function hashStringToIndex(str: string, max: number): number {
     return Math.abs(hash) % max;
 }
 
-export function getFloppyImageForId(folderId: string, usedImages: string[]): string {
-    // Filter available images (not yet used by other folders)
-    const availableImages = FLOPPY_IMAGES.filter(
-        (img) => !usedImages.includes(img),
-    );
-
-    if (availableImages.length === 0) {
-        // All colors used - deterministically pick based on folder ID
-        const index = hashStringToIndex(folderId, FLOPPY_IMAGES.length);
-        return FLOPPY_IMAGES[index];
-    }
-
-    // Pick from available colors deterministically based on folder ID
-    const index = hashStringToIndex(folderId, availableImages.length);
-    return availableImages[index];
+export function getFloppyImageForIndex(index: number): string {
+    // Use modulo to cycle through the 12 colors
+    return FLOPPY_IMAGES[index % FLOPPY_IMAGES.length];
 }
 
 export function slugify(name: string): string {
@@ -233,23 +221,21 @@ export async function syncFromDrive(): Promise<BonVoyageData> {
     });
 
     const driveFolders = response.data.files || [];
-    const usedImages = Object.values(existingData.folders).map(
-        (f) => f.floppyImage,
-    );
 
-    // Initialize new folders first (sequential to maintain floppy image assignment)
+    // Initialize new folders first
     for (const driveFolder of driveFolders) {
         if (!driveFolder.id || !driveFolder.name) continue;
 
         if (!existingData.folders[driveFolder.id]) {
-            const floppyImage = getFloppyImageForId(driveFolder.id, usedImages);
-            usedImages.push(floppyImage);
+            // For new folders, assign color based on total folder count
+            // This will be corrected in the reassignment step below
+            const tempFloppyImage = FLOPPY_IMAGES[0]; // Temporary assignment
 
             existingData.folders[driveFolder.id] = {
                 id: driveFolder.id,
                 name: driveFolder.name,
                 slug: slugify(driveFolder.name),
-                floppyImage,
+                floppyImage: tempFloppyImage,
                 createdTime:
                     driveFolder.createdTime || new Date().toISOString(),
             };
@@ -261,6 +247,14 @@ export async function syncFromDrive(): Promise<BonVoyageData> {
             }
         }
     }
+
+    // Reassign all floppy colors based on creation time order
+    const allFolders = Object.values(existingData.folders);
+    allFolders.sort((a, b) => new Date(a.createdTime).getTime() - new Date(b.createdTime).getTime());
+
+    allFolders.forEach((folder, index) => {
+        folder.floppyImage = getFloppyImageForIndex(index);
+    });
 
     // Process all folders in parallel (fetch subtitle, images, captions)
     const folderPromises = driveFolders.map(async (driveFolder) => {
