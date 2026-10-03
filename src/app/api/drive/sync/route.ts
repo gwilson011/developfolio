@@ -5,16 +5,16 @@ import { NextRequest, NextResponse } from "next/server";
 import { waitUntil } from "@vercel/functions";
 import { syncFromDrive } from "@/lib/bonvoyage-sync";
 
-// Manual, unscheduled escape hatch: the bon-voyage folders are frozen, so
-// nothing calls this automatically. Hit it by hand (with the secret) if a
-// trip folder is ever added to Drive in the future. Syncing all folders
+// Invoked on a schedule by Vercel Cron (see vercel.json), which sends
+// `Authorization: Bearer ${CRON_SECRET}` automatically. Can also be hit by
+// hand with the same secret for an immediate resync. Syncing all folders
 // takes longer than the function timeout, so the sync runs via waitUntil
 // and this returns immediately rather than waiting for it to finish.
 export async function GET(request: NextRequest): Promise<NextResponse> {
     const authHeader = request.headers.get("authorization");
     if (
-        !process.env.SYNC_SECRET ||
-        authHeader !== `Bearer ${process.env.SYNC_SECRET}`
+        !process.env.CRON_SECRET ||
+        authHeader !== `Bearer ${process.env.CRON_SECRET}`
     ) {
         return NextResponse.json({ ok: false, error: "Unauthorized" }, { status: 401 });
     }

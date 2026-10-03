@@ -1,8 +1,9 @@
 export const dynamic = "force-dynamic";
 
 import { NextRequest, NextResponse } from "next/server";
+import { waitUntil } from "@vercel/functions";
 import type { FolderDetailResponse } from "@/app/types/bonvoyage";
-import { readDataFile } from "@/lib/bonvoyage-sync";
+import { readDataFile, isCacheStale, syncFromDrive } from "@/lib/bonvoyage-sync";
 
 export async function GET(
     request: NextRequest,
@@ -11,8 +12,19 @@ export async function GET(
     try {
         const { slug } = await params;
 
-        // Drive folder is frozen — just serve the cache, no live sync.
+        // Never block on a live Drive sync here (it can exceed the function
+        // timeout) — serve the cache and let the cron job keep it fresh.
         const data = await readDataFile();
+        if (
+            Object.keys(data.folders).length === 0 ||
+            isCacheStale(data.lastSynced)
+        ) {
+            waitUntil(
+                syncFromDrive().catch((e) =>
+                    console.error("Background sync error:", e),
+                ),
+            );
+        }
 
         // Find folder by slug
         const folder = Object.values(data.folders).find(

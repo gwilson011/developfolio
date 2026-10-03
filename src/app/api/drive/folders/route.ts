@@ -1,19 +1,28 @@
 export const dynamic = "force-dynamic";
 
 import { NextResponse } from "next/server";
+import { waitUntil } from "@vercel/functions";
 import type {
     BonVoyageFolder,
     BonVoyageAPIResponse,
 } from "@/app/types/bonvoyage";
-import { readDataFile } from "@/lib/bonvoyage-sync";
+import { readDataFile, isCacheStale, syncFromDrive } from "@/lib/bonvoyage-sync";
 
-// The Drive folder is frozen (no new trips expected), so this just serves
-// whatever is cached — never triggers a live sync. A full sync takes
-// longer than the function timeout anyway; see /api/drive/sync for the
-// manual, unscheduled resync path to use if a folder is ever added.
+// A full Drive sync takes longer than the function timeout, so this route
+// never syncs inline — it only ever reads the cache. Freshness is kept up
+// by the /api/drive/sync cron job; as a fallback, a stale cache also kicks
+// off a background sync here (via waitUntil) without blocking the response.
 export async function GET(): Promise<NextResponse<BonVoyageAPIResponse>> {
     try {
         const existingData = await readDataFile();
+
+        if (isCacheStale(existingData.lastSynced)) {
+            waitUntil(
+                syncFromDrive().catch((e) =>
+                    console.error("Background sync error:", e),
+                ),
+            );
+        }
 
         const allFolders: BonVoyageFolder[] = Object.values(
             existingData.folders,
