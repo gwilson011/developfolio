@@ -288,14 +288,3 @@ export async function syncFromDrive(): Promise<BonVoyageData> {
 
     return existingData;
 }
-
-export async function getOrSyncData(): Promise<BonVoyageData> {
-    const data = await readDataFile();
-    if (
-        Object.keys(data.folders).length === 0 ||
-        isCacheStale(data.lastSynced)
-    ) {
-        return await syncFromDrive();
-    }
-    return data;
-}

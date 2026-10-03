@@ -19,23 +19,14 @@ const IMAGE_HEIGHT = 350;
 const MAC_IMAGE = "/bonvoyage/mac_complete.png";
 const ENABLE_REVEAL_ANIMATION = false;
 
-// LocalStorage caching for instant load on return visits
+// LocalStorage caching for instant load on return visits. The Drive folder
+// is frozen (no new trips expected), so there's no staleness check here —
+// once cached, it's used as-is.
 const CACHE_KEY = "bonvoyage-cache";
-const CACHE_TTL_MS = 30 * 60 * 1000; // 30 minutes (match backend)
-
-function Spinner({ className }: { className?: string }) {
-    return (
-        <span
-            className={`inline-block w-3 h-3 border-2 border-gray-400 border-t-transparent rounded-full animate-spin ${className ?? ""}`}
-        />
-    );
-}
 
 interface CachedData {
     current: BonVoyageFolder | null;
     all: BonVoyageFolder[];
-    lastSynced: string;
-    cachedAt: number;
 }
 
 function getCachedData(): CachedData | null {
@@ -50,27 +41,14 @@ function getCachedData(): CachedData | null {
     }
 }
 
-function setCachedData(
-    current: BonVoyageFolder | null,
-    all: BonVoyageFolder[],
-    lastSynced: string,
-) {
+function setCachedData(current: BonVoyageFolder | null, all: BonVoyageFolder[]) {
     if (typeof window === "undefined") return;
     try {
-        const data: CachedData = {
-            current,
-            all,
-            lastSynced,
-            cachedAt: Date.now(),
-        };
+        const data: CachedData = { current, all };
         localStorage.setItem(CACHE_KEY, JSON.stringify(data));
     } catch {
         // Ignore localStorage errors
     }
-}
-
-function isCacheStale(cachedAt: number): boolean {
-    return Date.now() - cachedAt > CACHE_TTL_MS;
 }
 
 // Location dot position on the Mac map (percentage-based)
@@ -122,93 +100,49 @@ function FitText({
     );
 }
 
-function formatTimeSince(isoDate: string): string {
-    const diff = Date.now() - new Date(isoDate).getTime();
-    const minutes = Math.floor(diff / 60000);
-    if (minutes < 1) return "just now";
-    if (minutes === 1) return "1 min ago";
-    if (minutes < 60) return `${minutes} min ago`;
-    const hours = Math.floor(minutes / 60);
-    if (hours === 1) return "1 hour ago";
-    return `${hours} hours ago`;
-}
-
 export default function BonVoyage() {
     const [currentFolder, setCurrentFolder] = useState<BonVoyageFolder | null>(
         null,
     );
     const [allFolders, setAllFolders] = useState<BonVoyageFolder[]>([]);
     const [loading, setLoading] = useState(true);
-    const [syncing, setSyncing] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [revealPixels, setRevealPixels] = useState(0);
-    const [lastSynced, setLastSynced] = useState<string | null>(null);
 
-    const fetchFolders = useCallback(
-        async (forceSync = false, isBackgroundRefresh = false) => {
-            try {
-                if (forceSync) {
-                    setSyncing(true);
-                }
-                const url = forceSync
-                    ? "/api/drive/folders?forceSync=true"
-                    : "/api/drive/folders";
-                const response = await fetch(url);
-                const data: BonVoyageAPIResponse = await response.json();
+    const fetchFolders = useCallback(async () => {
+        try {
+            const response = await fetch("/api/drive/folders");
+            const data: BonVoyageAPIResponse = await response.json();
 
-                if (data.ok && data.data) {
-                    setCurrentFolder(data.data.current);
-                    setAllFolders(data.data.all);
-                    setLastSynced(data.data.lastSynced);
-                    // Cache the response in localStorage
-                    setCachedData(
-                        data.data.current,
-                        data.data.all,
-                        data.data.lastSynced,
-                    );
-                } else if (!isBackgroundRefresh) {
-                    setError(data.error || "Failed to fetch folders");
-                }
-            } catch (err) {
-                if (!isBackgroundRefresh) {
-                    setError(
-                        err instanceof Error
-                            ? err.message
-                            : "Failed to fetch folders",
-                    );
-                }
-            } finally {
-                setLoading(false);
-                setSyncing(false);
+            if (data.ok && data.data) {
+                setCurrentFolder(data.data.current);
+                setAllFolders(data.data.all);
+                // Cache the response in localStorage
+                setCachedData(data.data.current, data.data.all);
+            } else {
+                setError(data.error || "Failed to fetch folders");
             }
-        },
-        [],
-    );
+        } catch (err) {
+            setError(
+                err instanceof Error ? err.message : "Failed to fetch folders",
+            );
+        } finally {
+            setLoading(false);
+        }
+    }, []);
 
     useEffect(() => {
-        // Check localStorage cache first for instant load
+        // Check localStorage cache first for instant load; data is frozen
+        // so a cache hit never needs a background refresh.
         const cached = getCachedData();
         if (cached) {
             setCurrentFolder(cached.current);
             setAllFolders(cached.all);
-            setLastSynced(cached.lastSynced);
             setLoading(false);
-
-            // If cache is stale, refresh in background
-            if (isCacheStale(cached.cachedAt)) {
-                fetchFolders(false, true);
-            }
         } else {
-            // No cache, fetch from API
             fetchFolders();
         }
     }, [fetchFolders]);
-
-    const handleRefresh = () => {
-        if (!syncing) {
-            fetchFolders(true);
-        }
-    };
 
     // Show animation if enabled by default OR if folder has no images
     const showRevealAnimation =
@@ -234,30 +168,6 @@ export default function BonVoyage() {
 
     return (
         <div className="flex flex-col w-full min-h-screen p-2 md:p-4 gap-4 md:gap-6">
-            {/* Sync status and refresh button */}
-            <div className="flex items-center justify-end gap-3 px-2 md:px-4">
-                {lastSynced && (
-                    <span className="text-xs text-gray-500 font-pixel pt-2">
-                        {syncing
-                            ? "SYNCING..."
-                            : `SYNCED ${formatTimeSince(lastSynced).toUpperCase()}`}
-                    </span>
-                )}
-                <button
-                    onClick={handleRefresh}
-                    disabled={syncing}
-                    className="p-3 pb-1 text-xs text-gray-500 font-pixel border-2 rounded bg-neutral-200 hover:bg-neutral-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
-                >
-                    {syncing ? (
-                        <div>
-                            <Spinner />
-                        </div>
-                    ) : (
-                        "REFRESH"
-                    )}
-                </button>
-            </div>
-
             {/* Error display */}
             {error && (
                 <div className="text-center text-red-500 font-pixel text-sm px-4">
@@ -350,18 +260,12 @@ export default function BonVoyage() {
                         ) : (
                             <div className="font-pixel text-center">
                                 <div className="text-sm">NO FOLDERS</div>
-                                {lastSynced && (
-                                    <div className="text-xs text-gray-400 mt-2">
-                                        Last synced:{" "}
-                                        {formatTimeSince(lastSynced)}
-                                    </div>
-                                )}
                                 <button
-                                    onClick={handleRefresh}
-                                    disabled={syncing}
+                                    onClick={fetchFolders}
+                                    disabled={loading}
                                     className="mt-4 px-4 py-2 text-xs border-2 rounded bg-neutral-200 hover:bg-neutral-300 disabled:opacity-50"
                                 >
-                                    {syncing ? "SYNCING..." : "TRY AGAIN"}
+                                    {loading ? "LOADING..." : "TRY AGAIN"}
                                 </button>
                             </div>
                         )}
@@ -479,18 +383,12 @@ export default function BonVoyage() {
                         ) : (
                             <div className="font-pixel text-center">
                                 <div>NO FOLDERS</div>
-                                {lastSynced && (
-                                    <div className="text-xs text-gray-400 mt-2">
-                                        Last synced:{" "}
-                                        {formatTimeSince(lastSynced)}
-                                    </div>
-                                )}
                                 <button
-                                    onClick={handleRefresh}
-                                    disabled={syncing}
+                                    onClick={fetchFolders}
+                                    disabled={loading}
                                     className="mt-4 px-4 py-2 text-xs border-2 rounded bg-neutral-200 hover:bg-neutral-300 disabled:opacity-50"
                                 >
-                                    {syncing ? "SYNCING..." : "TRY AGAIN"}
+                                    {loading ? "LOADING..." : "TRY AGAIN"}
                                 </button>
                             </div>
                         )}

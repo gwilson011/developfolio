@@ -2,7 +2,7 @@ export const dynamic = "force-dynamic";
 
 import { NextRequest, NextResponse } from "next/server";
 import type { FolderDetailResponse } from "@/app/types/bonvoyage";
-import { getOrSyncData } from "@/lib/bonvoyage-sync";
+import { readDataFile } from "@/lib/bonvoyage-sync";
 
 export async function GET(
     request: NextRequest,
@@ -11,8 +11,8 @@ export async function GET(
     try {
         const { slug } = await params;
 
-        // Will sync from Drive if cache is empty or stale
-        const data = await getOrSyncData();
+        // Drive folder is frozen — just serve the cache, no live sync.
+        const data = await readDataFile();
 
         // Find folder by slug
         const folder = Object.values(data.folders).find(
