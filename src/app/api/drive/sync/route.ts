@@ -16,6 +16,13 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
         !process.env.CRON_SECRET ||
         authHeader !== `Bearer ${process.env.CRON_SECRET}`
     ) {
+        // TEMP DEBUG (server-side log only, never returned to the client):
+        // lengths only, to diagnose an auth mismatch without leaking the secret.
+        console.log("[drive/sync] auth mismatch", {
+            envConfigured: !!process.env.CRON_SECRET,
+            envLength: process.env.CRON_SECRET?.length ?? null,
+            headerLength: authHeader?.length ?? null,
+        });
         return NextResponse.json({ ok: false, error: "Unauthorized" }, { status: 401 });
     }
 
