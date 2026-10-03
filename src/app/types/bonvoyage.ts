@@ -7,6 +7,7 @@ export interface BonVoyageFolder {
     subtitle?: string;
     countryCode?: string;
     images?: FolderImage[];  // Cached images from sync
+    lastCheckedAt?: string;  // When this folder's Drive contents were last fetched
 }
 
 export interface FolderImage {

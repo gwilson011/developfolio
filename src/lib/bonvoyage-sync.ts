@@ -19,6 +19,12 @@ const CACHE_MAX_AGE_MS = 30 * 60 * 1000; // 30 minutes (sync interval)
 const CACHE_KEY = "bonvoyage-data";
 const CACHE_TTL_SECONDS = 7 * 24 * 60 * 60; // 7 days (outlives sync interval so color assignments survive)
 
+// Max folders fully refetched (subtitle/images/captions) per sync run. Kept
+// small so a run fits inside the serverless function's execution limit —
+// new folders are always prioritized, so they show up the same run; a full
+// refresh of everything else happens gradually across repeated runs.
+const SYNC_BATCH_SIZE = Number(process.env.BONVOYAGE_SYNC_BATCH_SIZE) || 4;
+
 const FLOPPY_IMAGES = [
     "/bonvoyage/floppys/cyan.png",
     "/bonvoyage/floppys/green.png",
@@ -256,10 +262,26 @@ export async function syncFromDrive(): Promise<BonVoyageData> {
         folder.floppyImage = getFloppyImageForIndex(index);
     });
 
-    // Process all folders in parallel (fetch subtitle, images, captions)
-    const folderPromises = driveFolders.map(async (driveFolder) => {
-        if (!driveFolder.id || !driveFolder.name) return;
+    // A full sync (fetching subtitle/images/captions for every folder) can
+    // take longer than the serverless function's execution limit once there
+    // are enough trips. So each run only fully processes a bounded batch of
+    // folders, prioritizing ones never checked (new folders) and then the
+    // least-recently-checked ones. Untouched folders keep their cached data
+    // as-is. Repeated runs (cron or manual) eventually cycle through all of
+    // them; a never-checked new folder is always synced the same run.
+    const toProcess = [...driveFolders]
+        .filter((df): df is typeof df & { id: string; name: string } => !!df.id && !!df.name)
+        .sort((a, b) => {
+            const aTime = existingData.folders[a.id].lastCheckedAt;
+            const bTime = existingData.folders[b.id].lastCheckedAt;
+            if (!aTime && !bTime) return 0;
+            if (!aTime) return -1;
+            if (!bTime) return 1;
+            return new Date(aTime).getTime() - new Date(bTime).getTime();
+        })
+        .slice(0, SYNC_BATCH_SIZE);
 
+    const folderPromises = toProcess.map(async (driveFolder) => {
         const folder = existingData.folders[driveFolder.id];
 
         // Fetch subtitle, images, and captions in parallel
@@ -271,6 +293,7 @@ export async function syncFromDrive(): Promise<BonVoyageData> {
 
         folder.subtitle = subtitleResult;
         folder.images = buildImageList(imagesResult, captionsResult);
+        folder.lastCheckedAt = new Date().toISOString();
     });
 
     await Promise.all(folderPromises);
