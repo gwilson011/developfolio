@@ -25,6 +25,43 @@ const CACHE_MAX_AGE_MS = 30 * 60 * 1000; // 30 minutes (sync interval)
 const CACHE_KEY = "bonvoyage-data";
 const CACHE_TTL_SECONDS = 7 * 24 * 60 * 60; // 7 days (outlives sync interval so color assignments survive)
 
+// Prevents overlapping sync runs (e.g. a manual trigger firing while the
+// cron or a previous manual call is still in flight), and records the
+// outcome of the last run so failures are visible without digging through
+// platform logs.
+const SYNC_LOCK_KEY = "bonvoyage-sync-lock";
+const SYNC_LOCK_TTL_SECONDS = 55;
+export const SYNC_STATUS_KEY = "bonvoyage-sync-status";
+
+interface SyncStatus {
+    lastAttemptAt: string;
+    lastSuccessAt: string | null;
+    lastError: string | null;
+    foldersProcessedLastRun: number;
+}
+
+export async function getSyncStatus(): Promise<SyncStatus | null> {
+    return redis.get<SyncStatus>(SYNC_STATUS_KEY);
+}
+
+async function recordSyncStatus(update: Partial<SyncStatus>): Promise<void> {
+    try {
+        const existing = (await redis.get<SyncStatus>(SYNC_STATUS_KEY)) ?? {
+            lastAttemptAt: "",
+            lastSuccessAt: null,
+            lastError: null,
+            foldersProcessedLastRun: 0,
+        };
+        await redis.set(
+            SYNC_STATUS_KEY,
+            { ...existing, ...update },
+            { ex: CACHE_TTL_SECONDS },
+        );
+    } catch (e) {
+        console.error("Failed to record sync status:", e);
+    }
+}
+
 // Max folders fully refetched (subtitle/images/captions) per sync run. Kept
 // small so a run fits inside the serverless function's execution limit —
 // new folders are always prioritized, so they show up the same run; a full
@@ -208,7 +245,10 @@ function buildImageList(
     return images;
 }
 
-export async function syncFromDrive(): Promise<BonVoyageData> {
+async function syncFromDriveInternal(): Promise<{
+    data: BonVoyageData;
+    foldersProcessed: number;
+}> {
     const folderId = process.env.GOOGLE_DRIVE_FOLDER_ID;
 
     if (!folderId) {
@@ -315,5 +355,39 @@ export async function syncFromDrive(): Promise<BonVoyageData> {
     existingData.lastSynced = new Date().toISOString();
     await writeDataFile(existingData);
 
-    return existingData;
+    return { data: existingData, foldersProcessed: toProcess.length };
+}
+
+export async function syncFromDrive(): Promise<BonVoyageData> {
+    const now = new Date().toISOString();
+
+    // Avoid overlapping runs (e.g. a manual trigger firing while the cron
+    // or a previous manual call is still in flight) — concurrent syncs can
+    // race on reading/writing the cache and hammer the Drive/Sheets APIs.
+    const gotLock = await redis.set(SYNC_LOCK_KEY, "1", {
+        ex: SYNC_LOCK_TTL_SECONDS,
+        nx: true,
+    });
+    if (!gotLock) {
+        throw new Error("Sync already in progress, skipping");
+    }
+
+    try {
+        const { data, foldersProcessed } = await syncFromDriveInternal();
+        await recordSyncStatus({
+            lastAttemptAt: now,
+            lastSuccessAt: now,
+            lastError: null,
+            foldersProcessedLastRun: foldersProcessed,
+        });
+        return data;
+    } catch (e) {
+        await recordSyncStatus({
+            lastAttemptAt: now,
+            lastError: e instanceof Error ? e.message : String(e),
+        });
+        throw e;
+    } finally {
+        await redis.del(SYNC_LOCK_KEY);
+    }
 }
