@@ -7,7 +7,10 @@ import { Redis } from "@upstash/redis";
 // writes actually succeed in production. Only returns booleans and generic
 // error messages (no connection strings, tokens, or cached data content).
 export async function GET(): Promise<NextResponse> {
-    const redis = Redis.fromEnv();
+    const redis = new Redis({
+        url: process.env.STORAGE_KV_REST_API_URL,
+        token: process.env.STORAGE_KV_REST_API_TOKEN,
+    });
     const result: {
         envConfigured: boolean;
         writeOk: boolean;
@@ -16,8 +19,8 @@ export async function GET(): Promise<NextResponse> {
         error: string | null;
     } = {
         envConfigured: !!(
-            process.env.UPSTASH_REDIS_REST_URL &&
-            process.env.UPSTASH_REDIS_REST_TOKEN
+            process.env.STORAGE_KV_REST_API_URL &&
+            process.env.STORAGE_KV_REST_API_TOKEN
         ),
         writeOk: false,
         readOk: false,

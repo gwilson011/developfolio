@@ -12,8 +12,14 @@ import { createDriveAuth } from "@/lib/google-auth";
 // Import static data as build-time fallback (bundled into serverless function)
 import staticBonVoyageData from "@/data/bonvoyage-folders.json";
 
-// Initialize Upstash Redis client
-const redis = Redis.fromEnv();
+// This project's Upstash integration injects STORAGE_KV_REST_API_URL/
+// STORAGE_KV_REST_API_TOKEN, not the UPSTASH_REDIS_REST_* names
+// Redis.fromEnv() looks for (or the unprefixed KV_REST_API_* names from
+// older Vercel KV integrations).
+const redis = new Redis({
+    url: process.env.STORAGE_KV_REST_API_URL,
+    token: process.env.STORAGE_KV_REST_API_TOKEN,
+});
 
 const CACHE_MAX_AGE_MS = 30 * 60 * 1000; // 30 minutes (sync interval)
 const CACHE_KEY = "bonvoyage-data";
